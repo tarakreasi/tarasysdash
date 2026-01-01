@@ -23,28 +23,34 @@
       <!-- Section 1: Aggregate Metrics (Top Cards) -->
       <div class="grid grid-cols-4 gap-4">
         <!-- CPU Load -->
-        <div class="bg-surface-dark border border-border-color rounded-lg p-4 relative overflow-hidden group">
-          <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition">
-            <span class="text-6xl">⚡</span>
+        <div class="bg-surface-dark border border-border-color rounded-lg p-4 relative overflow-hidden group hover:border-primary/50 transition-all">
+          <div class="flex justify-between items-start">
+            <p class="text-xs text-slate-400 uppercase tracking-wide mb-1">AVG CPU LOAD</p>
+            <span class="text-2xl opacity-50 group-hover:opacity-100 transition-opacity">⚡</span>
           </div>
-          <p class="text-xs text-slate-400 uppercase tracking-wide mb-1">AVG CPU LOAD</p>
           <div class="flex items-end gap-2">
             <span class="text-3xl font-bold">{{ cpuLoad }}%</span>
             <span class="text-xs mb-1" :class="cpuTrend >= 0 ? 'text-green-500' : 'text-red-500'">
               {{ cpuTrend >= 0 ? '↑' : '↓' }} {{ Math.abs(cpuTrend) }}%
             </span>
           </div>
+          <div class="w-full bg-slate-800 h-1 mt-2 rounded-full overflow-hidden">
+            <div class="bg-primary h-full transition-all" :style="`width: ${cpuLoad}%; box-shadow: 0 0 8px #25d1f4`"></div>
+          </div>
         </div>
 
         <!-- Memory -->
-        <div class="bg-surface-dark border border-border-color rounded-lg p-4 relative overflow-hidden group">
-           <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition">
-            <span class="text-6xl">💾</span>
+        <div class="bg-surface-dark border border-border-color rounded-lg p-4 relative overflow-hidden group hover:border-primary/50 transition-all">
+          <div class="flex justify-between items-start">
+            <p class="text-xs text-slate-400 uppercase tracking-wider mb-1">MEMORY USAGE</p>
+            <span class="text-2xl opacity-50 group-hover:opacity-100 transition-opacity">💾</span>
           </div>
-          <p class="text-xs text-slate-400 uppercase tracking-wide mb-1">MEMORY USAGE</p>
           <div class="flex items-end gap-2">
-            <span class="text-3xl font-bold">{{ memoryGB }}</span>
-            <span class="text-sm text-slate-500 mb-1">GB / AVG</span>
+            <span class="text-3xl font-bold leading-none">{{ memoryGB }}<span class="text-lg text-slate-500"> GB</span></span>
+            <span class="text-sm text-slate-400 mb-1">avg</span>
+          </div>
+          <div class="w-full bg-slate-800 h-1 mt-2 rounded-full overflow-hidden">
+            <div class="bg-purple-500 h-full w-[38%]" style="box-shadow: 0 0 8px #a855f7"></div>
           </div>
         </div>
 

@@ -9,6 +9,7 @@ type Config struct {
 	AgentInterval time.Duration
 	LogLevel      string
 	ServerURL     string
+	AgentToken    string
 }
 
 func Load() *Config {
@@ -16,6 +17,7 @@ func Load() *Config {
 		AgentInterval: parseDurationEnv("AGENT_INTERVAL", 1*time.Second),
 		LogLevel:      parseStringEnv("LOG_LEVEL", "info"),
 		ServerURL:     parseStringEnv("SERVER_URL", "http://localhost:8080"),
+		AgentToken:    parseStringEnv("AGENT_TOKEN", ""),
 	}
 }
 

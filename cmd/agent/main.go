@@ -59,8 +59,22 @@ func main() {
 			continue
 		}
 
-		// POST to server
-		resp, err := http.Post(cfg.ServerURL+"/api/v1/metrics", "application/json", bytes.NewBuffer(jsonData))
+		// Prepare request
+		req, err := http.NewRequest("POST", cfg.ServerURL+"/api/v1/metrics", bytes.NewBuffer(jsonData))
+		if err != nil {
+			logger.Log.Error("Failed to create request", "error", err)
+			continue
+		}
+		req.Header.Set("Content-Type", "application/json")
+		if cfg.AgentToken != "" {
+			req.Header.Set("Authorization", "Bearer "+cfg.AgentToken)
+		} else {
+			logger.Log.Warn("Agent token is missing! Request will likely fail.")
+		}
+
+		// Send request
+		client := &http.Client{Timeout: 5 * time.Second}
+		resp, err := client.Do(req)
 		if err != nil {
 			logger.Log.Error("Failed to send metrics", "error", err)
 			continue

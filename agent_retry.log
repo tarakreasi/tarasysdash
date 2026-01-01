@@ -1,0 +1,111 @@
+{"time":"2026-01-01T08:49:06.80232521+07:00","level":"INFO","msg":"Starting tara-agent...","interval":1000000000}
+{"time":"2026-01-01T08:49:07.802685603+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:07.803394074+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:08.803613617+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:08.804157618+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:09.803511838+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:09.803989135+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:10.803207274+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:10.803694945+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:11.802906586+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:11.803451152+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:12.802648539+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:12.803101782+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:13.803283159+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:13.803754935+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:14.803197872+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:14.803648382+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:15.802616451+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:15.803060452+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:16.803056235+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:16.803511216+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:17.802630825+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:17.803125856+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:18.803316701+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:18.803803804+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:19.802661972+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:19.803140629+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:20.80263384+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:20.803097875+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:21.80329113+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:21.803741569+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:22.803307116+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:22.803938533+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:23.803175625+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:23.803418497+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:49:24.802650458+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:24.802867387+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:49:25.80320974+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:25.803654905+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:26.802652841+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:26.803122352+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:27.803320324+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:27.803747852+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:28.802953023+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:28.803444336+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:29.802623851+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:29.803117673+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:30.803300569+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:30.803763241+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:31.803196806+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:31.803612027+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:32.80320394+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:32.803840011+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:33.802904378+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:33.803378456+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:34.803179091+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:34.803635249+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:35.802827862+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:35.803273788+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:36.803476458+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:36.803951912+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:37.803202615+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:37.803677463+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:38.803201749+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:38.803660267+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:39.802601222+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:39.803087414+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:40.803262289+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:40.803730873+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:41.802647212+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:41.803167913+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:42.803365569+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:42.80385781+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:43.803050532+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:43.803475907+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:44.803246377+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:44.8037261+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:45.803216732+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:45.803681587+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:46.803196485+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:46.803647672+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:47.80282944+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:47.803268931+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:48.803646941+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:48.804108111+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:49.803323288+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:49.803781942+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:50.803192446+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:50.803653179+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:51.802776487+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:51.803438764+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:52.80322122+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:52.803711951+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:53.803253199+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:53.803732923+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:54.803202866+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:54.803691528+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:55.802859437+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:55.803348573+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:56.803542248+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:56.804005775+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:57.803324686+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:57.803788326+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:58.802633734+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:58.803123508+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:59.803309801+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:49:59.80386521+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:50:00.803571093+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:50:00.804071815+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:50:01.803281169+07:00","level":"WARN","msg":"Agent token is missing! Request will likely fail."}
+{"time":"2026-01-01T08:50:01.803812613+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}

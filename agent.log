@@ -32,3 +32,599 @@
 {"time":"2026-01-01T08:40:02.588595561+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
 {"time":"2026-01-01T08:40:03.58776127+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
 {"time":"2026-01-01T08:40:04.588473588+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:05.58788498+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:06.587802496+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:07.587864091+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:08.588337042+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:09.587831132+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:10.588221977+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:11.588449496+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:12.58782121+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:13.588264124+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:14.588006916+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:15.588357808+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:16.587832492+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:17.588375844+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:18.587846556+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:19.588285865+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:20.588671133+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:21.588566968+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:22.588028915+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:23.588479976+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:24.587950205+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:25.588381937+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:26.587844899+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:27.588270133+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:28.588869192+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:29.588362723+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:30.587810632+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:31.588215959+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:32.587800316+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:33.587832656+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:34.587797787+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:35.587829453+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:36.588424118+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:37.587878078+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:38.588237107+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:39.588602099+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:40.587987728+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:41.588334593+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:42.588751596+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:43.588246388+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:44.588660743+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:45.588035498+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:46.588535226+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:47.587828906+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:48.588112056+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:49.588441139+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:50.587805573+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:51.588090301+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:52.588444848+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:53.587791473+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:54.588162884+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:55.588545372+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:56.588135538+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:57.588720856+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:58.588078773+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:40:59.588451262+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:00.588615299+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:01.587995324+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:02.587739614+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:03.588705074+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:04.587741222+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:05.588106814+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:06.588462021+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:07.588413616+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:08.587970077+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:09.58830348+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:10.588678513+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:11.588049686+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:12.588425586+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:13.587769701+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:14.58774647+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:15.588125601+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:16.587846703+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:17.588672746+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:18.588047698+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:19.587797866+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:20.588184007+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:21.587825627+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:22.588423095+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:23.588363024+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:24.587852161+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:25.588227256+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:26.588741092+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:27.588308582+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:28.588339973+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:29.58777999+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:30.588193583+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:31.587772931+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:32.588202856+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:33.588630756+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:34.58810317+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:35.588668971+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:36.588086856+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:37.5890043+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:38.588571793+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:39.587854307+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:40.588778732+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:41.587987324+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:42.588140277+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:43.588603168+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:44.587858371+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:45.587778558+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:46.588150549+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:47.588519583+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:48.587829601+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:49.588536498+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:50.5886819+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:51.587760662+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:52.588133343+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:53.588492558+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:54.587863531+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:55.588226056+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:56.588583212+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:57.587944591+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:58.588231962+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:41:59.58858587+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:00.587964408+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:01.588332583+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:02.58871026+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:03.588386377+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:04.587751424+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:05.588104276+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:06.588443982+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:07.587795847+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:08.588185545+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:09.588556495+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:10.587948947+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:11.588286319+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:12.588635414+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:13.587981533+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:14.588355529+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:15.587709733+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:16.58861609+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:17.588386869+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:18.588736534+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:19.588112625+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:20.588466296+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:21.587816403+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:22.588544939+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:23.587760954+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:24.588300051+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:25.587760768+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:26.588195065+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:27.588524374+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:28.587883995+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:29.588228773+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:30.588585189+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:31.587949451+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:32.588407822+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:33.587747895+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:34.588111758+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:35.588466921+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:36.587861947+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:37.588210181+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:38.588569582+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:39.587891695+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:40.588241112+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:41.588593676+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:42.587945331+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:43.588291983+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:44.58863765+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:45.587966657+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:46.588298573+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:47.588645528+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:48.587978263+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:49.588694061+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:50.587730482+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:51.588518239+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:52.587801724+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:53.588136044+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:54.588296114+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:55.588647593+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:56.587988485+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:57.588339794+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:58.587686881+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:42:59.58803316+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:00.588382791+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:01.588731558+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:02.588071157+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:03.588437601+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:04.58772551+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:05.587832037+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:06.588180313+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:07.5885438+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:08.587894493+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:09.58869487+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:10.588317102+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:11.58868786+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:12.58818071+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:13.58866642+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:14.588006171+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:15.588673009+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:16.587981637+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:17.588329827+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:18.589170059+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:19.588481156+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:20.588560375+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:21.588540357+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:22.588588187+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:23.588694984+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:24.588062557+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:25.588411552+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:26.587779436+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:27.588138992+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:28.588497508+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:29.588007416+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:30.58779002+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:31.588149673+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:32.588514598+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:33.587886174+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:34.588444223+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:35.587799088+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:36.588215788+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:37.588586243+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:38.588044117+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:39.588410131+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:40.588681856+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:41.588034862+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:42.588396551+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:43.587746998+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:44.587840568+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:45.588144095+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:46.588479479+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:47.587816796+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:48.588346706+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:49.587690669+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:50.588062714+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:51.588406035+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:52.58776469+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:53.588119446+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:54.588519502+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:55.587858752+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:56.58817993+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:57.587740631+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:58.588072075+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:43:59.588384507+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:00.588683329+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:01.5880112+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:02.588310647+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:03.588633483+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:04.587976991+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:05.588310224+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:06.588652586+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:07.588008738+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:08.587812949+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:09.588154293+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:10.588490022+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:11.587840706+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:12.588360599+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:13.587703451+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:14.588051033+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:15.58840634+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:16.587752767+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:17.588098137+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:18.588445555+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:19.588081349+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:20.588440569+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:21.588610133+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:22.587965601+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:23.588307377+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:24.588649651+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:25.588018787+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:26.587821446+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:27.588173648+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:28.588075838+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:29.588412477+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:30.587769708+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:31.588123193+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:32.588475203+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:33.587802734+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:34.588159698+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:35.588503359+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:36.588111245+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:37.588459589+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:38.587795946+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:39.588143813+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:40.588497865+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:41.588709678+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:42.588053649+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:43.588386627+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:44.588650004+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:45.588009748+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:46.587820847+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:47.588181528+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:48.588518683+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:49.587856787+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:50.58819652+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:51.588535467+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:52.587870759+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:53.588216951+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:54.588561384+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:55.587885661+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:56.588001598+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:57.588334297+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:58.58865932+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:44:59.587989233+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:00.58836358+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:01.587696592+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:02.588062177+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:03.588426967+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:04.588398277+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:05.587743335+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:06.588085974+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:07.588438796+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:08.587800051+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:09.588138841+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:10.588504176+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:11.587865993+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:12.588215802+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:13.588574334+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:14.58794654+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:15.588304209+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:16.588651994+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:17.588013885+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:18.588366619+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:19.587725349+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:20.58806714+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:21.588424762+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:22.587798152+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:23.588153811+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:24.588503275+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:25.587883663+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:26.588242404+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:27.588609253+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:28.587951866+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:29.58824716+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:30.588610244+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:31.587975528+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:32.588320855+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:33.588679204+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:34.588030133+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:35.588420264+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:36.587771957+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:37.588135217+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:38.58849631+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:39.587859237+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:40.5882156+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:41.588583142+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:42.587861296+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:43.588189161+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:44.588534934+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:45.588113005+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:46.588437468+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:47.587750075+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:48.588188869+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:49.58854643+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:50.587912544+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:51.58867428+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:52.588533783+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:53.58788473+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:54.588234498+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:55.588602683+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:56.588034453+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:57.587767328+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:58.588142819+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:45:59.58849238+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:00.587876131+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:01.588244069+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:02.588590108+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:03.587952024+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:04.588572728+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:05.587930873+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:06.588291678+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:07.588667985+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:08.588021245+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:09.588396909+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:10.587784697+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:11.588150518+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:12.588505411+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:13.587849018+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:14.588194684+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:15.588546761+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:16.58788568+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:17.588233567+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:18.588570062+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:19.587919902+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:20.588482046+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:21.587805058+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:22.588141548+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:23.58766833+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:24.588022684+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:25.58836746+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:26.587719717+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:27.588083451+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:28.588433423+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:29.587796519+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:30.588167376+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:31.587891072+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:32.588238598+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:33.588560651+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:34.587928523+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:35.58830452+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:36.588671532+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:37.588041768+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:38.588402588+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:39.588103427+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:40.588244532+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:41.588607088+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:42.588186615+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:43.588558788+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:44.587959228+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:45.588377791+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:46.587742314+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:47.588093936+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:48.58884506+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:49.588215867+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:50.588579265+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:51.58794543+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:52.58828183+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:53.588617539+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:54.587949557+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:55.588297402+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:56.588654656+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:57.587997928+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:58.588300669+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:46:59.588545815+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:00.587885114+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:01.588219159+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:02.588551876+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:03.58786847+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:04.58821718+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:05.588550915+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:06.587879494+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:07.588209552+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:08.588555586+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:09.587881673+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:10.58821414+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:11.588545532+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:12.587919663+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:13.588276421+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:14.588611349+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:15.587968352+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:16.588299993+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:17.588623523+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:18.587964856+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:19.588312459+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:20.588675214+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:21.588024467+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:22.588355269+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:23.58813587+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:24.588482694+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:25.587810906+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:26.588177607+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:27.588437173+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:28.587745921+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:29.58808569+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:30.588028045+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:31.587877154+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:32.588745547+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:33.588133215+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:34.588561283+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:35.588030935+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:36.588541535+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:37.587868621+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:38.588190272+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:39.588878797+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:40.588250462+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:41.588570593+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:42.587912961+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:43.588353946+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:44.587731308+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:45.588080063+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:46.58842083+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:47.587749185+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:48.587710306+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:49.588071133+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:50.588404365+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:51.588572474+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:52.587940565+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:53.588439134+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:54.588708301+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:55.588046751+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:56.588373868+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:57.587688174+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:58.588013984+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:47:59.588361422+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:00.587720771+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:01.588696506+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:02.588049775+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:03.588397746+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:04.587737462+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:05.588079029+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:06.588425865+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:07.587780414+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:08.588127447+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:09.588448324+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:10.58783645+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:11.588195903+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:12.588569626+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:13.587893565+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:14.588230316+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:15.587999695+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:16.58853887+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:17.587901887+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:18.588317537+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:19.58867977+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:20.588016809+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:21.588385069+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:22.587814642+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:23.588519825+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:24.587929215+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:25.588365858+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:26.5878515+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:27.588242966+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:28.588597887+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:29.587967924+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:30.588330843+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:31.588628713+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:32.587993318+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:33.588365467+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:34.587736194+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:35.588097564+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:36.588647099+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:37.588656931+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:38.587743783+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:39.588090202+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:40.58844237+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:41.587838312+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:42.588197583+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:43.588659209+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:44.588029611+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:48:45.589174886+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:48:46.588870122+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:48:47.588753272+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:48:48.588350264+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:48:49.587999086+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:48:50.58814856+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:48:51.588719871+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:48:52.588297904+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:48:53.588855196+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:48:54.588465018+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:48:55.588048572+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:48:56.588600878+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:48:57.588639688+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:48:58.588241898+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:48:59.588804335+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:00.58838286+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:01.588055301+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:02.588632817+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:03.588650309+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:04.588211731+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:05.588792749+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:06.588209241+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:07.588781122+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:08.588409381+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:09.587983125+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:10.588643405+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:11.588215372+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:12.588045192+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:13.588640131+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:14.588261381+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:15.58887254+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:16.588516489+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:17.588113296+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:18.588715527+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:19.588324654+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:20.588943532+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:21.588565615+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:22.588173046+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:23.588679588+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:49:24.587933394+07:00","level":"ERROR","msg":"Failed to send metrics","error":"Post \"http://localhost:8080/api/v1/metrics\": dial tcp 127.0.0.1:8080: connect: connection refused"}
+{"time":"2026-01-01T08:49:25.588649117+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:26.588109049+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:27.588776807+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:28.588406574+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:29.58801511+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:30.588646618+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:31.588204859+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:32.589134525+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:33.588713518+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:34.588298597+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:35.58811681+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:36.587960621+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:37.588535419+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:38.58813561+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:39.588692602+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:40.588274415+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:41.588852887+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:42.588453697+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:43.588070475+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:44.588645077+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:45.588247483+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:46.588813955+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:47.588415387+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:48.588001366+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:49.588565065+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:50.588122838+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:51.588700618+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:52.58828119+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:53.588876683+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:54.588459364+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:55.58802804+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:56.588622761+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:57.588254752+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:58.588910451+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:49:59.588502562+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}
+{"time":"2026-01-01T08:50:00.588109991+07:00","level":"ERROR","msg":"Server returned non-200 status","status":401}

@@ -79,12 +79,16 @@ func runMigrations(db *sql.DB) error {
 		`ALTER TABLE agents ADD COLUMN rack_location TEXT DEFAULT '';`,
 		// Sprint 5: Add temperature
 		`ALTER TABLE agents ADD COLUMN temperature REAL DEFAULT 0.0;`,
+		// Phase 1: Add network metrics
+		`ALTER TABLE system_metrics ADD COLUMN bytes_in INTEGER DEFAULT 0;`,
+		`ALTER TABLE system_metrics ADD COLUMN bytes_out INTEGER DEFAULT 0;`,
+		`ALTER TABLE system_metrics ADD COLUMN latency_ms REAL DEFAULT 0.0;`,
 	}
 
 	for _, query := range queries {
 		_, err := db.Exec(query)
 		// Ignore errors for ALTER TABLE (column might already exist)
-		if err != nil && (query == queries[2] || query == queries[3] || query == queries[4]) {
+		if err != nil && (query == queries[2] || query == queries[3] || query == queries[4] || query == queries[5] || query == queries[6] || query == queries[7]) {
 			slog.Info("Migration step executed (ignoring potential duplicate column error)", "query", query, "error", err)
 		} else if err != nil {
 			return err
@@ -112,11 +116,11 @@ func (s *SQLiteStore) RegisterAgent(ctx context.Context, agent *Agent) error {
 
 func (s *SQLiteStore) SaveMetric(ctx context.Context, agentID string, m *Metric) error {
 	query := `
-	INSERT INTO system_metrics (time, agent_id, cpu_usage, memory_used, memory_total, disk_free_percent)
-	VALUES (?, ?, ?, ?, ?, ?);
+	INSERT INTO system_metrics (time, agent_id, cpu_usage, memory_used, memory_total, disk_free_percent, bytes_in, bytes_out, latency_ms)
+	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
 	`
 	t := time.Unix(m.Timestamp, 0)
-	_, err := s.db.ExecContext(ctx, query, t, agentID, m.CPUUsagePercent, m.MemoryUsedBytes, m.MemoryTotalBytes, m.DiskFreePercent)
+	_, err := s.db.ExecContext(ctx, query, t, agentID, m.CPUUsagePercent, m.MemoryUsedBytes, m.MemoryTotalBytes, m.DiskFreePercent, m.BytesIn, m.BytesOut, m.LatencyMs)
 	if err != nil {
 		slog.Error("Failed to save metric", "error", err)
 	}
@@ -172,7 +176,7 @@ func (s *SQLiteStore) UpdateAgentMetadata(ctx context.Context, agentID, rackLoca
 
 func (s *SQLiteStore) GetRecentMetrics(ctx context.Context, agentID string, limit int) ([]Metric, error) {
 	query := `
-		SELECT cpu_usage, memory_used, memory_total, disk_free_percent, time
+		SELECT cpu_usage, memory_used, memory_total, disk_free_percent, bytes_in, bytes_out, latency_ms, time
 		FROM system_metrics
 		WHERE agent_id = ?
 		ORDER BY time DESC
@@ -188,7 +192,7 @@ func (s *SQLiteStore) GetRecentMetrics(ctx context.Context, agentID string, limi
 	for rows.Next() {
 		var m Metric
 		var t time.Time
-		if err := rows.Scan(&m.CPUUsagePercent, &m.MemoryUsedBytes, &m.MemoryTotalBytes, &m.DiskFreePercent, &t); err != nil {
+		if err := rows.Scan(&m.CPUUsagePercent, &m.MemoryUsedBytes, &m.MemoryTotalBytes, &m.DiskFreePercent, &m.BytesIn, &m.BytesOut, &m.LatencyMs, &t); err != nil {
 			return nil, err
 		}
 		m.Timestamp = t.Unix()

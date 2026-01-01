@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"log/slog"
 	"sort"
+	"sync"
 	"time"
 
 	_ "modernc.org/sqlite"
@@ -35,15 +36,23 @@ type Metric struct {
 
 type SQLiteStore struct {
 	db *sql.DB
+	mu sync.Mutex // Serialize writes to prevent SQLITE_BUSY
 }
 
 func NewSQLiteStore(dbPath string) (*SQLiteStore, error) {
-	db, err := sql.Open("sqlite", dbPath)
+	// Optimization: WAL mode + Busy Timeout for high concurrency
+	dsn := dbPath + "?_journal_mode=WAL&_busy_timeout=10000"
+	db, err := sql.Open("sqlite", dsn)
 	if err != nil {
 		return nil, err
 	}
 
 	if err := db.Ping(); err != nil {
+		return nil, err
+	}
+
+	// Explicitly set WAL mode
+	if _, err := db.Exec("PRAGMA journal_mode=WAL;"); err != nil {
 		return nil, err
 	}
 
@@ -99,6 +108,9 @@ func runMigrations(db *sql.DB) error {
 }
 
 func (s *SQLiteStore) RegisterAgent(ctx context.Context, agent *Agent) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
 	query := `
 	INSERT INTO agents (id, hostname, ip_address, os, updated_at)
 	VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)
@@ -118,6 +130,9 @@ func (s *SQLiteStore) RegisterAgent(ctx context.Context, agent *Agent) error {
 }
 
 func (s *SQLiteStore) SaveMetric(ctx context.Context, agentID string, m *Metric) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
 	query := `
 	INSERT INTO system_metrics (time, agent_id, cpu_usage, memory_used, memory_total, disk_free_percent, bytes_in, bytes_out, latency_ms)
 	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
@@ -131,6 +146,7 @@ func (s *SQLiteStore) SaveMetric(ctx context.Context, agentID string, m *Metric)
 }
 
 func (s *SQLiteStore) GetAgentIDByTokenHash(ctx context.Context, hash string) (string, error) {
+	// Reads do NOT need the exclusive lock in WAL mode
 	var id string
 	query := `SELECT id FROM agents WHERE token_hash = ?`
 	err := s.db.QueryRowContext(ctx, query, hash).Scan(&id)
@@ -141,6 +157,8 @@ func (s *SQLiteStore) GetAgentIDByTokenHash(ctx context.Context, hash string) (s
 }
 
 func (s *SQLiteStore) UpdateAgentToken(ctx context.Context, agentID, hash string) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
 	query := `UPDATE agents SET token_hash = ? WHERE id = ?`
 	_, err := s.db.ExecContext(ctx, query, hash, agentID)
 	return err
@@ -172,6 +190,8 @@ func (s *SQLiteStore) ListAgents(ctx context.Context) ([]Agent, error) {
 }
 
 func (s *SQLiteStore) UpdateAgentMetadata(ctx context.Context, agentID, rackLocation string, temperature float64) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
 	query := `UPDATE agents SET rack_location = ?, temperature = ? WHERE id = ?`
 	_, err := s.db.ExecContext(ctx, query, rackLocation, temperature, agentID)
 	return err
@@ -371,6 +391,8 @@ func (s *SQLiteStore) ListAgentsByRack(ctx context.Context, rackLocation string)
 }
 
 func (s *SQLiteStore) UpdateAgentHostname(ctx context.Context, agentID, hostname string) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
 	query := `UPDATE agents SET hostname = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?`
 	_, err := s.db.ExecContext(ctx, query, hostname, agentID)
 	return err

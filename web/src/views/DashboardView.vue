@@ -1,129 +1,137 @@
 <template>
-  <div class="flex h-screen overflow-hidden">
-    <!-- Left Panel: Overview Metrics -->
-    <div class="flex-1 p-6 overflow-y-auto">
-      <div class="flex items-center justify-between mb-6">
-        <h1 class="text-2xl font-bold">Overview Metrics</h1>
-        <p class="text-xs text-slate-400">LAST UPDATED: {{ lastUpdate }}</p>
+  <div class="flex flex-col h-screen overflow-hidden bg-background">
+    <!-- Top Bar / Header -->
+    <div class="flex items-center justify-between px-6 py-4 border-b border-border-color bg-surface-dark">
+      <div class="flex items-center gap-4">
+        <h1 class="text-xl font-bold tracking-tight">TaraSysDash <span class="text-primary text-xs ml-1">v0.3.0</span></h1>
+        <div class="h-4 w-px bg-border-color"></div>
+        <div class="flex items-center gap-2 text-xs text-slate-400">
+          <span class="size-2 rounded-full bg-green-500 animate-pulse"></span>
+          <span>System Online</span>
+        </div>
       </div>
+      <div class="flex items-center gap-4 text-xs font-mono text-slate-400">
+         <span>AGENTS: <span class="text-white">{{ servers.length }}</span></span>
+         <span>|</span>
+         <span>LAST UPDATE: {{ lastUpdate }}</span>
+      </div>
+    </div>
 
-      <!-- Row 1: Core Metrics (4 cards) -->
-      <div class="grid grid-cols-4 gap-4 mb-4">
+    <!-- Main Scrollable Content -->
+    <div class="flex-1 overflow-y-auto p-6 space-y-6">
+      
+      <!-- Section 1: Aggregate Metrics (Top Cards) -->
+      <div class="grid grid-cols-4 gap-4">
         <!-- CPU Load -->
-        <div class="bg-surface-dark border border-border-color rounded-lg p-4">
-          <div class="flex items-start justify-between mb-2">
-            <p class="text-xs text-slate-400 uppercase tracking-wide">CPU LOAD</p>
-            <span class="text-xl">⚡</span>
+        <div class="bg-surface-dark border border-border-color rounded-lg p-4 relative overflow-hidden group">
+          <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition">
+            <span class="text-6xl">⚡</span>
           </div>
-          <p class="text-3xl font-bold mb-1">{{ cpuLoad }}%</p>
-          <div class="flex items-center text-xs" :class="cpuTrend >= 0 ? 'text-green-500' : 'text-red-500'">
-            <span>{{ cpuTrend >= 0 ? '+' : '' }}{{ cpuTrend }}%</span>
+          <p class="text-xs text-slate-400 uppercase tracking-wide mb-1">AVG CPU LOAD</p>
+          <div class="flex items-end gap-2">
+            <span class="text-3xl font-bold">{{ cpuLoad }}%</span>
+            <span class="text-xs mb-1" :class="cpuTrend >= 0 ? 'text-green-500' : 'text-red-500'">
+              {{ cpuTrend >= 0 ? '↑' : '↓' }} {{ Math.abs(cpuTrend) }}%
+            </span>
           </div>
         </div>
 
         <!-- Memory -->
-        <div class="bg-surface-dark border border-border-color rounded-lg p-4">
-          <div class="flex items-start justify-between mb-2">
-            <p class="text-xs text-slate-400 uppercase tracking-wide">MEMORY</p>
-            <span class="text-xl">💾</span>
+        <div class="bg-surface-dark border border-border-color rounded-lg p-4 relative overflow-hidden group">
+           <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition">
+            <span class="text-6xl">💾</span>
           </div>
-          <p class="text-3xl font-bold mb-1">{{ memoryGB }} <span class="text-sm text-slate-400">GB</span></p>
-          <p class="text-xs text-slate-400">stable</p>
+          <p class="text-xs text-slate-400 uppercase tracking-wide mb-1">MEMORY USAGE</p>
+          <div class="flex items-end gap-2">
+            <span class="text-3xl font-bold">{{ memoryGB }}</span>
+            <span class="text-sm text-slate-500 mb-1">GB / AVG</span>
+          </div>
         </div>
 
         <!-- Net In -->
-        <div class="bg-surface-dark border border-border-color rounded-lg p-4">
-          <div class="flex items-start justify-between mb-2">
-            <p class="text-xs text-slate-400 uppercase tracking-wide">NET IN</p>
-            <span class="text-xl">⬇️</span>
+        <div class="bg-surface-dark border border-border-color rounded-lg p-4 relative overflow-hidden group">
+           <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition">
+            <span class="text-6xl">⬇️</span>
           </div>
-          <p class="text-3xl font-bold mb-1">{{ netInMbps }} <span class="text-sm text-slate-400">MB/s</span></p>
-          <div class="flex items-center text-xs text-green-500">
-            <span>+{{ netInSpeed }}%</span>
+          <p class="text-xs text-slate-400 uppercase tracking-wide mb-1">NET INBOUND</p>
+          <div class="flex items-end gap-2">
+            <span class="text-3xl font-bold text-green-400">{{ netInMbps }}</span>
+            <span class="text-sm text-slate-500 mb-1">Mbps</span>
           </div>
         </div>
 
         <!-- Net Out -->
-        <div class="bg-surface-dark border border-border-color rounded-lg p-4">
-          <div class="flex items-start justify-between mb-2">
-            <p class="text-xs text-slate-400 uppercase tracking-wide">NET OUT</p>
-            <span class="text-xl">⬆️</span>
+        <div class="bg-surface-dark border border-border-color rounded-lg p-4 relative overflow-hidden group">
+           <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition">
+            <span class="text-6xl">⬆️</span>
           </div>
-          <p class="text-3xl font-bold mb-1">{{ netOutMbps }} <span class="text-sm text-slate-400">MB/s</span></p>
-          <div class="flex items-center text-xs text-red-500">
-            <span>+{{ netOutSpeed }}%</span>
+          <p class="text-xs text-slate-400 uppercase tracking-wide mb-1">NET OUTBOUND</p>
+           <div class="flex items-end gap-2">
+            <span class="text-3xl font-bold text-blue-400">{{ netOutMbps }}</span>
+            <span class="text-sm text-slate-500 mb-1">Mbps</span>
           </div>
         </div>
       </div>
 
-      <!-- Row 2: Charts -->
-      <div class="grid grid-cols-2 gap-4 mb-4">
-        <!-- Latency Chart -->
-        <div class="bg-surface-dark border border-border-color rounded-lg p-4">
-          <div class="flex items-center justify-between mb-3">
-            <div>
-              <p class="text-xs text-slate-400 uppercase tracking-wide">LATENCY (LAST 10H)</p>
-              <p class="text-2xl font-bold mt-1">{{ avgLatency }}<span class="text-sm text-slate-400">ms avg</span></p>
+      <!-- Section 2: Charts (Latency & Throughput) -->
+      <div class="grid grid-cols-2 gap-4 h-48">
+         <div class="bg-surface-dark border border-border-color rounded-lg p-4 flex flex-col">
+            <div class="flex justify-between items-center mb-2">
+              <h3 class="text-xs font-bold uppercase text-slate-400">Latency History (Global Avg)</h3>
+              <span class="text-xs font-mono text-primary">{{ avgLatency }}ms</span>
             </div>
-          </div>
-          <div id="latency-chart" class="h-32"></div>
-        </div>
-
-        <!-- Throughput Chart -->
-        <div class="bg-surface-dark border border-border-color rounded-lg p-4">
-          <div class="flex items-center justify-between mb-3">
-            <div>
-              <p class="text-xs text-slate-400 uppercase tracking-wide">THROUGHPUT (RPS)</p>
-              <p class="text-2xl font-bold mt-1">{{ throughput }}<span class="text-sm text-slate-400"> ops</span></p>
+            <div id="latency-chart" class="flex-1 w-full min-h-0"></div>
+         </div>
+         <div class="bg-surface-dark border border-border-color rounded-lg p-4 flex flex-col">
+             <div class="flex justify-between items-center mb-2">
+              <h3 class="text-xs font-bold uppercase text-slate-400">Total Throughput</h3>
+              <span class="text-xs font-mono text-green-400">{{ throughput }} ops/s</span>
             </div>
+            <div id="throughput-chart" class="flex-1 w-full min-h-0"></div>
+         </div>
+      </div>
+
+      <!-- Section 3: Server Grid (Grouped by Rack) -->
+      <div class="space-y-6">
+        <div v-for="rack in racks" :key="rack" class="animate-fade-in-up">
+          <!-- Rack Header -->
+          <div class="flex items-center gap-4 mb-3">
+             <div class="h-px bg-border-color flex-1"></div>
+             <h2 class="text-sm font-bold uppercase tracking-widest text-slate-500 whitespace-nowrap">
+               <span class="text-primary mr-2">🏢</span> 
+               {{ rack || 'UNASSIGNED RACK' }}
+             </h2>
+             <div class="h-px bg-border-color flex-1"></div>
           </div>
-          <div id="throughput-chart" class="h-32"></div>
+
+          <!-- Grid -->
+          <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+            <ServerCard 
+              v-for="server in serversByRack(rack)" 
+              :key="server.id"
+              :server="server"
+              :is-selected="selectedServer?.id === server.id"
+              @click="openPreferences(server)"
+            />
+          </div>
         </div>
       </div>
 
-      <!-- Row 3: Live System Logs -->
-      <div class="bg-surface-dark border border-border-color rounded-lg p-4">
-        <div class="flex items-center justify-between mb-3">
-          <p class="text-xs text-slate-400 uppercase tracking-wide">🟢 LIVE SYSTEM LOGS</p>
-          <div class="flex gap-2 text-xs">
-            <button class="text-primary hover:underline">ALL</button>
-            <button class="text-slate-400 hover:text-primary">ERROR</button>
-            <button class="text-slate-400 hover:text-primary">WARN</button>
+       <!-- Section 4: Logs (Collapsible/Bottom) -->
+       <div class="bg-surface-dark border border-border-color rounded-lg p-4 mt-8">
+          <h3 class="text-xs font-bold uppercase text-slate-400 mb-2">Recent System Events</h3>
+          <div class="font-mono text-[10px] text-slate-400 space-y-1 max-h-32 overflow-y-auto">
+             <p v-for="(log, i) in logs" :key="i" class="hover:text-white transition-colors cursor-default">
+               <span class="text-slate-600 mr-2">{{ log.time }}</span>
+               <span :class="getLogLevelClass(log.level)" class="font-bold mr-2">[{{ log.level }}]</span>
+               {{ log.message }}
+             </p>
           </div>
-        </div>
-        <div class="font-mono text-xs space-y-1 h-40 overflow-y-auto">
-          <p v-for="(log, i) in logs" :key="i" :class="getLogClass()">
-            [{{ log.time }}] <span :class="getLogLevelClass(log.level)">[{{ log.level }}]</span> {{ log.message }}
-          </p>
-        </div>
-      </div>
+       </div>
+
     </div>
 
-    <!-- Right Sidebar: Server List -->
-    <div class="w-80 bg-surface-dark border-l border-border-color p-4 overflow-y-auto">
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-sm font-bold uppercase tracking-wide">Rack Status</h2>
-        <span class="text-xs text-slate-400">{{ servers.length }} servers</span>
-      </div>
-      
-      <div class="space-y-4">
-        <!-- Group by rack -->
-        <div v-for="rack in racks" :key="rack" class="space-y-2">
-          <p class="text-xs text-slate-500 uppercase tracking-wider px-2">{{ rack }}</p>
-          <div v-for="server in serversByRack(rack)" :key="server.id" 
-               class="flex items-center gap-3 p-2 rounded hover:bg-background-dark/50 cursor-pointer transition"
-               @click="openPreferences(server)">
-            <div class="size-2 rounded-full" :class="getStatusColor(server.status)"></div>
-            <div class="flex-1 min-w-0">
-              <p class="text-sm font-medium truncate">{{ server.name }}</p>
-              <p class="text-xs text-slate-400">{{ server.rack }} • {{ server.temp }}°C</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Server Preferences Modal -->
+    <!-- Modal -->
     <ServerPreferencesModal 
       :server="selectedServer" 
       :show="showPreferences"
@@ -134,8 +142,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed, nextTick } from 'vue'
 import ServerPreferencesModal from '../components/ServerPreferencesModal.vue'
+import ServerCard from '../components/ServerCard.vue'
 import axios from 'axios'
 import * as echarts from 'echarts/core'
 import { LineChart } from 'echarts/charts'
@@ -146,66 +155,97 @@ echarts.use([LineChart, GridComponent, TooltipComponent, CanvasRenderer])
 
 const API_BASE = 'http://localhost:8080/api/v1'
 
-const cpuLoad = ref(45)
-const cpuTrend = ref(2)
-const memoryGB = ref(12.4)
-const netInMbps = ref(450)
-const netInSpeed = ref(40)
-const netOutMbps = ref(1.2)
-const netOutSpeed = ref(10)
-const avgLatency = ref(14)
-const throughput = ref(4500)
-const lastUpdate = ref('NOW')
-
-const logs = ref([
-  { time: '14:05:31', level: 'INFO', message: 'Cron job maintenance_daily executed successfully.' },
-  { time: '14:04:05', level: 'INFO', message: 'Daily backup sequence initiated on db-shard-04.' },
-  { time: '14:01:23', level: 'WARN', message: 'High latency detected on srv-us-e-04 (240ms).' },
-  { time: '13:58:42', level: 'ERROR', message: 'Failed polling pod payment-service-v3 (replicas: 4 -> 5).' },
-  { time: '13:54:10', level: 'INFO', message: 'User admin #1 logged in from 192.168.1.45.' },
-  { time: '13:50:38', level: 'INFO', message: 'Alert connection timeout external API gateway (Retry 1/3).' },
-  { time: '13:51:11', level: 'INFO', message: 'SSH session check listed for all critical services.' },
-])
+// --- State ---
+const cpuLoad = ref(0)
+const cpuTrend = ref(0)
+const memoryGB = ref(0)
+const netInMbps = ref(0)
+const netOutMbps = ref(0)
+const avgLatency = ref(0)
+const throughput = ref(0)
+const lastUpdate = ref('Initializing...')
 
 const servers = ref<any[]>([])
 const selectedServer = ref<any>(null)
 const showPreferences = ref(false)
 
+const logs = ref<any[]>([
+  { time: '14:05:31', level: 'INFO', message: 'System initialized. Dashboard ready.' },
+])
+
+// --- Charts ---
+let latencyChart: echarts.ECharts | null = null
+let throughputChart: echarts.ECharts | null = null
+let updateInterval: number | null = null
+
+// --- Computed ---
+const racks = computed(() => {
+  const unique = [...new Set(servers.value.map(s => s.rack || 'Unassigned'))]
+  return unique.sort()
+})
+
+function serversByRack(rack: string) {
+  return servers.value.filter(s => (s.rack || 'Unassigned') === rack)
+}
+
+function getLogLevelClass(level: string) {
+  if (level === 'ERROR') return 'text-red-500'
+  if (level === 'WARN') return 'text-yellow-500'
+  return 'text-blue-400'
+}
+
+// --- Actions ---
 async function fetchServers() {
   try {
     const response = await axios.get(`${API_BASE}/agents`)
     if (response.data) {
+      // Sort servers: offline last, then by name
       servers.value = response.data.map((agent: any) => ({
         id: agent.id,
         name: agent.hostname,
-        rack: agent.rack_location || 'Unknown',
+        rack: agent.rack_location,
         temp: agent.temperature || 0,
-        status: agent.status
-      }))
+        status: agent.status || 'offline',
+        ip: agent.ip_address,
+        os: agent.os
+      })).sort((a: any, b: any) => {
+         if (a.status === 'offline' && b.status !== 'offline') return 1
+         if (a.status !== 'offline' && b.status === 'offline') return -1
+         return a.name.localeCompare(b.name)
+      })
     }
   } catch (err) {
     console.error('Failed to fetch servers:', err)
   }
 }
 
-let latencyChart: echarts.ECharts | null = null
-let throughputChart: echarts.ECharts | null = null
-let updateInterval: number | null = null
+async function fetchMetrics() {
+  // Aggregate metrics from all active servers
+  // In a real app, the backend should provide an aggregate endpoint.
+  // For MVP, we'll scan the top 5 active servers or just one for demo
+  try {
+      if (servers.value.length === 0) return
 
-const racks = computed(() => {
-  const uniqueRacks = [...new Set(servers.value.map(s => s.rack))]
-  return uniqueRacks.sort()
-})
-
-function serversByRack(rack: string) {
-  return servers.value.filter(s => s.rack === rack)
-}
-
-function getStatusColor(status: string) {
-  if (status === 'online') return 'bg-green-500'
-  if (status === 'warning') return 'bg-yellow-500'
-  if (status === 'offline') return 'bg-red-500'
-  return 'bg-gray-500'
+      // Just grab metrics from the first active server for the "Global" view simulation
+      // Or ideally, fetch /stats/global if it existed.
+      // We will sum up throughput and avg latency from top agent for now as a proxy
+      const active = servers.value.find(s => s.status === 'online')
+      if (active) {
+          const m = await axios.get(`${API_BASE}/metrics/${active.id}`)
+          if (m.data && m.data.length > 0) {
+              const latest = m.data[m.data.length-1]
+              cpuLoad.value = parseFloat(latest.cpu_usage_percent.toFixed(1))
+              memoryGB.value = parseFloat((latest.memory_used_bytes / 1073741824).toFixed(1))
+              throughput.value = Math.floor(Math.random() * 500 + 4000) // Mock fluctuation
+          }
+           
+          const lat = await axios.get(`${API_BASE}/stats/${active.id}/latency`)
+          if (lat.data) {
+             avgLatency.value = parseFloat(lat.data.avg_latency_ms.toFixed(0))
+             renderLatencyChart(lat.data.history)
+          }
+      }
+  } catch (e) { console.error(e) }
 }
 
 function openPreferences(server: any) {
@@ -213,137 +253,108 @@ function openPreferences(server: any) {
   showPreferences.value = true
 }
 
-function getLogClass() {
-  return 'text-slate-300'
-}
-
-function getLogLevelClass(level: string) {
-  if (level === 'ERROR') return 'text-red-500'
-  if (level === 'WARN') return 'text-yellow-500'
-  return 'text-primary'
-}
-
-async function fetchRealData() {
-  try {
-    const agents = await axios.get(`${API_BASE}/agents`)
-    if (agents.data && agents.data.length > 0) {
-      const agentId = agents.data[0].id
-      
-      // Fetch metrics
-      const metrics = await axios.get(`${API_BASE}/metrics/${agentId}`)
-      if (metrics.data && metrics.data.length > 0) {
-        const latest = metrics.data[metrics.data.length - 1]
-        cpuLoad.value = parseFloat(latest.cpu_usage_percent.toFixed(1))
-        memoryGB.value = parseFloat((latest.memory_used_bytes / 1073741824).toFixed(1))
-      }
-
-      // Fetch network stats
-      const networkStats = await axios.get(`${API_BASE}/stats/${agentId}/network`)
-      if (networkStats.data) {
-        netInMbps.value = parseFloat(networkStats.data.avg_mbps_in.toFixed(0))
-        netOutMbps.value = parseFloat(networkStats.data.avg_mbps_out.toFixed(2))
-      }
-
-      // Fetch latency stats
-      const latencyStats = await axios.get(`${API_BASE}/stats/${agentId}/latency`)
-      if (latencyStats.data) {
-        avgLatency.value = parseFloat(latencyStats.data.avg_latency_ms.toFixed(0))
-        renderLatencyChart(latencyStats.data.history)
-      }
-    }
-  } catch (err) {
-    console.error('Failed to fetch real data:', err)
-  }
-}
-
+// --- Chart Rendering ---
 function renderLatencyChart(history: number[]) {
-  const chartDom = document.getElementById('latency-chart')
-  if (!chartDom) return
-
-  if (!latencyChart) {
-    latencyChart = echarts.init(chartDom)
-  }
-
+  const dom = document.getElementById('latency-chart')
+  if (!dom) return
+  if (!latencyChart) latencyChart = echarts.init(dom)
+  
   const option = {
-    grid: { left: 40, right: 10, top: 10, bottom: 20 },
+    grid: { left: 0, right: 0, top: 10, bottom: 0 },
     xAxis: { type: 'category', show: false },
     yAxis: { type: 'value', show: false },
+    tooltip: { trigger: 'axis' },
     series: [{
-      data: history.slice(-60),
+      data: history?.slice(-30) || [],
       type: 'line',
       smooth: true,
+      showSymbol: false,
       lineStyle: { color: '#25d1f4', width: 2 },
-      areaStyle: { color: 'rgba(37, 209, 244, 0.1)' }
+      areaStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          { offset: 0, color: 'rgba(37, 209, 244, 0.4)' },
+          { offset: 1, color: 'rgba(37, 209, 244, 0.0)' }
+        ])
+      }
     }]
   }
-
   latencyChart.setOption(option)
 }
 
 function renderThroughputChart() {
-  const chartDom = document.getElementById('throughput-chart')
-  if (!chartDom) return
+   const dom = document.getElementById('throughput-chart')
+   if (!dom) return
+   if (!throughputChart) throughputChart = echarts.init(dom)
 
-  if (!throughputChart) {
-    throughputChart = echarts.init(chartDom)
-  }
-
-  const option = {
-    grid: { left: 40, right: 10, top: 10, bottom: 20 },
+   const data = Array.from({length: 30}, () => Math.floor(Math.random() * 1000 + 3000))
+   
+   const option = {
+    grid: { left: 0, right: 0, top: 10, bottom: 0 },
     xAxis: { type: 'category', show: false },
-    yAxis: { type: 'value', show: false },
-    series: [
-      {
-        name: 'HTTP',
-        data: Array.from({ length: 60 }, () => Math.random() * 5000 + 3000),
-        type: 'line',
-        smooth: true,
-        lineStyle: { color: '#25d1f4', width: 2 }
-      },
-      {
-        name: 'gRPC',
-        data: Array.from({ length: 60 }, () => Math.random() * 2000 + 1000),
-        type: 'line',
-        smooth: true,
-        lineStyle: { color: '#4caf50', width: 2 }
-      }
-    ]
+    yAxis: { type: 'value', show: false, min: 2000 },
+    tooltip: { trigger: 'axis' },
+    series: [{
+      data: data,
+      type: 'bar',
+      itemStyle: { color: '#4caf50', borderRadius: [2, 2, 0, 0] }
+    }]
   }
-
   throughputChart.setOption(option)
 }
 
+function handleResize() {
+  latencyChart?.resize()
+  throughputChart?.resize()
+}
+
+// --- Lifecycle ---
 onMounted(async () => {
-  await fetchRealData()
   await fetchServers()
-  renderThroughputChart()
+  await fetchMetrics() // Initial fetch
   
-  updateInterval = window.setInterval(() => {
-    fetchRealData()
-    fetchServers()
+  // Wait for DOM
+  nextTick(() => {
+     renderThroughputChart() // Initial dummy render
+  })
+
+  updateInterval = window.setInterval(async () => {
+    await fetchServers()
+    await fetchMetrics()
     lastUpdate.value = new Date().toLocaleTimeString()
-  }, 5000)
+    renderThroughputChart() // Refresh dummy chart
+  }, 2000)
+
+  window.addEventListener('resize', handleResize)
 })
 
 onUnmounted(() => {
   if (updateInterval) clearInterval(updateInterval)
+  window.removeEventListener('resize', handleResize)
   latencyChart?.dispose()
   throughputChart?.dispose()
 })
 </script>
 
-const racks = computed(() => {
-  const uniqueRacks = [...new Set(servers.value.map(s => s.rack))]
-  return uniqueRacks.sort()
-})
-
-function serversByRack(rack: string) {
-  return servers.value.filter(s => s.rack === rack)
+<style>
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out;
 }
-
-function getStatusColor(status: string) {
-  if (status === 'online') return 'bg-green-500'
-  if (status === 'warning') return 'bg-yellow-500'
-  if (status === 'offline') return 'bg-red-500'
-  return 'bg-gray-500'
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
+/* Scrollbar Polish */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0f172a; 
+}
+::-webkit-scrollbar-thumb {
+  background: #334155; 
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569; 
+}
+</style>

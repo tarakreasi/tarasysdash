@@ -340,6 +340,7 @@ func authMiddleware(store *storage.SQLiteStore) gin.HandlerFunc {
 
 		agentID, err := store.GetAgentIDByTokenHash(c.Request.Context(), hash)
 		if err != nil {
+			slog.Error("Auth Failed", "error", err, "token_hash_preview", hash[:10])
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
 			return
 		}

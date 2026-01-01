@@ -88,6 +88,23 @@ func main() {
 		c.JSON(http.StatusOK, agents)
 	})
 
+	r.PUT("/api/v1/agents/:id/metadata", func(c *gin.Context) {
+		agentID := c.Param("id")
+		var payload struct {
+			RackLocation string  `json:"rack_location"`
+			Temperature  float64 `json:"temperature"`
+		}
+		if err := c.ShouldBindJSON(&payload); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		if err := store.UpdateAgentMetadata(c.Request.Context(), agentID, payload.RackLocation, payload.Temperature); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update metadata"})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"status": "updated"})
+	})
+
 	r.GET("/api/v1/metrics/:agent_id", func(c *gin.Context) {
 		agentID := c.Param("agent_id")
 		limit := 60 // Default: last 60 data points

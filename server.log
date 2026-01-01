@@ -1,0 +1,14 @@
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /health                   --> main.main.func1 (3 handlers)
+[GIN-debug] POST   /api/v1/metrics           --> main.main.func2 (3 handlers)
+2026/01/01 08:39:29 Server executing on :8080
+[GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
+Please check https://github.com/gin-gonic/gin/blob/master/docs/doc.md#dont-trust-all-proxies for details.
+[GIN-debug] Listening and serving HTTP on :8080
+[GIN] 2026/01/01 - 08:39:32 | 200 |   12.458389ms |       127.0.0.1 | POST     "/api/v1/metrics"
+[GIN] 2026/01/01 - 08:39:33 | 200 |   12.296311ms |       127.0.0.1 | POST     "/api/v1/metrics"

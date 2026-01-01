@@ -1,8 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
-	"fmt"
+	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
@@ -41,13 +42,35 @@ func main() {
 			continue
 		}
 
-		// For Sprint 1, we just print JSON to stdout
-		jsonData, err := json.Marshal(metrics)
+		// Send payload to server
+		payload := map[string]interface{}{
+			"agent_id":           "agent-uuid-1", // Mock ID for Sprint 2
+			"timestamp":          metrics.Timestamp,
+			"cpu_usage_percent":  metrics.CPUUsagePercent,
+			"memory_used_bytes":  metrics.MemoryUsedBytes,
+			"memory_total_bytes": metrics.MemoryTotalBytes,
+			"disk_free_percent":  metrics.DiskFreePercent,
+		}
+
+		// Marshal payload
+		jsonData, err := json.Marshal(payload)
 		if err != nil {
 			logger.Log.Error("Failed to marshal metrics", "error", err)
 			continue
 		}
 
-		fmt.Println(string(jsonData))
+		// POST to server
+		resp, err := http.Post(cfg.ServerURL+"/api/v1/metrics", "application/json", bytes.NewBuffer(jsonData))
+		if err != nil {
+			logger.Log.Error("Failed to send metrics", "error", err)
+			continue
+		}
+		resp.Body.Close()
+
+		if resp.StatusCode != http.StatusOK {
+			logger.Log.Error("Server returned non-200 status", "status", resp.StatusCode)
+		} else {
+			logger.Log.Info("Metrics sent successfully")
+		}
 	}
 }

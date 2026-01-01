@@ -39,4 +39,4 @@ dev:
 	@# formatting: ensure we kill child processes on exit
 	@trap 'kill 0' EXIT; \
 	go run cmd/server/main.go & \
-	cd web && npm run dev
+	cd web && CI=true npm run dev

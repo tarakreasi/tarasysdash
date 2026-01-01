@@ -116,6 +116,49 @@ func main() {
 		c.JSON(http.StatusOK, agents)
 	})
 
+	// AGENT HANDSHAKE / REGISTER (Public for Bootstrapping)
+	r.POST("/api/v1/register", func(c *gin.Context) {
+		var agent storage.Agent
+		if err := c.ShouldBindJSON(&agent); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		// In a real prod env, we might want a "Shared Secret" header here to prevent spam.
+		// For MVP/Air-gapped env, public register is acceptable.
+
+		// Generate a token for the agent
+		token, err := auth.GenerateToken()
+		if err != nil {
+			slog.Error("Failed to generate token", "error", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+			return
+		}
+		tokenHash := auth.HashToken(token)
+
+		// Register with the new token hash
+		if err := store.RegisterAgent(c.Request.Context(), &agent); err != nil {
+			slog.Error("Failed to register agent", "error", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to register agent"})
+			return
+		}
+
+		// Update the token hash in DB
+		if err := store.UpdateAgentToken(c.Request.Context(), agent.ID, tokenHash); err != nil {
+			slog.Error("Failed to update agent token", "error", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update agent token"})
+			return
+		}
+
+		slog.Info("Agent Registered", "id", agent.ID, "os", agent.OS, "ip", c.ClientIP())
+		// Return the RAW token to the agent (ONLY ONCE)
+		c.JSON(http.StatusOK, gin.H{
+			"status": "registered",
+			"token":  token,
+			"config": gin.H{"interval": 1},
+		})
+	})
+
 	r.PUT("/api/v1/agents/:id/metadata", func(c *gin.Context) {
 		agentID := c.Param("id")
 		var payload struct {
@@ -242,37 +285,15 @@ func main() {
 		c.JSON(http.StatusOK, agents)
 	})
 
+	// PUBLIC: AGENT HANDSHAKE / REGISTER
+	// Agents call this on startup to sync their Hostname/OS/IP.
+	// We allow this to be public for the MVP ease-of-use (Auto-Discovery).
+
 	// Authenticated Group
 	api := r.Group("/api/v1")
 	api.Use(authMiddleware(store))
 	{
-		// AGENT HANDSHAKE / REGISTER
-		// Agents MUST call this on startup to sync their Hostname/OS/IP
-		api.POST("/register", func(c *gin.Context) {
-			var agent storage.Agent
-			if err := c.ShouldBindJSON(&agent); err != nil {
-				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-				return
-			}
-
-			// Security check: Ensure the authenticated token matches the agent ID claiming to register?
-			// For now, we trust the token. But strictly we should match `agentID` from context.
-			authenticatedAgentID := c.GetString("agentID")
-			if authenticatedAgentID != agent.ID {
-				// Allow registration ONLY if it matches the token owner
-				c.JSON(http.StatusForbidden, gin.H{"error": "Agent ID mismatch with token"})
-				return
-			}
-
-			if err := store.RegisterAgent(c.Request.Context(), &agent); err != nil {
-				slog.Error("Failed to register agent", "error", err)
-				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to register agent"})
-				return
-			}
-
-			slog.Info("Agent Registered/Updated", "id", agent.ID, "os", agent.OS, "ip", c.ClientIP())
-			c.JSON(http.StatusOK, gin.H{"status": "registered", "config": gin.H{"interval": 1}})
-		})
+		// METRICS (Must be authenticated)
 
 		api.POST("/metrics", func(c *gin.Context) {
 			var payload struct {

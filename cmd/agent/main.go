@@ -22,6 +22,18 @@ func main() {
 
 	col := collector.New()
 
+	// Handshake: Register and get Token
+	if cfg.AgentToken == "" {
+		logger.Log.Info("No token found. Attempting to register via Handshake...")
+		token, err := registerAgent(cfg.ServerURL)
+		if err != nil {
+			logger.Log.Error("Failed to register agent. Exiting.", "error", err)
+			os.Exit(1)
+		}
+		cfg.AgentToken = token
+		logger.Log.Info("Handshake successful! Token obtained.")
+	}
+
 	ticker := time.NewTicker(cfg.AgentInterval)
 	defer ticker.Stop()
 
@@ -87,4 +99,39 @@ func main() {
 			logger.Log.Info("Metrics sent successfully")
 		}
 	}
+}
+
+func registerAgent(serverURL string) (string, error) {
+	// 1. Gather Basic Info
+	hostname, _ := os.Hostname()
+	// Simple OS detection (mock for now, or use runtime.GOOS)
+	agentOS := "linux" // default
+
+	payload := map[string]string{
+		"id":            "agent-uuid-1", // Fixed for MVP. In prod use machine-id or uuid
+		"hostname":      hostname,
+		"os":            agentOS,
+		"status":        "online",
+		"rack_location": "Rack 1", // Default
+	}
+
+	jsonData, _ := json.Marshal(payload)
+	resp, err := http.Post(serverURL+"/api/v1/register", "application/json", bytes.NewBuffer(jsonData))
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return "", http.ErrNoCookie // Just a generic error
+	}
+
+	var result struct {
+		Status string `json:"status"`
+		Token  string `json:"token"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		return "", err
+	}
+	return result.Token, nil
 }

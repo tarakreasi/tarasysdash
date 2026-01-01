@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `taraSysDash` will be documented in this file.
+All notable changes to taraSysDash will be documented in this file.
 
 ## [Unreleased] - Sprint 4 (Frontend)
 - **Planned:** Vue 3 dashboard (Zen Glass theme).

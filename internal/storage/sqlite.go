@@ -10,12 +10,15 @@ import (
 )
 
 type Agent struct {
-	ID        string    `json:"id"`
-	Hostname  string    `json:"hostname"`
-	IPAddress string    `json:"ip_address"`
-	OS        string    `json:"os"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	ID           string    `json:"id"`
+	Hostname     string    `json:"hostname"`
+	IPAddress    string    `json:"ip_address"`
+	OS           string    `json:"os"`
+	RackLocation string    `json:"rack_location"`
+	Temperature  float64   `json:"temperature"`
+	Status       string    `json:"status,omitempty"`
+	CreatedAt    time.Time `json:"created_at"`
+	UpdatedAt    time.Time `json:"updated_at"`
 }
 
 type Metric struct {
@@ -67,18 +70,18 @@ func runMigrations(db *sql.DB) error {
 			PRIMARY KEY (time, agent_id),
 			FOREIGN KEY(agent_id) REFERENCES agents(id)
 		);`,
-		// Migration for Sprint 3: Add token_hash
+		// Sprint 3: Add token_hash
 		`ALTER TABLE agents ADD COLUMN token_hash TEXT;`,
+		// Sprint 5: Add rack_location
+		`ALTER TABLE agents ADD COLUMN rack_location TEXT DEFAULT '';`,
+		// Sprint 5: Add temperature
+		`ALTER TABLE agents ADD COLUMN temperature REAL DEFAULT 0.0;`,
 	}
 
 	for _, query := range queries {
 		_, err := db.Exec(query)
-		// Ignore error for ALTER TABLE if column exists (simplistic migration)
-		if err != nil && query == queries[2] {
-			// In production we'd check if column exists, but for now ignoring generic error is risky but acceptable for "dev" if we assume the error is "duplicate column".
-			// Let's rely on valid SQL or handle strictly.
-			// SQLite doesn't support "ADD COLUMN IF NOT EXISTS".
-			// We can swallow the error if it contains "duplicate column name".
+		// Ignore errors for ALTER TABLE (column might already exist)
+		if err != nil && (query == queries[2] || query == queries[3] || query == queries[4]) {
 			slog.Info("Migration step executed (ignoring potential duplicate column error)", "query", query, "error", err)
 		} else if err != nil {
 			return err
@@ -134,7 +137,7 @@ func (s *SQLiteStore) UpdateAgentToken(ctx context.Context, agentID, hash string
 }
 
 func (s *SQLiteStore) ListAgents(ctx context.Context) ([]Agent, error) {
-	query := `SELECT id, hostname, ip_address, os, created_at, updated_at FROM agents ORDER BY updated_at DESC`
+	query := `SELECT id, hostname, ip_address, os, rack_location, temperature, created_at, updated_at FROM agents ORDER BY updated_at DESC`
 	rows, err := s.db.QueryContext(ctx, query)
 	if err != nil {
 		return nil, err
@@ -144,12 +147,24 @@ func (s *SQLiteStore) ListAgents(ctx context.Context) ([]Agent, error) {
 	var agents []Agent
 	for rows.Next() {
 		var a Agent
-		if err := rows.Scan(&a.ID, &a.Hostname, &a.IPAddress, &a.OS, &a.CreatedAt, &a.UpdatedAt); err != nil {
+		if err := rows.Scan(&a.ID, &a.Hostname, &a.IPAddress, &a.OS, &a.RackLocation, &a.Temperature, &a.CreatedAt, &a.UpdatedAt); err != nil {
 			return nil, err
+		}
+		// Compute status: offline if not updated in last 30 seconds
+		if time.Since(a.UpdatedAt) > 30*time.Second {
+			a.Status = "offline"
+		} else {
+			a.Status = "online"
 		}
 		agents = append(agents, a)
 	}
 	return agents, rows.Err()
+}
+
+func (s *SQLiteStore) UpdateAgentMetadata(ctx context.Context, agentID, rackLocation string, temperature float64) error {
+	query := `UPDATE agents SET rack_location = ?, temperature = ? WHERE id = ?`
+	_, err := s.db.ExecContext(ctx, query, rackLocation, temperature, agentID)
+	return err
 }
 
 func (s *SQLiteStore) GetRecentMetrics(ctx context.Context, agentID string, limit int) ([]Metric, error) {

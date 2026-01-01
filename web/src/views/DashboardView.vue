@@ -93,27 +93,55 @@
 
       <!-- Section 3: Server Grid (Grouped by Rack) -->
       <div class="space-y-6">
+        
+        <!-- Search Bar -->
+        <div class="flex items-center gap-4 bg-surface-dark border border-border-color rounded-lg p-4">
+          <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input 
+            v-model="searchQuery"
+            type="text" 
+            placeholder="Search agents by name, IP, OS, rack, or status..."
+            class="flex-1 bg-transparent text-white placeholder-slate-500 outline-none text-sm"
+          />
+          <span v-if="searchQuery" class="text-xs text-slate-500">
+            {{ filteredServers.length }} / {{ servers.length }} agents
+          </span>
+        </div>
+
+        <!-- Rack Groups -->
         <div v-for="rack in racks" :key="rack" class="animate-fade-in-up">
           <!-- Rack Header -->
-          <div class="flex items-center gap-4 mb-3">
+          <div class="flex items-center gap-4 mb-4 cursor-pointer group" @click="toggleRack(rack)">
              <div class="h-px bg-border-color flex-1"></div>
-             <h2 class="text-sm font-bold uppercase tracking-widest text-slate-500 whitespace-nowrap">
-               <span class="text-primary mr-2">🏢</span> 
-               {{ rack || 'UNASSIGNED RACK' }}
+             <h2 class="text-base font-bold uppercase tracking-widest text-slate-400 whitespace-nowrap group-hover:text-primary transition-colors">
+                {{ rack || 'UNASSIGNED' }}
+                <span class="text-xs ml-2 text-slate-500">({{ rackCount(rack) }} agents)</span>
+                <span class="ml-2 text-sm">{{ collapsedRacks.has(rack) ? '▼' : '▲' }}</span>
              </h2>
              <div class="h-px bg-border-color flex-1"></div>
           </div>
 
-          <!-- Grid -->
-          <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+          <!-- Server Cards Grid -->
+          <div v-if="!collapsedRacks.has(rack)" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3">
             <ServerCard 
               v-for="server in serversByRack(rack)" 
               :key="server.id"
               :server="server"
-              :is-selected="selectedServer?.id === server.id"
-              @click="openPreferences(server)"
             />
           </div>
+
+          <!-- Empty State for Filtered Results -->
+          <div v-if="!collapsedRacks.has(rack) && rackCount(rack) === 0" class="text-center py-8 text-slate-500 text-sm">
+            No agents match your search criteria
+          </div>
+        </div>
+
+        <!-- Empty State for No Agents -->
+        <div v-if="servers.length === 0" class="text-center py-12">
+          <div class="text-6xl mb-4 opacity-50">📡</div>
+          <p class="text-slate-400 text-sm">No agents registered yet</p>
         </div>
       </div>
 
@@ -131,19 +159,23 @@
 
     </div>
 
-    <!-- Modal -->
-    <ServerPreferencesModal 
-      :server="selectedServer" 
-      :show="showPreferences"
-      @close="showPreferences = false"
-      @updated="fetchServers"
-    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed, nextTick } from 'vue'
-import ServerPreferencesModal from '../components/ServerPreferencesModal.vue'
+// Type definitions
+interface Server {
+  id: string
+  name: string
+  hostname: string
+  rack: string
+  temp: number
+  status: string
+  ip: string
+  os: string
+}
+
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import ServerCard from '../components/ServerCard.vue'
 import axios from 'axios'
 import * as echarts from 'echarts/core'
@@ -163,11 +195,11 @@ const netInMbps = ref(0)
 const netOutMbps = ref(0)
 const avgLatency = ref(0)
 const throughput = ref(0)
-const lastUpdate = ref('Initializing...')
+const lastUpdate = ref('--:--:--')
 
-const servers = ref<any[]>([])
-const selectedServer = ref<any>(null)
-const showPreferences = ref(false)
+const servers = ref<Server[]>([])
+const searchQuery = ref('')
+const collapsedRacks = ref<Set<string>>(new Set())
 
 const logs = ref<any[]>([
   { time: '14:05:31', level: 'INFO', message: 'System initialized. Dashboard ready.' },
@@ -179,13 +211,50 @@ let throughputChart: echarts.ECharts | null = null
 let updateInterval: number | null = null
 
 // --- Computed ---
+// Numeric sorting helper
+function extractNumber(id: string): number {
+  const match = id.match(/\d+$/)
+  return match ? parseInt(match[0], 10) : 0
+}
+
 const racks = computed(() => {
-  const unique = [...new Set(servers.value.map(s => s.rack || 'Unassigned'))]
-  return unique.sort()
+  const uniqueRacks = [...new Set(servers.value.map(s => s.rack))]
+  return uniqueRacks.sort()
 })
 
+// Filtered servers based on search
+const filteredServers = computed(() => {
+  if (!searchQuery.value.trim()) return servers.value
+  
+  const query = searchQuery.value.toLowerCase()
+  return servers.value.filter(s => 
+    s.hostname.toLowerCase().includes(query) ||
+    s.ip.toLowerCase().includes(query) ||
+    s.os.toLowerCase().includes(query) ||
+    s.rack.toLowerCase().includes(query) ||
+    s.status.toLowerCase().includes(query)
+  )
+})
+
+// Servers grouped by rack with numeric sorting
 function serversByRack(rack: string) {
-  return servers.value.filter(s => (s.rack || 'Unassigned') === rack)
+  return filteredServers.value
+    .filter(s => s.rack === rack)
+    .sort((a, b) => extractNumber(a.hostname) - extractNumber(b.hostname))
+}
+
+// Count agents per rack
+function rackCount(rack: string): number {
+  return serversByRack(rack).length
+}
+
+// Toggle rack collapse
+function toggleRack(rack: string) {
+  if (collapsedRacks.value.has(rack)) {
+    collapsedRacks.value.delete(rack)
+  } else {
+    collapsedRacks.value.add(rack)
+  }
 }
 
 function getLogLevelClass(level: string) {
@@ -199,20 +268,16 @@ async function fetchServers() {
   try {
     const response = await axios.get(`${API_BASE}/agents`)
     if (response.data) {
-      // Sort servers: offline last, then by name
       servers.value = response.data.map((agent: any) => ({
         id: agent.id,
         name: agent.hostname,
-        rack: agent.rack_location,
+        hostname: agent.hostname,
+        rack: agent.rack_location || 'Unassigned',
         temp: agent.temperature || 0,
         status: agent.status || 'offline',
         ip: agent.ip_address,
         os: agent.os
-      })).sort((a: any, b: any) => {
-         if (a.status === 'offline' && b.status !== 'offline') return 1
-         if (a.status !== 'offline' && b.status === 'offline') return -1
-         return a.name.localeCompare(b.name)
-      })
+      }))
     }
   } catch (err) {
     console.error('Failed to fetch servers:', err)
@@ -248,10 +313,6 @@ async function fetchMetrics() {
   } catch (e) { console.error(e) }
 }
 
-function openPreferences(server: any) {
-  selectedServer.value = server
-  showPreferences.value = true
-}
 
 // --- Chart Rendering ---
 function renderLatencyChart(history: number[]) {

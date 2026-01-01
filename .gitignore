@@ -1,1 +1,5 @@
 docs/sprint
+bin/
+*.log
+*.pid
+*.db

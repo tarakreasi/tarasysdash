@@ -15,6 +15,9 @@ interface Agent {
   hostname: string
   ip_address: string
   os: string
+  rack_location: string
+  temperature: number
+  status: string
   created_at: string
   updated_at: string
 }
@@ -48,6 +51,16 @@ function formatBytes(bytes: number): string {
   else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB'
   else if (bytes < 1073741824) return (bytes / 1048576).toFixed(1) + ' MB'
   return (bytes / 1073741824).toFixed(2) + ' GB'
+}
+
+function getStatusColor(status: string): string {
+  if (status === 'online') return '#4caf50'
+  if (status === 'offline') return '#ff6b6b'
+  return '#ffa726'
+}
+
+function getStatusClass(agent: Agent): string {
+  return agent.status === 'offline' ? 'agent-offline' : ''
 }
 
 async function fetchAgents() {
@@ -238,14 +251,13 @@ onMounted(async () => {
           <div
             v-for="agent in agents"
             :key="agent.id"
-            :class="['agent-card', { active: agent.id === selectedAgentId }]"
+            :class="['agent-card', { active: agent.id === selectedAgentId }, getStatusClass(agent)]"
             @click="selectedAgentId = agent.id; fetchMetrics()"
           >
-            <div class="agent-status"></div>
+            <div class="agent-status" :style="{ backgroundColor: getStatusColor(agent.status), boxShadow: `0 0 10px ${getStatusColor(agent.status)}` }"></div>
             <div class="agent-info">
-              <p class="agent-id">{{ agent.id }}</p>
-              <p class="agent-host">{{ agent.hostname }}</p>
-              <p class="agent-meta">{{ agent.ip_address || 'N/A' }}</p>
+              <p class="agent-id">{{ agent.hostname }}</p>
+              <p class="agent-meta">{{ agent.rack_location || 'No Rack' }} • {{ agent.temperature?.toFixed(1) || '0.0' }}°C</p>
             </div>
           </div>
         </div>
@@ -438,6 +450,16 @@ body {
   box-shadow: 0 0 10px #4caf50;
   animation: pulse 2s ease-in-out infinite;
   margin-top: 4px;
+  transition: all 0.3s ease;
+}
+
+.agent-card.agent-offline {
+  border-color: rgba(255, 107, 107, 0.3);
+  background: rgba(255, 107, 107, 0.05);
+}
+
+.agent-card.agent-offline:hover {
+  border-color: rgba(255, 107, 107, 0.5);
 }
 
 @keyframes pulse {

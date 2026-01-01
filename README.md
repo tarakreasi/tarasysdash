@@ -12,7 +12,7 @@
 
 Hi, I'm **Tri Wantoro**.
 
-This repository—**taraSysDash**—is a small reflection of a long learning process; one that spans different roles, environments, and layers of technology.
+This repository-**taraSysDash**-is a small reflection of a long learning process; one that spans different roles, environments, and layers of technology.
 
 ### A Journey Through the Stack
 My understanding of software didn't start with frameworks or libraries, but grew through different perspectives:
@@ -25,7 +25,7 @@ My understanding of software didn't start with frameworks or libraries, but grew
   Working with electronic components reinforced basic principles: clear inputs, predictable processes, and measurable outputs.
   → *In software, I try to apply the same discipline through modular and testable code.*
 
-* **Respecting Production Environments (System Integrator — Ongoing)**
+* **Respecting Production Environments (System Integrator - Ongoing)**
   Working with Linux servers and integrated systems (Milestone VMS) taught me that small mistakes can have real consequences.
   → *Because of this, I tend to be cautious about security, logging, and resource usage.*
 
@@ -34,14 +34,14 @@ My understanding of software didn't start with frameworks or libraries, but grew
 
 * **Continuing to Build (Software Engineering Focus)**
   In this project, I chose **Go** for its concurrency model and **SQLite** for zero-dependency deployment.
-  → *These tools let me focus on the product, not the plumbing—allowing me to write code that is easier to understand, maintain, and operate.*
+  → *These tools let me focus on the product, not the plumbing-allowing me to write code that is easier to understand, maintain, and operate.*
 
 ---
 
 ### A Note About This Repository
 **Nothing here is meant to be "perfect."**
 
-This code represents what I currently understand, shaped by past experiences and ongoing work in real environments. If you find something that can be improved, it probably can—and I welcome that feedback.
+This code represents what I currently understand, shaped by past experiences and ongoing work in real environments. If you find something that can be improved, it probably can-and I welcome that feedback.
 
 ## Project Overview
 
@@ -61,9 +61,9 @@ I built this project to address a recurring challenge I encounter in system inte
 
 | Component | Tech Selection | Engineering Context (The "Why") |
 |-----------|---------------|----------------------------------|
-| **Agent** | **Go 1.21+** | Chosen for goroutines and efficient system calls—treating each agent stream like a sensor channel that must never block the others. |
+| **Agent** | **Go 1.21+** | Chosen for goroutines and efficient system calls-treating each agent stream like a sensor channel that must never block the others. |
 | **Storage** | **SQLite** | Relational integrity with zero external dependencies. Like choosing solid-state over complex RAID setups for the foundation phase. |
-| **Security** | **Bearer Tokens (SHA-256)** | Stateless authentication mirrors the "single source of truth" principle I use in hardware diagnostics—no session state to corrupt. |
+| **Security** | **Bearer Tokens (SHA-256)** | Stateless authentication mirrors the "single source of truth" principle I use in hardware diagnostics-no session state to corrupt. |
 | **Server** | **Gin (Go)** | Lightweight HTTP framework that handles concurrent connections efficiently, essential for managing multiple agent streams. |
 
 ### Technical Highlight: From Hardware to Software
@@ -147,9 +147,9 @@ Collection                    Middleware
 
 > "Software is just hardware that you can change instantly. But the discipline to maintain it should remain the same."
 
-*   **Simplify First:** Choosing SQLite over PostgreSQL for the foundation phase reduced moving parts—much like using a single power supply instead of cascaded regulators.
+*   **Simplify First:** Choosing SQLite over PostgreSQL for the foundation phase reduced moving parts-much like using a single power supply instead of cascaded regulators.
 *   **Production Mindset:** The token generator CLI ensures that security provisioning is repeatable and auditable, mirroring the SOPs I use in system integration.
-*   **User-Centricity:** A monitoring tool is only useful if it remains invisible during normal operation—a lesson from my Customer Service days.
+*   **User-Centricity:** A monitoring tool is only useful if it remains invisible during normal operation-a lesson from my Customer Service days.
 
 ---
 
@@ -167,7 +167,7 @@ I am currently a System Integrator actively pivoting to a professional Fullstack
 *   **GitHub:** [github.com/tarakreasi](https://github.com/tarakreasi)
 *   **Email:** ajarsinau@gmail.com
 
-*"Ajarsinau" means "Learning to Learn". It represents my commitment to continuous evolution—from hardware to software, from technician to engineer.*
+*"Ajarsinau" means "Learning to Learn". It represents my commitment to continuous evolution-from hardware to software, from technician to engineer.*
 
 ---
 

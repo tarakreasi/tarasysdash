@@ -159,6 +159,38 @@ func main() {
 		c.JSON(http.StatusOK, networkStats)
 	})
 
+	r.GET("/api/v1/stats/:agent_id/network", func(c *gin.Context) {
+		agentID := c.Param("agent_id")
+		limit := 60
+		stats, err := store.GetNetworkStats(c.Request.Context(), agentID, limit)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get network stats"})
+			return
+		}
+		c.JSON(http.StatusOK, stats)
+	})
+
+	r.GET("/api/v1/stats/:agent_id/latency", func(c *gin.Context) {
+		agentID := c.Param("agent_id")
+		limit := 60
+		stats, err := store.GetLatencyStats(c.Request.Context(), agentID, limit)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get latency stats"})
+			return
+		}
+		c.JSON(http.StatusOK, stats)
+	})
+
+	r.GET("/api/v1/agents/rack/:rack_id", func(c *gin.Context) {
+		rackID := c.Param("rack_id")
+		agents, err := store.ListAgentsByRack(c.Request.Context(), rackID)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to list agents"})
+			return
+		}
+		c.JSON(http.StatusOK, agents)
+	})
+
 	// Authenticated Group
 	api := r.Group("/api/v1")
 	api.Use(authMiddleware(store))

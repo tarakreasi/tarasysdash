@@ -200,3 +200,169 @@ func (s *SQLiteStore) GetRecentMetrics(ctx context.Context, agentID string, limi
 	}
 	return metrics, rows.Err()
 }
+
+type NetworkStats struct {
+TotalBytesIn  uint64  `json:"total_bytes_in"`
+TotalBytesOut uint64  `json:"total_bytes_out"`
+AvgMbpsIn     float64 `json:"avg_mbps_in"`
+AvgMbpsOut    float64 `json:"avg_mbps_out"`
+PeakMbpsIn    float64 `json:"peak_mbps_in"`
+PeakMbpsOut   float64 `json:"peak_mbps_out"`
+}
+
+type LatencyStats struct {
+AvgLatency float64   `json:"avg_latency_ms"`
+MinLatency float64   `json:"min_latency_ms"`
+MaxLatency float64   `json:"max_latency_ms"`
+P95Latency float64   `json:"p95_latency_ms"`
+History    []float64 `json:"history"`
+}
+
+func (s *SQLiteStore) GetNetworkStats(ctx context.Context, agentID string, limit int) (*NetworkStats, error) {
+query := `
+SELECT bytes_in, bytes_out
+FROM system_metrics
+WHERE agent_id = ?
+ORDER BY time DESC
+LIMIT ?
+`
+rows, err := s.db.QueryContext(ctx, query, agentID, limit)
+if err != nil {
+return nil, err
+}
+defer rows.Close()
+
+var stats NetworkStats
+var measurements []struct{ bytesIn, bytesOut uint64 }
+
+for rows.Next() {
+var m struct{ bytesIn, bytesOut uint64 }
+if err := rows.Scan(&m.bytesIn, &m.bytesOut); err != nil {
+return nil, err
+}
+measurements = append(measurements, m)
+}
+
+if len(measurements) == 0 {
+return &stats, nil
+}
+
+stats.TotalBytesIn = measurements[0].bytesIn
+stats.TotalBytesOut = measurements[0].bytesOut
+
+// Calculate Mbps for each interval
+var mbpsInValues, mbpsOutValues []float64
+for i := 1; i < len(measurements); i++ {
+bytesDiffIn := float64(measurements[i-1].bytesIn - measurements[i].bytesIn)
+bytesDiffOut := float64(measurements[i-1].bytesOut - measurements[i].bytesOut)
+mbpsIn := (bytesDiffIn * 8) / 1000000
+mbpsOut := (bytesDiffOut * 8) / 1000000
+mbpsInValues = append(mbpsInValues, mbpsIn)
+mbpsOutValues = append(mbpsOutValues, mbpsOut)
+}
+
+if len(mbpsInValues) > 0 {
+var sumIn, sumOut, maxIn, maxOut float64
+for i, v := range mbpsInValues {
+sumIn += v
+sumOut += mbpsOutValues[i]
+if v > maxIn {
+maxIn = v
+}
+if mbpsOutValues[i] > maxOut {
+maxOut = mbpsOutValues[i]
+}
+}
+stats.AvgMbpsIn = sumIn / float64(len(mbpsInValues))
+stats.AvgMbpsOut = sumOut / float64(len(mbpsOutValues))
+stats.PeakMbpsIn = maxIn
+stats.PeakMbpsOut = maxOut
+}
+
+return &stats, rows.Err()
+}
+
+func (s *SQLiteStore) GetLatencyStats(ctx context.Context, agentID string, limit int) (*LatencyStats, error) {
+query := `
+SELECT latency_ms
+FROM system_metrics
+WHERE agent_id = ?
+ORDER BY time DESC
+LIMIT ?
+`
+rows, err := s.db.QueryContext(ctx, query, agentID, limit)
+if err != nil {
+return nil, err
+}
+defer rows.Close()
+
+var stats LatencyStats
+var latencies []float64
+
+for rows.Next() {
+var lat float64
+if err := rows.Scan(&lat); err != nil {
+return nil, err
+}
+latencies = append(latencies, lat)
+}
+
+if len(latencies) == 0 {
+return &stats, nil
+}
+
+stats.History = latencies
+stats.MinLatency = latencies[0]
+stats.MaxLatency = latencies[0]
+var sum float64
+
+for _, lat := range latencies {
+sum += lat
+if lat < stats.MinLatency {
+stats.MinLatency = lat
+}
+if lat > stats.MaxLatency {
+stats.MaxLatency = lat
+}
+}
+
+stats.AvgLatency = sum / float64(len(latencies))
+
+// Calculate P95
+sorted := make([]float64, len(latencies))
+copy(sorted, latencies)
+sort.Float64s(sorted)
+p95Index := int(float64(len(sorted)) * 0.95)
+if p95Index < len(sorted) {
+stats.P95Latency = sorted[p95Index]
+}
+
+return &stats, rows.Err()
+}
+
+func (s *SQLiteStore) ListAgentsByRack(ctx context.Context, rackLocation string) ([]Agent, error) {
+query := `SELECT id, hostname, ip_address, os, rack_location, temperature, created_at, updated_at 
+          FROM agents 
+          WHERE rack_location = ? 
+          ORDER BY updated_at DESC`
+rows, err := s.db.QueryContext(ctx, query, rackLocation)
+if err != nil {
+return nil, err
+}
+defer rows.Close()
+
+var agents []Agent
+for rows.Next() {
+var a Agent
+if err := rows.Scan(&a.ID, &a.Hostname, &a.IPAddress, &a.OS, &a.RackLocation, &a.Temperature, &a.CreatedAt, &a.UpdatedAt); err != nil {
+return nil, err
+}
+if time.Since(a.UpdatedAt) > 30*time.Second {
+a.Status = "offline"
+} else {
+a.Status = "online"
+}
+agents = append(agents, a)
+}
+return agents, rows.Err()
+}

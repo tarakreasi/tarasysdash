@@ -1,11 +1,23 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer base {
-  body {
-    @apply bg-background-dark text-white font-display antialiased;
-  }
+@theme {
+  --color-primary: #25d1f4;
+  --color-primary-dim: #1e8da5;
+  --color-background-light: #f5f8f8;
+  --color-background-dark: #101f22;
+  --color-surface-dark: #16262a;
+  --color-border-color: #283639;
+
+  --font-family-display: 'Space Grotesk', sans-serif;
+  --font-family-mono: monospace;
+}
+
+body {
+  background-color: var(--color-background-dark);
+  color: white;
+  font-family: var(--font-family-display);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Custom scrollbar */

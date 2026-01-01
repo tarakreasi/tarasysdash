@@ -180,6 +180,22 @@ let latencyChart: echarts.ECharts | null = null
 let throughputChart: echarts.ECharts | null = null
 let updateInterval: number | null = null
 
+const racks = computed(() => {
+  const uniqueRacks = [...new Set(servers.value.map(s => s.rack))]
+  return uniqueRacks.sort()
+})
+
+function serversByRack(rack: string) {
+  return servers.value.filter(s => s.rack === rack)
+}
+
+function getStatusColor(status: string) {
+  if (status === 'online') return 'bg-green-500'
+  if (status === 'warning') return 'bg-yellow-500'
+  if (status === 'offline') return 'bg-red-500'
+  return 'bg-gray-500'
+}
+
 function getLogClass() {
   return 'text-slate-300'
 }

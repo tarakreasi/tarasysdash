@@ -106,13 +106,17 @@
         <span class="text-xs text-slate-400">{{ servers.length }} servers</span>
       </div>
       
-      <div class="space-y-2">
-        <div v-for="server in servers" :key="server.id" 
-             class="flex items-center gap-3 p-2 rounded hover:bg-background-dark/50 cursor-pointer transition">
-          <div class="size-2 rounded-full" :class="server.status === 'online' ? 'bg-green-500' : server.status === 'warning' ? 'bg-yellow-500' : 'bg-red-500'"></div>
-          <div class="flex-1 min-w-0">
-            <p class="text-sm font-medium truncate">{{ server.name }}</p>
-            <p class="text-xs text-slate-400">{{ server.rack }} • {{ server.temp }}°C</p>
+      <div class="space-y-4">
+        <!-- Group by rack -->
+        <div v-for="rack in racks" :key="rack" class="space-y-2">
+          <p class="text-xs text-slate-500 uppercase tracking-wider px-2">{{ rack }}</p>
+          <div v-for="server in serversByRack(rack)" :key="server.id" 
+               class="flex items-center gap-3 p-2 rounded hover:bg-background-dark/50 cursor-pointer transition">
+            <div class="size-2 rounded-full" :class="getStatusColor(server.status)"></div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium truncate">{{ server.name }}</p>
+              <p class="text-xs text-slate-400">{{ server.rack }} • {{ server.temp }}°C</p>
+            </div>
           </div>
         </div>
       </div>
@@ -121,7 +125,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import axios from 'axios'
 import * as echarts from 'echarts/core'
 import { LineChart } from 'echarts/charts'
@@ -153,16 +157,24 @@ const logs = ref([
   { time: '13:51:11', level: 'INFO', message: 'SSH session check listed for all critical services.' },
 ])
 
-const servers = ref([
-  { id: 1, name: 'srv-us-e-01', rack: 'Rack A1', temp: 45, status: 'online' },
-  { id: 2, name: 'srv-us-e-02', rack: 'Rack A1', temp: 42, status: 'online' },
-  { id: 3, name: 'srv-us-e-03', rack: 'Rack A2', temp: 67, status: 'warning' },
-  { id: 4, name: 'srv-us-e-04', rack: 'Rack A2', temp: 38, status: 'online' },
-  { id: 5, name: 'srv-us-e-05', rack: 'Rack A3', temp: 44, status: 'online' },
-  { id: 6, name: 'srv-du-c-01', rack: 'Rack B1', temp: 48, status: 'online' },
-  { id: 7, name: 'srv-du-c-02', rack: 'Rack B1', temp: 91, status: 'error' },
-  { id: 8, name: 'srv-du-c-03', rack: 'Rack B2', temp: 43, status: 'online' },
-])
+const servers = ref<any[]>([])
+
+async function fetchServers() {
+  try {
+    const response = await axios.get(`${API_BASE}/agents`)
+    if (response.data) {
+      servers.value = response.data.map((agent: any) => ({
+        id: agent.id,
+        name: agent.hostname,
+        rack: agent.rack_location || 'Unknown',
+        temp: agent.temperature || 0,
+        status: agent.status
+      }))
+    }
+  } catch (err) {
+    console.error('Failed to fetch servers:', err)
+  }
+}
 
 let latencyChart: echarts.ECharts | null = null
 let throughputChart: echarts.ECharts | null = null
@@ -270,10 +282,12 @@ function renderThroughputChart() {
 
 onMounted(async () => {
   await fetchRealData()
+  await fetchServers()
   renderThroughputChart()
   
   updateInterval = window.setInterval(() => {
     fetchRealData()
+    fetchServers()
     lastUpdate.value = new Date().toLocaleTimeString()
   }, 5000)
 })
@@ -284,3 +298,19 @@ onUnmounted(() => {
   throughputChart?.dispose()
 })
 </script>
+
+const racks = computed(() => {
+  const uniqueRacks = [...new Set(servers.value.map(s => s.rack))]
+  return uniqueRacks.sort()
+})
+
+function serversByRack(rack: string) {
+  return servers.value.filter(s => s.rack === rack)
+}
+
+function getStatusColor(status: string) {
+  if (status === 'online') return 'bg-green-500'
+  if (status === 'warning') return 'bg-yellow-500'
+  if (status === 'offline') return 'bg-red-500'
+  return 'bg-gray-500'
+}

@@ -1,0 +1,61 @@
+
+> web@0.0.0 start
+> vite
+
+
+  VITE v7.3.0  ready in 758 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
+10:31:56 AM [vite] (client) Pre-transform error: [postcss] It looks like you're trying to use `tailwindcss` directly as a PostCSS plugin. The PostCSS plugin has moved to a separate package, so to continue using Tailwind CSS with PostCSS you'll need to install `@tailwindcss/postcss` and update your PostCSS configuration.
+  Plugin: vite:css
+  File: /home/twantoro/github/taraSysDash/web/src/style.css:undefined:NaN
+10:31:56 AM [vite] Internal server error: [postcss] It looks like you're trying to use `tailwindcss` directly as a PostCSS plugin. The PostCSS plugin has moved to a separate package, so to continue using Tailwind CSS with PostCSS you'll need to install `@tailwindcss/postcss` and update your PostCSS configuration.
+  Plugin: vite:css
+  File: /home/twantoro/github/taraSysDash/web/src/style.css:undefined:NaN
+      at lt (/home/twantoro/github/taraSysDash/web/node_modules/tailwindcss/dist/lib.js:38:1643)
+      at LazyResult.runOnRoot (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:361:16)
+      at LazyResult.runAsync (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:290:26)
+      at LazyResult.async (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:192:30)
+      at LazyResult.then (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:436:17)
+10:31:56 AM [vite] Internal server error: [postcss] It looks like you're trying to use `tailwindcss` directly as a PostCSS plugin. The PostCSS plugin has moved to a separate package, so to continue using Tailwind CSS with PostCSS you'll need to install `@tailwindcss/postcss` and update your PostCSS configuration.
+  Plugin: vite:css
+  File: /home/twantoro/github/taraSysDash/web/src/style.css:undefined:NaN
+      at lt (/home/twantoro/github/taraSysDash/web/node_modules/tailwindcss/dist/lib.js:38:1643)
+      at LazyResult.runOnRoot (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:361:16)
+      at LazyResult.runAsync (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:290:26)
+      at LazyResult.async (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:192:30)
+      at LazyResult.then (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:436:17)
+10:31:57 AM [vite] Internal server error: [postcss] It looks like you're trying to use `tailwindcss` directly as a PostCSS plugin. The PostCSS plugin has moved to a separate package, so to continue using Tailwind CSS with PostCSS you'll need to install `@tailwindcss/postcss` and update your PostCSS configuration.
+  Plugin: vite:css
+  File: /home/twantoro/github/taraSysDash/web/src/style.css:undefined:NaN
+      at lt (/home/twantoro/github/taraSysDash/web/node_modules/tailwindcss/dist/lib.js:38:1643)
+      at LazyResult.runOnRoot (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:361:16)
+      at LazyResult.runAsync (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:290:26)
+      at LazyResult.async (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:192:30)
+      at LazyResult.then (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:436:17)
+10:32:15 AM [vite] Internal server error: [postcss] It looks like you're trying to use `tailwindcss` directly as a PostCSS plugin. The PostCSS plugin has moved to a separate package, so to continue using Tailwind CSS with PostCSS you'll need to install `@tailwindcss/postcss` and update your PostCSS configuration.
+  Plugin: vite:css
+  File: /home/twantoro/github/taraSysDash/web/src/style.css:undefined:NaN
+      at lt (/home/twantoro/github/taraSysDash/web/node_modules/tailwindcss/dist/lib.js:38:1643)
+      at LazyResult.runOnRoot (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:361:16)
+      at LazyResult.runAsync (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:290:26)
+      at LazyResult.async (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:192:30)
+      at LazyResult.then (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:436:17)
+10:33:14 AM [vite] Internal server error: [postcss] It looks like you're trying to use `tailwindcss` directly as a PostCSS plugin. The PostCSS plugin has moved to a separate package, so to continue using Tailwind CSS with PostCSS you'll need to install `@tailwindcss/postcss` and update your PostCSS configuration.
+  Plugin: vite:css
+  File: /home/twantoro/github/taraSysDash/web/src/style.css:undefined:NaN
+      at lt (/home/twantoro/github/taraSysDash/web/node_modules/tailwindcss/dist/lib.js:38:1643)
+      at LazyResult.runOnRoot (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:361:16)
+      at LazyResult.runAsync (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:290:26)
+      at LazyResult.async (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:192:30)
+      at LazyResult.then (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:436:17)
+10:33:14 AM [vite] Internal server error: [postcss] It looks like you're trying to use `tailwindcss` directly as a PostCSS plugin. The PostCSS plugin has moved to a separate package, so to continue using Tailwind CSS with PostCSS you'll need to install `@tailwindcss/postcss` and update your PostCSS configuration.
+  Plugin: vite:css
+  File: /home/twantoro/github/taraSysDash/web/src/style.css:undefined:NaN
+      at lt (/home/twantoro/github/taraSysDash/web/node_modules/tailwindcss/dist/lib.js:38:1643)
+      at LazyResult.runOnRoot (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:361:16)
+      at LazyResult.runAsync (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:290:26)
+      at LazyResult.async (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:192:30)
+      at LazyResult.then (/home/twantoro/github/taraSysDash/web/node_modules/postcss/lib/lazy-result.js:436:17)

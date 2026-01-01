@@ -105,6 +105,22 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"status": "updated"})
 	})
 
+	r.PUT("/api/v1/agents/:id/hostname", func(c *gin.Context) {
+		agentID := c.Param("id")
+		var payload struct {
+			Hostname string `json:"hostname"`
+		}
+		if err := c.ShouldBindJSON(&payload); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		if err := store.UpdateAgentHostname(c.Request.Context(), agentID, payload.Hostname); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update hostname"})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"status": "updated", "hostname": payload.Hostname})
+	})
+
 	r.GET("/api/v1/metrics/:agent_id", func(c *gin.Context) {
 		agentID := c.Param("agent_id")
 		limit := 60 // Default: last 60 data points

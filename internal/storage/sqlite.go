@@ -367,3 +367,9 @@ func (s *SQLiteStore) ListAgentsByRack(ctx context.Context, rackLocation string)
 	}
 	return agents, rows.Err()
 }
+
+func (s *SQLiteStore) UpdateAgentHostname(ctx context.Context, agentID, hostname string) error {
+query := `UPDATE agents SET hostname = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?`
+_, err := s.db.ExecContext(ctx, query, hostname, agentID)
+return err
+}

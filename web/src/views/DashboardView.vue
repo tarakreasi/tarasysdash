@@ -111,7 +111,8 @@
         <div v-for="rack in racks" :key="rack" class="space-y-2">
           <p class="text-xs text-slate-500 uppercase tracking-wider px-2">{{ rack }}</p>
           <div v-for="server in serversByRack(rack)" :key="server.id" 
-               class="flex items-center gap-3 p-2 rounded hover:bg-background-dark/50 cursor-pointer transition">
+               class="flex items-center gap-3 p-2 rounded hover:bg-background-dark/50 cursor-pointer transition"
+               @click="openPreferences(server)">
             <div class="size-2 rounded-full" :class="getStatusColor(server.status)"></div>
             <div class="flex-1 min-w-0">
               <p class="text-sm font-medium truncate">{{ server.name }}</p>
@@ -121,11 +122,20 @@
         </div>
       </div>
     </div>
+    
+    <!-- Server Preferences Modal -->
+    <ServerPreferencesModal 
+      :server="selectedServer" 
+      :show="showPreferences"
+      @close="showPreferences = false"
+      @updated="fetchServers"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from 'vue'
+import ServerPreferencesModal from '../components/ServerPreferencesModal.vue'
 import axios from 'axios'
 import * as echarts from 'echarts/core'
 import { LineChart } from 'echarts/charts'
@@ -158,6 +168,8 @@ const logs = ref([
 ])
 
 const servers = ref<any[]>([])
+const selectedServer = ref<any>(null)
+const showPreferences = ref(false)
 
 async function fetchServers() {
   try {
@@ -194,6 +206,11 @@ function getStatusColor(status: string) {
   if (status === 'warning') return 'bg-yellow-500'
   if (status === 'offline') return 'bg-red-500'
   return 'bg-gray-500'
+}
+
+function openPreferences(server: any) {
+  selectedServer.value = server
+  showPreferences.value = true
 }
 
 function getLogClass() {

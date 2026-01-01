@@ -4,10 +4,11 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"log"
+	"log/slog"
 	"net/http"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/tarakreasi/taraSysDash/internal/auth"
@@ -15,6 +16,10 @@ import (
 )
 
 func main() {
+	// Setup Structured Logging (JSON)
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	slog.SetDefault(logger)
+
 	// CLI Flags
 	genToken := flag.Bool("gen-token", false, "Generate a new token for an agent")
 	agentID := flag.String("agent-id", "", "Agent ID for token generation")
@@ -23,35 +28,39 @@ func main() {
 	// Initialize SQLite Store
 	store, err := storage.NewSQLiteStore("tara.db")
 	if err != nil {
-		log.Fatalf("Failed to initialize SQLite store: %v", err)
+		slog.Error("Failed to initialize SQLite store", "error", err)
+		os.Exit(1)
 	}
 
 	// Mode: Token Generation
 	if *genToken {
 		if *agentID == "" {
-			log.Fatal("Error: --agent-id is required when generating a token")
+			slog.Error("Error: --agent-id is required when generating a token")
+			os.Exit(1)
 		}
 
 		token, err := auth.GenerateToken()
 		if err != nil {
-			log.Fatalf("Failed to generate token: %v", err)
+			slog.Error("Failed to generate token", "error", err)
+			os.Exit(1)
 		}
 
 		hash := auth.HashToken(token)
 
-		// Create/Update agent with this token
-		// We need to ensure agent exists or insert it. RegisterAgent does upsert.
+		// Create/Update agent with this token (Placeholder)
 		agent := &storage.Agent{
 			ID:       *agentID,
 			Hostname: "provisioned",
 			OS:       "unknown",
 		}
 		if err := store.RegisterAgent(context.Background(), agent); err != nil {
-			log.Fatalf("Failed to register agent placeholder: %v", err)
+			slog.Error("Failed to register agent placeholder", "error", err)
+			os.Exit(1)
 		}
 
 		if err := store.UpdateAgentToken(context.Background(), *agentID, hash); err != nil {
-			log.Fatalf("Failed to save token hash: %v", err)
+			slog.Error("Failed to save token hash", "error", err)
+			os.Exit(1)
 		}
 
 		fmt.Printf("Token generated for Agent %s:\n%s\n", *agentID, token)
@@ -60,12 +69,30 @@ func main() {
 	}
 
 	// Mode: HTTP Server
-	r := gin.Default()
+	r := gin.New() // Use New() to avoid default Logger middleware which uses standard log
+	r.Use(gin.Recovery())
+
+	// Custom Gin Logger using slog
+	r.Use(func(c *gin.Context) {
+		start := time.Now()
+		path := c.Request.URL.Path
+		c.Next()
+		latency := time.Since(start)
+		status := c.Writer.Status()
+
+		slog.Info("HTTP Request",
+			"status", status,
+			"method", c.Request.Method,
+			"path", path,
+			"latency", latency.String(),
+			"ip", c.ClientIP(),
+		)
+	})
 
 	// CORS Middleware for local development
 	r.Use(func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS")
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 		if c.Request.Method == "OPTIONS" {
 			c.AbortWithStatus(http.StatusNoContent)
@@ -82,6 +109,7 @@ func main() {
 	r.GET("/api/v1/agents", func(c *gin.Context) {
 		agents, err := store.ListAgents(c.Request.Context())
 		if err != nil {
+			slog.Error("Failed to list agents", "error", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to list agents"})
 			return
 		}
@@ -99,6 +127,7 @@ func main() {
 			return
 		}
 		if err := store.UpdateAgentMetadata(c.Request.Context(), agentID, payload.RackLocation, payload.Temperature); err != nil {
+			slog.Error("Failed to update metadata", "error", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update metadata"})
 			return
 		}
@@ -115,6 +144,7 @@ func main() {
 			return
 		}
 		if err := store.UpdateAgentHostname(c.Request.Context(), agentID, payload.Hostname); err != nil {
+			slog.Error("Failed to update hostname", "error", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update hostname"})
 			return
 		}
@@ -126,6 +156,7 @@ func main() {
 		limit := 60 // Default: last 60 data points
 		metrics, err := store.GetRecentMetrics(c.Request.Context(), agentID, limit)
 		if err != nil {
+			slog.Error("Failed to get metrics", "error", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get metrics"})
 			return
 		}
@@ -137,6 +168,7 @@ func main() {
 		limit := 60
 		metrics, err := store.GetRecentMetrics(c.Request.Context(), agentID, limit)
 		if err != nil {
+			slog.Error("Failed to get network metrics", "error", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get network metrics"})
 			return
 		}
@@ -180,6 +212,7 @@ func main() {
 		limit := 60
 		stats, err := store.GetNetworkStats(c.Request.Context(), agentID, limit)
 		if err != nil {
+			slog.Error("Failed to get network stats", "error", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get network stats"})
 			return
 		}
@@ -191,6 +224,7 @@ func main() {
 		limit := 60
 		stats, err := store.GetLatencyStats(c.Request.Context(), agentID, limit)
 		if err != nil {
+			slog.Error("Failed to get latency stats", "error", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get latency stats"})
 			return
 		}
@@ -201,6 +235,7 @@ func main() {
 		rackID := c.Param("rack_id")
 		agents, err := store.ListAgentsByRack(c.Request.Context(), rackID)
 		if err != nil {
+			slog.Error("Failed to list agents by rack", "error", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to list agents"})
 			return
 		}
@@ -211,6 +246,34 @@ func main() {
 	api := r.Group("/api/v1")
 	api.Use(authMiddleware(store))
 	{
+		// AGENT HANDSHAKE / REGISTER
+		// Agents MUST call this on startup to sync their Hostname/OS/IP
+		api.POST("/register", func(c *gin.Context) {
+			var agent storage.Agent
+			if err := c.ShouldBindJSON(&agent); err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				return
+			}
+
+			// Security check: Ensure the authenticated token matches the agent ID claiming to register?
+			// For now, we trust the token. But strictly we should match `agentID` from context.
+			authenticatedAgentID := c.GetString("agentID")
+			if authenticatedAgentID != agent.ID {
+				// Allow registration ONLY if it matches the token owner
+				c.JSON(http.StatusForbidden, gin.H{"error": "Agent ID mismatch with token"})
+				return
+			}
+
+			if err := store.RegisterAgent(c.Request.Context(), &agent); err != nil {
+				slog.Error("Failed to register agent", "error", err)
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to register agent"})
+				return
+			}
+
+			slog.Info("Agent Registered/Updated", "id", agent.ID, "os", agent.OS, "ip", c.ClientIP())
+			c.JSON(http.StatusOK, gin.H{"status": "registered", "config": gin.H{"interval": 1}})
+		})
+
 		api.POST("/metrics", func(c *gin.Context) {
 			var payload struct {
 				AgentID   string  `json:"agent_id"`
@@ -226,9 +289,6 @@ func main() {
 				return
 			}
 
-			// Validate that the token used belongs to the agent_id in payload?
-			// For Sprint 3, we just check if token is valid for ANY agent, and maybe verify match.
-			// Let's enforce: Return 403 if token's associated agentID != payload.agentID
 			authenticatedAgentID := c.GetString("agentID")
 			if authenticatedAgentID != payload.AgentID {
 				c.JSON(http.StatusForbidden, gin.H{"error": "Agent ID mismatch"})
@@ -245,6 +305,7 @@ func main() {
 			}
 
 			if err := store.SaveMetric(c.Request.Context(), payload.AgentID, metric); err != nil {
+				slog.Error("Failed to save metrics", "error", err)
 				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save metrics"})
 				return
 			}
@@ -253,9 +314,10 @@ func main() {
 		})
 	}
 
-	log.Println("Server executing on :8080")
+	slog.Info("Server executing on :8080")
 	if err := r.Run(":8080"); err != nil {
-		log.Fatalf("Server failed: %v", err)
+		slog.Error("Server failed", "error", err)
+		os.Exit(1)
 	}
 }
 
@@ -278,8 +340,6 @@ func authMiddleware(store *storage.SQLiteStore) gin.HandlerFunc {
 
 		agentID, err := store.GetAgentIDByTokenHash(c.Request.Context(), hash)
 		if err != nil {
-			// Either DB error or not found (sql.ErrNoRows).
-			// We treat as Unauthorized.
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
 			return
 		}

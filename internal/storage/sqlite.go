@@ -111,8 +111,10 @@ func (s *SQLiteStore) RegisterAgent(ctx context.Context, agent *Agent) error {
 	_, err := s.db.ExecContext(ctx, query, agent.ID, agent.Hostname, agent.IPAddress, agent.OS)
 	if err != nil {
 		slog.Error("Failed to register agent", "error", err)
+		return err
 	}
-	return err
+	slog.Info("New Agent Registered/Updated", "id", agent.ID, "os", agent.OS, "rack", agent.RackLocation)
+	return nil
 }
 
 func (s *SQLiteStore) SaveMetric(ctx context.Context, agentID string, m *Metric) error {
@@ -369,7 +371,7 @@ func (s *SQLiteStore) ListAgentsByRack(ctx context.Context, rackLocation string)
 }
 
 func (s *SQLiteStore) UpdateAgentHostname(ctx context.Context, agentID, hostname string) error {
-query := `UPDATE agents SET hostname = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?`
-_, err := s.db.ExecContext(ctx, query, hostname, agentID)
-return err
+	query := `UPDATE agents SET hostname = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?`
+	_, err := s.db.ExecContext(ctx, query, hostname, agentID)
+	return err
 }

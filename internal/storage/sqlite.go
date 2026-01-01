@@ -27,6 +27,9 @@ type Metric struct {
 	MemoryUsedBytes  uint64  `json:"memory_used_bytes"`
 	MemoryTotalBytes uint64  `json:"memory_total_bytes"`
 	DiskFreePercent  float64 `json:"disk_free_percent"`
+	BytesIn          uint64  `json:"bytes_in"`
+	BytesOut         uint64  `json:"bytes_out"`
+	LatencyMs        float64 `json:"latency_ms"`
 }
 
 type SQLiteStore struct {

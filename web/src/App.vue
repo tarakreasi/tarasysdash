@@ -69,7 +69,7 @@ async function fetchAgents() {
     const response = await axios.get<Agent[]>(`${API_BASE}/agents`)
     agents.value = response.data || []
     if (agents.value.length > 0 && !selectedAgentId.value) {
-      selectedAgentId.value = agents.value[0]?.id
+      selectedAgentId.value = agents.value[0]?.id ?? null
       await fetchMetrics()
     }
     loading.value = false

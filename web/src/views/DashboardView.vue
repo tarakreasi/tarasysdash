@@ -21,7 +21,7 @@
     <div class="flex-1 overflow-y-auto p-6 space-y-6">
       
       <!-- Section 1: Aggregate Metrics (Top Cards) -->
-      <div class="grid grid-cols-4 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <!-- CPU Load -->
         <div class="bg-surface-dark border border-border-color rounded-lg p-4 relative overflow-hidden group hover:border-primary/50 transition-all">
           <div class="flex justify-between items-start">
@@ -80,7 +80,7 @@
       </div>
 
       <!-- Section 2: Charts (Latency & Throughput) -->
-      <div class="grid grid-cols-2 gap-4 h-48">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 h-48 md:h-48">
          <div class="bg-surface-dark border border-border-color rounded-lg p-4 flex flex-col">
             <div class="flex justify-between items-center mb-2">
               <h3 class="text-xs font-bold uppercase text-slate-400">Latency History (Global Avg)</h3>

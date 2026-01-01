@@ -62,8 +62,41 @@ func main() {
 	// Mode: HTTP Server
 	r := gin.Default()
 
+	// CORS Middleware for local development
+	r.Use(func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(http.StatusNoContent)
+			return
+		}
+		c.Next()
+	})
+
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"status": "ok"})
+	})
+
+	// Public READ endpoints (no auth)
+	r.GET("/api/v1/agents", func(c *gin.Context) {
+		agents, err := store.ListAgents(c.Request.Context())
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to list agents"})
+			return
+		}
+		c.JSON(http.StatusOK, agents)
+	})
+
+	r.GET("/api/v1/metrics/:agent_id", func(c *gin.Context) {
+		agentID := c.Param("agent_id")
+		limit := 60 // Default: last 60 data points
+		metrics, err := store.GetRecentMetrics(c.Request.Context(), agentID, limit)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get metrics"})
+			return
+		}
+		c.JSON(http.StatusOK, metrics)
 	})
 
 	// Authenticated Group

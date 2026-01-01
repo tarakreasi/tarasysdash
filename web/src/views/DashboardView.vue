@@ -92,7 +92,7 @@
           </div>
         </div>
         <div class="font-mono text-xs space-y-1 h-40 overflow-y-auto">
-          <p v-for="(log, i) in logs" :key="i" :class="getLogClass(log.level)">
+          <p v-for="(log, i) in logs" :key="i" :class="getLogClass()">
             [{{ log.time }}] <span :class="getLogLevelClass(log.level)">[{{ log.level }}]</span> {{ log.message }}
           </p>
         </div>
@@ -168,7 +168,7 @@ let latencyChart: echarts.ECharts | null = null
 let throughputChart: echarts.ECharts | null = null
 let updateInterval: number | null = null
 
-function getLogClass(level: string) {
+function getLogClass() {
   return 'text-slate-300'
 }
 

@@ -38,3 +38,14 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #25d1f4;
 }
+
+/* Scanline effect for cyberpunk feel */
+.scanline {
+  background: linear-gradient(to bottom,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0) 50%,
+      rgba(0, 0, 0, 0.1) 50%,
+      rgba(0, 0, 0, 0.1));
+  background-size: 100% 4px;
+  pointer-events: none;
+}

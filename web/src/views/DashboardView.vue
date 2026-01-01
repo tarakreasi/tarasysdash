@@ -23,16 +23,16 @@
       <!-- Section 1: Aggregate Metrics (Top Cards) -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <!-- CPU Load -->
-        <div class="bg-surface-dark border border-border-color rounded-lg p-4 relative overflow-hidden group hover:border-primary/50 transition-all">
+        <div class="bg-surface-dark border border-border-color rounded-xl p-5 shadow-lg relative overflow-hidden group hover:border-primary/50 transition-all">
           <div class="flex justify-between items-start">
-            <p class="text-xs text-slate-400 uppercase tracking-wide mb-1">AVG CPU LOAD</p>
-            <span class="text-2xl opacity-50 group-hover:opacity-100 transition-opacity">⚡</span>
+            <p class="text-xs text-slate-400 uppercase tracking-wider font-medium mb-1">CPU LOAD</p>
+            <span class="text-primary opacity-100 group-hover:opacity-100 transition-opacity">⚡</span>
           </div>
-          <div class="flex items-end gap-2">
-            <span class="text-3xl font-bold">{{ cpuLoad }}%</span>
-            <span class="text-xs mb-1" :class="cpuTrend >= 0 ? 'text-green-500' : 'text-red-500'">
-              {{ cpuTrend >= 0 ? '↑' : '↓' }} {{ Math.abs(cpuTrend) }}%
-            </span>
+          <div class="flex items-end gap-3 mt-2">
+            <p class="text-white text-3xl font-bold leading-none tracking-tight">{{ cpuLoad }}%</p>
+            <p class="text-green-500 text-sm font-medium flex items-center mb-1" v-if="cpuTrend >= 0">
+              <span class="text-[16px]">↑</span> {{ cpuTrend }}%
+            </p>
           </div>
           <div class="w-full bg-slate-800 h-1 mt-2 rounded-full overflow-hidden">
             <div class="bg-primary h-full transition-all" :style="`width: ${cpuLoad}%; box-shadow: 0 0 8px #25d1f4`"></div>

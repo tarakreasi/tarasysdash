@@ -116,6 +116,49 @@ func main() {
 		c.JSON(http.StatusOK, metrics)
 	})
 
+	r.GET("/api/v1/metrics/:agent_id/network", func(c *gin.Context) {
+		agentID := c.Param("agent_id")
+		limit := 60
+		metrics, err := store.GetRecentMetrics(c.Request.Context(), agentID, limit)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get network metrics"})
+			return
+		}
+
+		type NetworkStat struct {
+			Timestamp int64   `json:"timestamp"`
+			BytesIn   uint64  `json:"bytes_in"`
+			BytesOut  uint64  `json:"bytes_out"`
+			MbpsIn    float64 `json:"mbps_in"`
+			MbpsOut   float64 `json:"mbps_out"`
+			LatencyMs float64 `json:"latency_ms"`
+		}
+
+		var networkStats []NetworkStat
+		for i, m := range metrics {
+			stat := NetworkStat{
+				Timestamp: m.Timestamp,
+				BytesIn:   m.BytesIn,
+				BytesOut:  m.BytesOut,
+				LatencyMs: m.LatencyMs,
+			}
+
+			if i > 0 {
+				prev := metrics[i-1]
+				timeDiff := float64(m.Timestamp - prev.Timestamp)
+				if timeDiff > 0 {
+					bytesDiffIn := float64(m.BytesIn - prev.BytesIn)
+					bytesDiffOut := float64(m.BytesOut - prev.BytesOut)
+					stat.MbpsIn = (bytesDiffIn * 8) / (timeDiff * 1000000)
+					stat.MbpsOut = (bytesDiffOut * 8) / (timeDiff * 1000000)
+				}
+			}
+			networkStats = append(networkStats, stat)
+		}
+
+		c.JSON(http.StatusOK, networkStats)
+	})
+
 	// Authenticated Group
 	api := r.Group("/api/v1")
 	api.Use(authMiddleware(store))

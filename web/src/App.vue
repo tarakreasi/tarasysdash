@@ -69,7 +69,7 @@ async function fetchAgents() {
     const response = await axios.get<Agent[]>(`${API_BASE}/agents`)
     agents.value = response.data || []
     if (agents.value.length > 0 && !selectedAgentId.value) {
-      selectedAgentId.value = agents.value[0].id
+      selectedAgentId.value = agents.value[0]?.id
       await fetchMetrics()
     }
     loading.value = false
@@ -106,7 +106,7 @@ function renderChart() {
   const memData = metrics.value.map(m => ((m.memory_used_bytes / m.memory_total_bytes) * 100).toFixed(1))
   const diskData = metrics.value.map(m => m.disk_free_percent.toFixed(1))
 
-  const option: echarts.EChartsOption = {
+  const option = {
     backgroundColor: 'transparent',
     tooltip: {
       trigger: 'axis',
@@ -339,6 +339,7 @@ body {
   font-size: 1.8rem;
   font-weight: 700;
   background: linear-gradient(90deg, #43e9ff, #4caf50);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 0.3rem;

@@ -31,7 +31,7 @@ interface Metric {
 }
 
 const agents = ref<Agent[]>([])
-const selectedAgentId = ref<string | null>(null)
+const selectedAgentId = ref<string | null | undefined>(null)
 const metrics = ref<Metric[]>([])
 const loading = ref(true)
 const error = ref<string | null>(null)
@@ -62,6 +62,18 @@ function getStatusColor(status: string): string {
 function getStatusClass(agent: Agent): string {
   return agent.status === 'offline' ? 'agent-offline' : ''
 }
+
+const onlineAgents = computed(() => {
+  return agents.value.filter(a => a.status === 'online').length
+})
+
+const totalCapacity = computed(() => {
+  if (!latestMetric.value) return 0
+  const cpuUsage = latestMetric.value.cpu_usage_percent
+  const memUsage = (latestMetric.value.memory_used_bytes / latestMetric.value.memory_total_bytes) * 100
+  const diskUsed = 100 - latestMetric.value.disk_free_percent
+  return ((cpuUsage + memUsage + diskUsed) / 3).toFixed(0)
+})
 
 async function fetchAgents() {
   try {
@@ -225,12 +237,18 @@ onMounted(async () => {
   <div class="dashboard">
     <header class="dashboard-header">
       <div class="header-content">
-        <div>
-          <h1>taraSysDash</h1>
-          <p>Real-time System Monitoring</p>
+        <div class="header-brand">
+          <svg class="logo-icon" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+          </svg>
+          <div>
+            <h1>taraSysDash</h1>
+            <p>Real-time System Monitoring</p>
+          </div>
         </div>
         <div class="header-stats">
-          <span class="stat-badge">{{ agents.length }} Agent{{ agents.length !== 1 ? 's' : '' }}</span>
+          <span class="stat-badge">{{ onlineAgents }} / {{ agents.length }} Online</span>
+          <span class="stat-badge capacity">Capacity {{ totalCapacity }}%</span>
         </div>
       </div>
     </header>
@@ -260,6 +278,13 @@ onMounted(async () => {
               <p class="agent-meta">{{ agent.rack_location || 'No Rack' }} • {{ agent.temperature?.toFixed(1) || '0.0' }}°C</p>
             </div>
           </div>
+        </div>
+        <div class="capacity-indicator">
+          <p class="capacity-label">Total Capacity</p>
+          <div class="capacity-bar">
+            <div class="capacity-fill" :style="{ width: totalCapacity + '%' }"></div>
+          </div>
+          <p class="capacity-value">{{ totalCapacity }}%</p>
         </div>
       </aside>
 
@@ -333,6 +358,30 @@ body {
   align-items: center;
   max-width: 1600px;
   margin: 0 auto;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo-icon {
+  width: 2rem;
+  height: 2rem;
+  color: #43e9ff;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(67, 233, 255, 0.6));
+  }
+  50% {
+    opacity: 0.8;
+    filter: drop-shadow(0 0 12px rgba(67, 233, 255, 0.9));
+  }
 }
 
 .dashboard-header h1 {
@@ -611,3 +660,46 @@ body {
   }
 }
 </style>
+
+.stat-badge.capacity {
+  background: rgba(76, 175, 80, 0.15);
+  border-color: rgba(76, 175, 80, 0.3);
+  color: #4caf50;
+}
+
+.capacity-indicator {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(67, 233, 255, 0.1);
+}
+
+.capacity-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: #888;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.6rem;
+}
+
+.capacity-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.capacity-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #43e9ff, #4caf50);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.capacity-value {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #43e9ff;
+  text-align: right;
+}

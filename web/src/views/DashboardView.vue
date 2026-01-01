@@ -17,8 +17,10 @@
       </div>
     </div>
 
-    <!-- Main Scrollable Content -->
-    <div class="flex-1 overflow-y-auto p-6 space-y-6">
+    <!-- Main Layout Flex Container -->
+    <div class="flex flex-1 overflow-hidden relative z-0">
+      <!-- Main Content Area -->
+      <main class="flex-1 flex flex-col min-w-0 overflow-y-auto bg-background-dark scroll-smooth p-6 space-y-6">
       
       <!-- Section 1: Aggregate Metrics (Top Cards) -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

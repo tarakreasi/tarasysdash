@@ -33,14 +33,25 @@ type DiskStat struct {
 }
 
 type Metric struct {
-	Timestamp        int64      `json:"timestamp"`
-	CPUUsagePercent  float64    `json:"cpu_usage_percent"`
-	MemoryUsedBytes  uint64     `json:"memory_used_bytes"`
-	MemoryTotalBytes uint64     `json:"memory_total_bytes"`
-	DiskUsage        []DiskStat `json:"disk_usage"` // Replaces DiskFreePercent (deprecated/legacy)
-	BytesIn          uint64     `json:"bytes_in"`
-	BytesOut         uint64     `json:"bytes_out"`
-	LatencyMs        float64    `json:"latency_ms"`
+	Timestamp        int64           `json:"timestamp"`
+	CPUUsagePercent  float64         `json:"cpu_usage_percent"`
+	MemoryUsedBytes  uint64          `json:"memory_used_bytes"`
+	MemoryTotalBytes uint64          `json:"memory_total_bytes"`
+	DiskUsage        []DiskStat      `json:"disk_usage"` // Replaces DiskFreePercent (deprecated/legacy)
+	BytesIn          uint64          `json:"bytes_in"`
+	BytesOut         uint64          `json:"bytes_out"`
+	LatencyMs        float64         `json:"latency_ms"`
+	Services         []ServiceStatus `json:"services"` // JSON stored
+	UptimeSeconds    uint64          `json:"uptime_seconds"`
+	ProcessCount     int             `json:"process_count"`
+	Temperature      float64         `json:"temperature"`
+}
+
+// ServiceStatus mirror from collector (avoid cyclic dependency or redefine)
+type ServiceStatus struct {
+	Name    string `json:"name"`
+	Status  string `json:"status"`
+	Running bool   `json:"running"`
 }
 
 type SQLiteStore struct {
@@ -106,6 +117,11 @@ func runMigrations(db *sql.DB) error {
 		`ALTER TABLE system_metrics ADD COLUMN disk_usage_json TEXT DEFAULT '[]';`,
 		// Sprint 6: Add log_retention_days
 		`ALTER TABLE agents ADD COLUMN log_retention_days INTEGER DEFAULT 30;`,
+		// Sprint 7: Add detailed metrics (services, uptime, procs)
+		`ALTER TABLE system_metrics ADD COLUMN services_json TEXT DEFAULT '[]';`,
+		`ALTER TABLE system_metrics ADD COLUMN uptime_seconds INTEGER DEFAULT 0;`,
+		`ALTER TABLE system_metrics ADD COLUMN process_count INTEGER DEFAULT 0;`,
+		`ALTER TABLE system_metrics ADD COLUMN temperature REAL DEFAULT 0.0;`,
 	}
 
 	for _, query := range queries {
@@ -154,12 +170,22 @@ func (s *SQLiteStore) SaveMetric(ctx context.Context, agentID string, m *Metric)
 		// Or try to find "C:" or root? For now first one is fine.
 	}
 
+	servicesJSON, _ := json.Marshal(m.Services)
+
 	query := `
-	INSERT INTO system_metrics (time, agent_id, cpu_usage, memory_used, memory_total, disk_free_percent, bytes_in, bytes_out, latency_ms, disk_usage_json)
-	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+	INSERT INTO system_metrics (
+		time, agent_id, cpu_usage, memory_used, memory_total, disk_free_percent, 
+		bytes_in, bytes_out, latency_ms, disk_usage_json, 
+		services_json, uptime_seconds, process_count, temperature
+	)
+	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 	`
 	t := time.Unix(m.Timestamp, 0)
-	_, err := s.db.ExecContext(ctx, query, t, agentID, m.CPUUsagePercent, m.MemoryUsedBytes, m.MemoryTotalBytes, diskFree, m.BytesIn, m.BytesOut, m.LatencyMs, string(diskJSON))
+	_, err := s.db.ExecContext(ctx, query,
+		t, agentID, m.CPUUsagePercent, m.MemoryUsedBytes, m.MemoryTotalBytes, diskFree,
+		m.BytesIn, m.BytesOut, m.LatencyMs, string(diskJSON),
+		string(servicesJSON), m.UptimeSeconds, m.ProcessCount, m.Temperature,
+	)
 	if err != nil {
 		slog.Error("Failed to save metric", "error", err)
 		return err
@@ -237,7 +263,14 @@ func (s *SQLiteStore) DeleteOldMetrics(ctx context.Context, agentID string, rete
 
 func (s *SQLiteStore) GetRecentMetrics(ctx context.Context, agentID string, limit int) ([]Metric, error) {
 	query := `
-		SELECT cpu_usage, memory_used, memory_total, disk_free_percent, bytes_in, bytes_out, latency_ms, IFNULL(disk_usage_json, '[]') as disk_usage_json, time
+		SELECT 
+			cpu_usage, memory_used, memory_total, disk_free_percent, bytes_in, bytes_out, latency_ms, 
+			IFNULL(disk_usage_json, '[]') as disk_usage_json, 
+			IFNULL(services_json, '[]') as services_json, 
+			IFNULL(uptime_seconds, 0) as uptime_seconds,
+			IFNULL(process_count, 0) as process_count,
+			IFNULL(temperature, 0.0) as temperature,
+			time
 		FROM system_metrics
 		WHERE agent_id = ?
 		ORDER BY time DESC
@@ -253,15 +286,23 @@ func (s *SQLiteStore) GetRecentMetrics(ctx context.Context, agentID string, limi
 	for rows.Next() {
 		var m Metric
 		var t time.Time
-		var diskJSON string
+		var diskJSON, servicesJSON string
 		var diskFree float64
-		if err := rows.Scan(&m.CPUUsagePercent, &m.MemoryUsedBytes, &m.MemoryTotalBytes, &diskFree, &m.BytesIn, &m.BytesOut, &m.LatencyMs, &diskJSON, &t); err != nil {
+		if err := rows.Scan(
+			&m.CPUUsagePercent, &m.MemoryUsedBytes, &m.MemoryTotalBytes, &diskFree,
+			&m.BytesIn, &m.BytesOut, &m.LatencyMs, &diskJSON,
+			&servicesJSON, &m.UptimeSeconds, &m.ProcessCount, &m.Temperature,
+			&t,
+		); err != nil {
 			return nil, err
 		}
 		m.Timestamp = t.Unix()
 		// Unmarshal
 		if len(diskJSON) > 0 {
 			_ = json.Unmarshal([]byte(diskJSON), &m.DiskUsage)
+		}
+		if len(servicesJSON) > 0 {
+			_ = json.Unmarshal([]byte(servicesJSON), &m.Services)
 		}
 		metrics = append(metrics, m)
 	}

@@ -1,4 +1,4 @@
-GO_BIN := /home/twantoro/go_local/go/bin/go
+GO_BIN := go
 APP_NAME := tara
 SERVER_BIN := bin/tara-server
 AGENT_BIN_LINUX := bin/tara-agent

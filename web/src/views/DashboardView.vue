@@ -210,11 +210,11 @@
                     <span class="text-xs text-slate-400 uppercase tracking-wider">Temperature</span>
                     <span class="text-xl">🌡️</span>
                   </div>
-                  <div class="text-2xl font-bold text-white mb-2">{{ selectedServer.temp }}°C</div>
+                  <div class="text-2xl font-bold text-white mb-2">{{ selectedServerMetrics.temp }}°C</div>
                   <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                    <div :class="getTempBarClass(selectedServer.temp)" class="h-full transition-all" :style="`width: ${Math.min(selectedServer.temp * 2, 100)}%`"></div>
+                    <div :class="getTempBarClass(selectedServerMetrics.temp)" class="h-full transition-all" :style="`width: ${Math.min(selectedServerMetrics.temp * 2, 100)}%`"></div>
                   </div>
-                  <div class="text-xs text-slate-500 mt-2">{{ getTempStatus(selectedServer.temp) }}</div>
+                  <div class="text-xs text-slate-500 mt-2">{{ getTempStatus(selectedServerMetrics.temp) }}</div>
                 </div>
               </div>
 
@@ -229,7 +229,7 @@
                     <div>
                       <div class="flex justify-between text-xs mb-1">
                         <span class="text-slate-500">Inbound</span>
-                        <span class="text-green-400 font-mono">{{ selectedServerMetrics.netIn }} MB/s</span>
+                        <span class="text-green-400 font-mono">{{ selectedServerMetrics.netInDisplay }} MB/s</span>
                       </div>
                       <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
                         <div class="bg-green-400 h-full" :style="`width: ${Math.min(selectedServerMetrics.netIn * 10, 100)}%`"></div>
@@ -238,7 +238,7 @@
                     <div>
                       <div class="flex justify-between text-xs mb-1">
                         <span class="text-slate-500">Outbound</span>
-                        <span class="text-blue-400 font-mono">{{ selectedServerMetrics.netOut }} MB/s</span>
+                        <span class="text-blue-400 font-mono">{{ selectedServerMetrics.netOutDisplay }} MB/s</span>
                       </div>
                       <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
                         <div class="bg-blue-400 h-full" :style="`width: ${Math.min(selectedServerMetrics.netOut * 10, 100)}%`"></div>
@@ -265,6 +265,22 @@
                       <span class="text-slate-500">Processes:</span>
                       <span class="text-white font-mono">{{ selectedServerMetrics.processes }}</span>
                     </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Services Status -->
+              <div class="bg-background-dark border border-border-color rounded-lg p-4 mt-4" v-if="selectedServerMetrics.services && selectedServerMetrics.services.length > 0">
+                <div class="flex items-center justify-between mb-3">
+                  <span class="text-sm text-slate-400 uppercase tracking-wider font-bold">Services</span>
+                  <span class="text-xl">⚙️</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+                  <div v-for="svc in selectedServerMetrics.services" :key="svc.name" class="flex justify-between items-center bg-slate-800/50 p-2 rounded">
+                    <span class="text-slate-300">{{ svc.name }}</span>
+                    <span :class="svc.running ? 'text-green-400' : 'text-red-400'" class="font-mono text-xs uppercase border border-white/10 px-1 rounded">
+                      {{ svc.running ? 'RUNNING' : 'STOPPED' }}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -399,6 +415,7 @@ const throughput = ref(0)
 const lastUpdate = ref('--:--:--')
 const servers = ref<Server[]>([])
 const selectedServer = ref<Server | null>(null)
+const selectedServerRawMetrics = ref<any[] | null>(null) // Real metrics data (List of recent)
 // removed duplicate selectedServerMetrics ref
 const isEditModalOpen = ref(false)
 const editingServer = ref<Server | null>(null)
@@ -413,28 +430,77 @@ let updateInterval: number | null = null
 
 // Selected server metrics (mock data for now, will be replaced with real API data)
 const selectedServerMetrics = computed(() => {
-  if (!selectedServer.value) return null
+  if (!selectedServerRawMetrics.value) return null
   
-  // Mock data - in production this would come from API
+  const m = selectedServerRawMetrics.value[0]
+  const prevM = selectedServerRawMetrics.value.length > 1 ? selectedServerRawMetrics.value[1] : null
+
+  // Calculate disk percent
+  const diskUsed = m.disk_usage && m.disk_usage.length > 0 ? (m.disk_usage[0].used_bytes / 1073741824) : 0
+  const diskTotal = m.disk_usage && m.disk_usage.length > 0 ? (m.disk_usage[0].total_bytes / 1073741824) : 1
+  const diskPercent = (diskUsed / diskTotal) * 100
+
+  // Calculate Network Rate (MB/s)
+  let netInRate = 0
+  let netOutRate = 0
+  if (prevM) {
+    const timeDiff = m.timestamp - prevM.timestamp
+    if (timeDiff > 0) {
+      netInRate = (m.bytes_in - prevM.bytes_in) / timeDiff / 1024 / 1024
+      netOutRate = (m.bytes_out - prevM.bytes_out) / timeDiff / 1024 / 1024
+    }
+  }
+
   return {
-    cpu: Math.floor(Math.random() * 100),
-    cpuCores: 8,
-    memoryUsed: 12.4,
-    memoryTotal: 32,
-    memoryPercent: 38,
-    diskUsed: 450,
-    diskTotal: 1000,
-    diskPercent: 45,
-    netIn: 45.3,
-    netOut: 12.8,
-    uptime: '15d 4h 23m',
-    processes: 342
+    cpu: m.cpu_usage_percent.toFixed(1),
+    cpuCores: 0, 
+    memoryUsed: (m.memory_used_bytes / 1073741824).toFixed(1),
+    memoryTotal: (m.memory_total_bytes / 1073741824).toFixed(1),
+    memoryPercent: Math.round((m.memory_used_bytes / m.memory_total_bytes) * 100),
+    diskUsed: diskUsed.toFixed(1),
+    diskTotal: diskTotal.toFixed(1),
+    diskPercent: Math.round(diskPercent),
+    netIn: netInRate,
+    netOut: netOutRate,
+    netInDisplay: netInRate.toFixed(2),
+    netOutDisplay: netOutRate.toFixed(2),
+    uptime: formatUptime(m.uptime_seconds),
+    processes: m.process_count,
+    services: m.services || [],
+    temp: m.temperature || 0
   }
 })
+
+// Uptime formatter
+function formatUptime(seconds: number): string {
+  if (!seconds) return '0s'
+  const d = Math.floor(seconds / (3600*24))
+  const h = Math.floor((seconds % (3600*24)) / 3600)
+  const m = Math.floor((seconds % 3600) / 60)
+  if (d > 0) return `${d}d ${h}h ${m}m`
+  if (h > 0) return `${h}h ${m}m`
+  return `${m}m`
+}
 
 // Click handler for selecting server
 function selectServer(server: Server) {
   selectedServer.value = server
+  fetchAgentMetrics(server.id)
+}
+
+// Fetch detailed metrics for selected server
+async function fetchAgentMetrics(agentId: string) {
+  try {
+    const response = await axios.get(`${API_BASE}/metrics/${agentId}?limit=2`) // Fetch 2 for rate calc
+    if (response.data && response.data.length > 0) {
+       selectedServerRawMetrics.value = response.data // Store list
+    } else {
+       selectedServerRawMetrics.value = null 
+    }
+  } catch (e) {
+    console.error("Failed to fetch agent metrics", e)
+    selectedServerRawMetrics.value = null
+  }
 }
 
 // Status badge styling
@@ -648,6 +714,9 @@ onMounted(async () => {
   updateInterval = window.setInterval(async () => {
     await fetchServers()
     await fetchMetrics()
+    if (selectedServer.value) {
+      await fetchAgentMetrics(selectedServer.value.id)
+    }
     lastUpdate.value = new Date().toLocaleTimeString()
     renderThroughputChart() // Refresh dummy chart
   }, 2000)

@@ -124,6 +124,9 @@ func main() {
 			"bytes_in":           metrics.BytesIn,
 			"bytes_out":          metrics.BytesOut,
 			"services":           metrics.Services,
+			"uptime_seconds":     metrics.UptimeSeconds,
+			"process_count":      metrics.ProcessCount,
+			"temperature":        metrics.Temperature,
 		}
 
 		// Marshal payload

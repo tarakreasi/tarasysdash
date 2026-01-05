@@ -27,6 +27,9 @@ type SystemMetrics struct {
 	BytesOut         uint64          `json:"bytes_out"`
 	LatencyMs        float64         `json:"latency_ms"`
 	Services         []ServiceStatus `json:"services"`
+	UptimeSeconds    uint64          `json:"uptime_seconds"`
+	ProcessCount     int             `json:"process_count"`
+	Temperature      float64         `json:"temperature"` // New field
 }
 
 type Collector struct {

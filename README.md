@@ -5,7 +5,8 @@ Real-time infrastructure monitoring dashboard for data centers with production-g
 ## Features
 
 ### Dashboard
-- **6 Metric Cards** - CPU, Memory, Network In/Out with real-time data
+- **6 Metric Cards** - CPU (with Temp), Memory, Disk, Network I/O (Rate), Uptime, Processes
+- **Service Monitoring** - Track status of critical services
 - **Performance Charts** - Latency multi-line chart, HTTP/gRPC throughput visualization
 - **Live System Logs** - Terminal-style log display with color-coded levels
 - **Server Management** - 41+ server support with automatic rack grouping
@@ -143,11 +144,13 @@ CREATE TABLE agents (
   os TEXT,
   rack_location TEXT DEFAULT '',
   temperature REAL DEFAULT 0.0,
+  log_retention_days INTEGER DEFAULT 30,
   token_hash TEXT,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 ```
+
 
 ### system_metrics
 ```sql
@@ -161,6 +164,11 @@ CREATE TABLE system_metrics (
   bytes_in INTEGER DEFAULT 0,
   bytes_out INTEGER DEFAULT 0,
   latency_ms REAL DEFAULT 0.0,
+  disk_usage_json TEXT DEFAULT '[]',
+  services_json TEXT DEFAULT '[]',
+  uptime_seconds INTEGER DEFAULT 0,
+  process_count INTEGER DEFAULT 0,
+  temperature REAL DEFAULT 0.0,
   PRIMARY KEY (time, agent_id),
   FOREIGN KEY(agent_id) REFERENCES agents(id)
 );

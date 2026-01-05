@@ -315,6 +315,11 @@ func main() {
 				DiskFree float64 `json:"disk_free_percent"`
 				BytesIn  uint64  `json:"bytes_in"`
 				BytesOut uint64  `json:"bytes_out"`
+				// New metrics
+				Services      []storage.ServiceStatus `json:"services"`
+				UptimeSeconds uint64                  `json:"uptime_seconds"`
+				ProcessCount  int                     `json:"process_count"`
+				Temperature   float64                 `json:"temperature"`
 			}
 			// Note: Existing agents sending 'disk_free_percent' will still bind to DiskFree.
 			// New agents will send 'disk_usage'.
@@ -339,6 +344,10 @@ func main() {
 				DiskUsage:        payload.DiskUsage,
 				BytesIn:          payload.BytesIn,
 				BytesOut:         payload.BytesOut,
+				Services:         payload.Services,
+				UptimeSeconds:    payload.UptimeSeconds,
+				ProcessCount:     payload.ProcessCount,
+				Temperature:      payload.Temperature,
 			}
 			// Compatibility for legacy frontend or logic relying on DiskFreePercent
 			if len(metric.DiskUsage) == 0 && payload.DiskFree > 0 {

@@ -113,35 +113,29 @@
             <div class="flex flex-col gap-4 rounded-xl bg-surface-dark p-6 border border-border-color shadow-lg">
               <div class="flex justify-between items-center">
                 <div>
-                  <p class="text-slate-400 text-sm font-medium uppercase tracking-wider">Latency (Last 1hr)</p>
-                  <p class="text-white text-2xl font-bold mt-1">{{ avgLatency }}ms <span class="text-sm font-normal text-slate-500">avg</span></p>
+                  <p class="text-slate-400 text-sm font-medium uppercase tracking-wider">CPU Load (Last 1hr)</p>
+                  <p class="text-white text-2xl font-bold mt-1">{{ cpuLoad }}% <span class="text-sm font-normal text-slate-500">avg</span></p>
                 </div>
                 <div class="flex gap-2">
                   <span class="w-3 h-3 rounded-full bg-primary shadow-[0_0_8px_#25d1f4]"></span>
                   <span class="text-xs text-slate-400">Cluster A</span>
                 </div>
               </div>
-              <div id="latency-chart" class="relative h-[200px] w-full"></div>
+              <div id="cpu-chart" class="relative h-[200px] w-full"></div>
             </div>
             
             <div class="flex flex-col gap-4 rounded-xl bg-surface-dark p-6 border border-border-color shadow-lg">
               <div class="flex justify-between items-center">
                 <div>
-                  <p class="text-slate-400 text-sm font-medium uppercase tracking-wider">Throughput (RPS)</p>
-                  <p class="text-white text-2xl font-bold mt-1">{{ throughput }} <span class="text-sm font-normal text-slate-500">rps</span></p>
+                  <p class="text-slate-400 text-sm font-medium uppercase tracking-wider">Memory Usage</p>
+                  <p class="text-white text-2xl font-bold mt-1">{{ memoryGB }} <span class="text-sm font-normal text-slate-500">GB</span></p>
                 </div>
-                <div class="flex gap-4">
-                  <div class="flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-primary"></span>
-                    <span class="text-xs text-slate-400">HTTP</span>
-                  </div>
-                  <div class="flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-purple-500"></span>
-                    <span class="text-xs text-slate-400">gRPC</span>
-                  </div>
+                <div class="flex gap-2">
+                  <span class="w-3 h-3 rounded-full bg-purple-500 shadow-[0_0_8px_#a855f7]"></span>
+                  <span class="text-xs text-slate-400">RAM</span>
                 </div>
               </div>
-              <div id="throughput-chart" class="relative h-[200px] w-full"></div>
+              <div id="memory-chart" class="relative h-[200px] w-full"></div>
             </div>
           </div>
           
@@ -421,8 +415,8 @@ const isEditModalOpen = ref(false)
 const editingServer = ref<Server | null>(null)
 
 // --- Charts ---
-let latencyChart: echarts.ECharts | null = null
-let throughputChart: echarts.ECharts | null = null
+let cpuChart: echarts.ECharts | null = null
+let memoryChart: echarts.ECharts | null = null
 let updateInterval: number | null = null
 
 // --- Computed ---
@@ -637,21 +631,21 @@ async function fetchMetrics() {
               throughput.value = Math.floor(Math.random() * 500 + 4000) // Mock fluctuation
           }
            
-          const lat = await axios.get(`${API_BASE}/stats/${active.id}/latency`)
-          if (lat.data) {
-             avgLatency.value = parseFloat(lat.data.avg_latency_ms.toFixed(0))
-             renderLatencyChart(lat.data.history)
-          }
+          // Render CPU chart instead of latency
+          renderCpuChart()
       }
   } catch (e) { console.error(e) }
 }
 
 
 // --- Chart Rendering ---
-function renderLatencyChart(history: number[]) {
-  const dom = document.getElementById('latency-chart')
+function renderCpuChart() {
+  const dom = document.getElementById('cpu-chart')
   if (!dom) return
-  if (!latencyChart) latencyChart = echarts.init(dom)
+  if (!cpuChart) cpuChart = echarts.init(dom)
+  
+  // Generate CPU history data (mock)
+  const history = Array.from({length: 30}, () => Math.floor(Math.random() * 30 + 40))
   
   const option = {
     grid: { left: 0, right: 0, top: 10, bottom: 0 },
@@ -659,7 +653,7 @@ function renderLatencyChart(history: number[]) {
     yAxis: { type: 'value', show: false },
     tooltip: { trigger: 'axis' },
     series: [{
-      data: history?.slice(-30) || [],
+      data: history,
       type: 'line',
       smooth: true,
       showSymbol: false,
@@ -672,33 +666,34 @@ function renderLatencyChart(history: number[]) {
       }
     }]
   }
-  latencyChart.setOption(option)
+  cpuChart.setOption(option)
 }
 
-function renderThroughputChart() {
-   const dom = document.getElementById('throughput-chart')
+function renderMemoryChart() {
+   const dom = document.getElementById('memory-chart')
    if (!dom) return
-   if (!throughputChart) throughputChart = echarts.init(dom)
+   if (!memoryChart) memoryChart = echarts.init(dom)
 
-   const data = Array.from({length: 30}, () => Math.floor(Math.random() * 1000 + 3000))
+   // Generate RAM usage data (mock)
+   const data = Array.from({length: 30}, () => Math.floor(Math.random() * 2 + 6))
    
    const option = {
     grid: { left: 0, right: 0, top: 10, bottom: 0 },
     xAxis: { type: 'category', show: false },
-    yAxis: { type: 'value', show: false, min: 2000 },
+    yAxis: { type: 'value', show: false, min: 0 },
     tooltip: { trigger: 'axis' },
     series: [{
       data: data,
       type: 'bar',
-      itemStyle: { color: '#4caf50', borderRadius: [2, 2, 0, 0] }
+      itemStyle: { color: '#a855f7', borderRadius: [2, 2, 0, 0] }
     }]
   }
-  throughputChart.setOption(option)
+  memoryChart.setOption(option)
 }
 
 function handleResize() {
-  latencyChart?.resize()
-  throughputChart?.resize()
+  cpuChart?.resize()
+  memoryChart?.resize()
 }
 
 // --- Lifecycle ---
@@ -708,7 +703,8 @@ onMounted(async () => {
   
   // Wait for DOM
   nextTick(() => {
-     renderThroughputChart() // Initial dummy render
+     renderCpuChart() // Initial CPU chart
+     renderMemoryChart() // Initial Memory chart
   })
 
   updateInterval = window.setInterval(async () => {
@@ -718,7 +714,8 @@ onMounted(async () => {
       await fetchAgentMetrics(selectedServer.value.id)
     }
     lastUpdate.value = new Date().toLocaleTimeString()
-    renderThroughputChart() // Refresh dummy chart
+    renderCpuChart() // Refresh CPU chart
+    renderMemoryChart() // Refresh Memory chart
   }, 2000)
 
   window.addEventListener('resize', handleResize)
@@ -727,8 +724,8 @@ onMounted(async () => {
 onUnmounted(() => {
   if (updateInterval) clearInterval(updateInterval)
   window.removeEventListener('resize', handleResize)
-  latencyChart?.dispose()
-  throughputChart?.dispose()
+  cpuChart?.dispose()
+  memoryChart?.dispose()
 })
 </script>
 

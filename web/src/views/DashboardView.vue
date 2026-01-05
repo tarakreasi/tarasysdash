@@ -317,8 +317,17 @@
             @click="selectServer(server)"
           >
             <span :class="getStatusIconClass(server.status)" class="text-[20px]">{{ getStatusIcon(server.status) }}</span>
-            <div class="flex flex-col">
-              <h2 class="text-white text-sm font-bold leading-tight font-mono">{{ server.hostname }}</h2>
+            <div class="flex flex-col flex-1 min-w-0">
+              <div class="flex items-center justify-between">
+                <h2 class="text-white text-sm font-bold leading-tight font-mono truncate">{{ server.hostname }}</h2>
+                <button 
+                  @click.stop="handleEditServer(server)"
+                  class="text-slate-500 hover:text-primary opacity-0 group-hover:opacity-100 transition-opacity p-1 ml-2"
+                  title="Edit Server"
+                >
+                  ✏️
+                </button>
+              </div>
               <span class="text-[10px] text-slate-500">{{ server.rack }} • {{ server.temp }}°C</span>
             </div>
           </div>
@@ -342,10 +351,26 @@
         </div>
       </aside>
     </div>
+
+    <!-- Modals -->
+    <EditServerModal 
+      :is-open="isEditModalOpen" 
+      :server="editingServer" 
+      @close="isEditModalOpen = false" 
+      @save="handleSaveServer"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
+import axios from 'axios'
+import * as echarts from 'echarts/core'
+import { LineChart, BarChart } from 'echarts/charts'
+import { GridComponent, TooltipComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+import EditServerModal from '../components/EditServerModal.vue'
+
 // Type definitions
 interface Server {
   id: string
@@ -356,14 +381,8 @@ interface Server {
   status: string
   ip: string
   os: string
+  logRetention?: number
 }
-
-import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
-import axios from 'axios'
-import * as echarts from 'echarts/core'
-import { LineChart, BarChart } from 'echarts/charts'
-import { GridComponent, TooltipComponent } from 'echarts/components'
-import { CanvasRenderer } from 'echarts/renderers'
 
 echarts.use([LineChart, BarChart, GridComponent, TooltipComponent, CanvasRenderer])
 
@@ -380,6 +399,9 @@ const throughput = ref(0)
 const lastUpdate = ref('--:--:--')
 const servers = ref<Server[]>([])
 const selectedServer = ref<Server | null>(null)
+// removed duplicate selectedServerMetrics ref
+const isEditModalOpen = ref(false)
+const editingServer = ref<Server | null>(null)
 
 // --- Charts ---
 let latencyChart: echarts.ECharts | null = null
@@ -427,6 +449,43 @@ function getTempBarClass(temp: number): string {
   if (temp < 40) return 'bg-green-500 shadow-[0_0_8px_#22c55e]'
   if (temp < 60) return 'bg-yellow-500 shadow-[0_0_8px_#eab308]'
   return 'bg-red-500 shadow-[0_0_8px_#ef4444]'
+}
+
+// --- Edit Server Logic ---
+function handleEditServer(server: Server) {
+  editingServer.value = server
+  isEditModalOpen.value = true
+}
+
+async function handleSaveServer(updatedServer: any) {
+  try {
+    // 1. Update Hostname
+    if (updatedServer.hostname !== editingServer.value?.hostname) {
+      await axios.put(`${API_BASE}/agents/${updatedServer.id}/hostname`, {
+        hostname: updatedServer.hostname
+      })
+    }
+
+    // 2. Update Metadata (Rack & Retention)
+    await axios.put(`${API_BASE}/agents/${updatedServer.id}/metadata`, {
+      rack_location: updatedServer.rack,
+      temperature: editingServer.value?.temp || 0, // Keep existing temp
+      log_retention_days: updatedServer.logRetention
+    })
+
+    // 3. Refresh List
+    isEditModalOpen.value = false
+    await fetchServers()
+    
+    // Update selected server if it was the one edited
+    if (selectedServer.value?.id === updatedServer.id) {
+      selectedServer.value = { ...selectedServer.value, ...updatedServer }
+    }
+
+  } catch (e) {
+    console.error("Failed to update server", e)
+    alert("Failed to update server settings")
+  }
 }
 
 // Temperature status text
@@ -483,7 +542,8 @@ async function fetchServers() {
         temp: agent.temperature || 0,
         status: agent.status || 'offline',
         ip: agent.ip_address,
-        os: agent.os
+        os: agent.os,
+        logRetention: agent.log_retention_days
       }))
     }
   } catch (err) {

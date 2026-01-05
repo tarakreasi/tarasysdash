@@ -6,7 +6,7 @@ import (
 
 func TestGetMetrics(t *testing.T) {
 	col := New()
-	metrics, err := col.GetMetrics()
+	metrics, err := col.GetMetrics(nil)
 	if err != nil {
 		t.Fatalf("Failed to get metrics: %v", err)
 	}
@@ -44,12 +44,4 @@ func TestGetMetrics(t *testing.T) {
 	}
 
 	t.Logf("Got metrics: %+v", metrics)
-}
-
-func TestGetRootPath(t *testing.T) {
-	path := getRootPath()
-	if path == "" {
-		t.Error("Expected root path to be non-empty")
-	}
-	t.Logf("Root path is: %s", path)
 }

@@ -13,17 +13,17 @@ import (
 )
 
 type Agent struct {
-	ID           string    `json:"id"`
-	Hostname     string    `json:"hostname"`
-	IPAddress    string    `json:"ip_address"`
-	OS           string    `json:"os"`
-	RackLocation string    `json:"rack_location"`
-	Temperature  float64   `json:"temperature"`
-	Status       string    `json:"status,omitempty"`
-	CreatedAt    time.Time `json:"created_at"`
-	UpdatedAt    time.Time `json:"updated_at"`
+	ID               string    `json:"id"`
+	Hostname         string    `json:"hostname"`
+	IPAddress        string    `json:"ip_address"`
+	OS               string    `json:"os"`
+	RackLocation     string    `json:"rack_location"`
+	Temperature      float64   `json:"temperature"`
+	LogRetentionDays int       `json:"log_retention_days"`
+	Status           string    `json:"status,omitempty"`
+	CreatedAt        time.Time `json:"created_at"`
+	UpdatedAt        time.Time `json:"updated_at"`
 }
-
 
 type DiskStat struct {
 	Path        string  `json:"path"`
@@ -37,7 +37,7 @@ type Metric struct {
 	CPUUsagePercent  float64    `json:"cpu_usage_percent"`
 	MemoryUsedBytes  uint64     `json:"memory_used_bytes"`
 	MemoryTotalBytes uint64     `json:"memory_total_bytes"`
-	DiskUsage        []DiskStat `json:"disk_usage"`        // Replaces DiskFreePercent (deprecated/legacy)
+	DiskUsage        []DiskStat `json:"disk_usage"` // Replaces DiskFreePercent (deprecated/legacy)
 	BytesIn          uint64     `json:"bytes_in"`
 	BytesOut         uint64     `json:"bytes_out"`
 	LatencyMs        float64    `json:"latency_ms"`
@@ -104,6 +104,8 @@ func runMigrations(db *sql.DB) error {
 		`ALTER TABLE system_metrics ADD COLUMN latency_ms REAL DEFAULT 0.0;`,
 		// Sprint 1 (Refactor): Add disk_usage_json
 		`ALTER TABLE system_metrics ADD COLUMN disk_usage_json TEXT DEFAULT '[]';`,
+		// Sprint 6: Add log_retention_days
+		`ALTER TABLE agents ADD COLUMN log_retention_days INTEGER DEFAULT 30;`,
 	}
 
 	for _, query := range queries {
@@ -160,7 +162,11 @@ func (s *SQLiteStore) SaveMetric(ctx context.Context, agentID string, m *Metric)
 	_, err := s.db.ExecContext(ctx, query, t, agentID, m.CPUUsagePercent, m.MemoryUsedBytes, m.MemoryTotalBytes, diskFree, m.BytesIn, m.BytesOut, m.LatencyMs, string(diskJSON))
 	if err != nil {
 		slog.Error("Failed to save metric", "error", err)
+		return err
 	}
+
+	// Update agent heartbeat
+	_, err = s.db.ExecContext(ctx, "UPDATE agents SET updated_at = CURRENT_TIMESTAMP WHERE id = ?", agentID)
 	return err
 }
 
@@ -184,7 +190,7 @@ func (s *SQLiteStore) UpdateAgentToken(ctx context.Context, agentID, hash string
 }
 
 func (s *SQLiteStore) ListAgents(ctx context.Context) ([]Agent, error) {
-	query := `SELECT id, hostname, ip_address, os, rack_location, temperature, created_at, updated_at FROM agents ORDER BY updated_at DESC`
+	query := `SELECT id, hostname, ip_address, os, rack_location, temperature, log_retention_days, created_at, updated_at FROM agents ORDER BY updated_at DESC`
 	rows, err := s.db.QueryContext(ctx, query)
 	if err != nil {
 		return nil, err
@@ -194,7 +200,7 @@ func (s *SQLiteStore) ListAgents(ctx context.Context) ([]Agent, error) {
 	var agents []Agent
 	for rows.Next() {
 		var a Agent
-		if err := rows.Scan(&a.ID, &a.Hostname, &a.IPAddress, &a.OS, &a.RackLocation, &a.Temperature, &a.CreatedAt, &a.UpdatedAt); err != nil {
+		if err := rows.Scan(&a.ID, &a.Hostname, &a.IPAddress, &a.OS, &a.RackLocation, &a.Temperature, &a.LogRetentionDays, &a.CreatedAt, &a.UpdatedAt); err != nil {
 			return nil, err
 		}
 		// Compute status: offline if not updated in last 30 seconds
@@ -208,11 +214,24 @@ func (s *SQLiteStore) ListAgents(ctx context.Context) ([]Agent, error) {
 	return agents, rows.Err()
 }
 
-func (s *SQLiteStore) UpdateAgentMetadata(ctx context.Context, agentID, rackLocation string, temperature float64) error {
+func (s *SQLiteStore) UpdateAgentMetadata(ctx context.Context, agentID, rackLocation string, temperature float64, retentionDays int) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	query := `UPDATE agents SET rack_location = ?, temperature = ? WHERE id = ?`
-	_, err := s.db.ExecContext(ctx, query, rackLocation, temperature, agentID)
+	query := `UPDATE agents SET rack_location = ?, temperature = ?, log_retention_days = ? WHERE id = ?`
+	_, err := s.db.ExecContext(ctx, query, rackLocation, temperature, retentionDays, agentID)
+	return err
+}
+
+func (s *SQLiteStore) DeleteOldMetrics(ctx context.Context, agentID string, retentionDays int) error {
+	s.mu.Lock() // Potentially long operation, consider handling lock granularity if needed, but for WAL it's mostly fine
+	defer s.mu.Unlock()
+
+	cutoff := time.Now().AddDate(0, 0, -retentionDays)
+	query := `DELETE FROM system_metrics WHERE agent_id = ? AND time < ?`
+	_, err := s.db.ExecContext(ctx, query, agentID, cutoff)
+	if err != nil {
+		slog.Error("Failed to cleanup old metrics", "agent_id", agentID, "error", err)
+	}
 	return err
 }
 
@@ -235,7 +254,8 @@ func (s *SQLiteStore) GetRecentMetrics(ctx context.Context, agentID string, limi
 		var m Metric
 		var t time.Time
 		var diskJSON string
-		if err := rows.Scan(&m.CPUUsagePercent, &m.MemoryUsedBytes, &m.MemoryTotalBytes, &m.DiskFreePercent, &m.BytesIn, &m.BytesOut, &m.LatencyMs, &diskJSON, &t); err != nil {
+		var diskFree float64
+		if err := rows.Scan(&m.CPUUsagePercent, &m.MemoryUsedBytes, &m.MemoryTotalBytes, &diskFree, &m.BytesIn, &m.BytesOut, &m.LatencyMs, &diskJSON, &t); err != nil {
 			return nil, err
 		}
 		m.Timestamp = t.Unix()
@@ -388,7 +408,7 @@ LIMIT ?
 }
 
 func (s *SQLiteStore) ListAgentsByRack(ctx context.Context, rackLocation string) ([]Agent, error) {
-	query := `SELECT id, hostname, ip_address, os, rack_location, temperature, created_at, updated_at 
+	query := `SELECT id, hostname, ip_address, os, rack_location, temperature, log_retention_days, created_at, updated_at 
           FROM agents 
           WHERE rack_location = ? 
           ORDER BY updated_at DESC`
@@ -401,7 +421,7 @@ func (s *SQLiteStore) ListAgentsByRack(ctx context.Context, rackLocation string)
 	var agents []Agent
 	for rows.Next() {
 		var a Agent
-		if err := rows.Scan(&a.ID, &a.Hostname, &a.IPAddress, &a.OS, &a.RackLocation, &a.Temperature, &a.CreatedAt, &a.UpdatedAt); err != nil {
+		if err := rows.Scan(&a.ID, &a.Hostname, &a.IPAddress, &a.OS, &a.RackLocation, &a.Temperature, &a.LogRetentionDays, &a.CreatedAt, &a.UpdatedAt); err != nil {
 			return nil, err
 		}
 		if time.Since(a.UpdatedAt) > 30*time.Second {

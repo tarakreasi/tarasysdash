@@ -165,12 +165,19 @@ func main() {
 		var payload struct {
 			RackLocation string  `json:"rack_location"`
 			Temperature  float64 `json:"temperature"`
+			LogRetention int     `json:"log_retention_days"`
 		}
 		if err := c.ShouldBindJSON(&payload); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		if err := store.UpdateAgentMetadata(c.Request.Context(), agentID, payload.RackLocation, payload.Temperature); err != nil {
+
+		// Validation (optional)
+		if payload.LogRetention <= 0 {
+			payload.LogRetention = 30 // Default fallback
+		}
+
+		if err := store.UpdateAgentMetadata(c.Request.Context(), agentID, payload.RackLocation, payload.Temperature, payload.LogRetention); err != nil {
 			slog.Error("Failed to update metadata", "error", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update metadata"})
 			return
@@ -365,7 +372,7 @@ func main() {
 	if alertCfg.SMTPPort == "" {
 		alertCfg.SMTPPort = "587"
 	}
-	
+
 	alertService := alert.NewService(alertCfg)
 
 	// Watchdog Loop (Background)
@@ -388,8 +395,21 @@ func main() {
 				if len(metrics) > 0 {
 					lastMetric = &metrics[0]
 				}
-				
+
 				alertService.CheckAndSend(agent, lastMetric)
+			}
+
+			// 2. Cleanup Old Data (Run once per 24h ideally, but here every minute with check usually,
+			// or just run it. Deleting a few rows every minute is better than millions at once).
+			// Here we iterate all agents.
+			for _, agent := range agents {
+				retention := agent.LogRetentionDays
+				if retention <= 0 {
+					retention = 30
+				}
+				if err := store.DeleteOldMetrics(ctx, agent.ID, retention); err != nil {
+					slog.Warn("Failed to cleanup old metrics", "agent", agent.ID)
+				}
 			}
 		}
 	}()

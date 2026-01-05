@@ -67,9 +67,6 @@ func (s *AlertService) CheckAndSend(agent storage.Agent, metric *storage.Metric)
 				s.triggerAlert(agent, "DISK_FULL:"+disk.Path, fmt.Sprintf("CRITICAL: Disk %s on %s (%s) is at %.2f%% free.", disk.Path, agent.Hostname, agent.ID, disk.FreePercent))
 			}
 		}
-	} else if metric != nil && metric.DiskFreePercent < 5.0 && metric.DiskFreePercent > 0 {
-		// Legacy fallback
-		s.triggerAlert(agent, "DISK_FULL:Legacy", fmt.Sprintf("CRITICAL: Disk on %s (%s) is at %.2f%% free.", agent.Hostname, agent.ID, metric.DiskFreePercent))
 	}
 }
 

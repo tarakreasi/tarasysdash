@@ -30,9 +30,19 @@
     </div>
 
     <!-- Footer: Rack Location -->
-    <div class="mt-2 pt-2 border-t border-border-color flex items-center justify-between">
+    <div class="mt-2 pt-2 border-t border-border-color flex items-center justify-between group/footer">
       <span class="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">{{ server.rack || 'UNASSIGNED' }}</span>
-      <span v-if="server.status === 'offline'" class="text-[10px] text-red-500 font-bold">OFFLINE</span>
+      
+      <div class="flex items-center gap-2">
+        <button 
+          @click.stop="$emit('edit', server)"
+          class="text-slate-500 hover:text-primary opacity-0 group-hover:opacity-100 transition-opacity p-1"
+          title="Edit Server"
+        >
+          ✏️
+        </button>
+        <span v-if="server.status === 'offline'" class="text-[10px] text-red-500 font-bold">OFFLINE</span>
+      </div>
     </div>
   </div>
 </template>
@@ -53,7 +63,7 @@ const props = defineProps<{
   isSelected?: boolean
 }>()
 
-defineEmits(['click'])
+defineEmits(['click', 'edit'])
 
 const statusColorBg = computed(() => {
   switch (props.server.status) {

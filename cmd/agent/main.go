@@ -16,10 +16,20 @@ import (
 	"github.com/tarakreasi/taraSysDash/internal/storage"
 )
 
+func main() {
 	// CLI Flags
 	serverURL := flag.String("server", "http://localhost:8080", "Server URL")
 	rack := flag.String("rack", "", "Rack Location (e.g., 'Rack A')")
 	flag.Parse()
+
+	// Load config
+	cfg := config.Load()
+	// Override if flag is set, though cfg loads from env. Flags usually take precedence or specific flow.
+	// In this code, cfg seems to already load SERVER_URL from env.
+	// But let's respect the CLI flag if it's different/default?
+	// The original code used `*serverURL` in registerAgent, but `cfg.ServerURL` in metrics loop.
+	// Let's ensure consistent usage. Ideally update cfg.ServerURL with flag if flag is not default.
+	cfg.ServerURL = *serverURL
 
 	// 1. Identify Agent
 	hostname, _ := os.Hostname()
@@ -29,45 +39,23 @@ import (
 		OS:           "linux", // TODO: Detect OS
 		RackLocation: *rack,
 	}
-// ... (omitting irrelevant parts)
+
+	logger.Init(cfg.LogLevel)
+	logger.Log.Info("Starting tara-agent...", "interval", cfg.AgentInterval)
+
 	col := collector.New()
 
 	// Handshake: Register and get Token
 	if cfg.AgentToken == "" {
 		logger.Log.Info("No token found. Attempting to register via Handshake...")
-		token, err := registerAgent(*serverURL, agent)
-// ...
-}
-
-func registerAgent(serverURL string, agent storage.Agent) (string, error) {
-	// 1. Gather Basic Info
-	agent.Status = "online"
-	if agent.RackLocation == "" {
-		agent.RackLocation = "Unknown" 
+		token, err := registerAgent(cfg.ServerURL, agent)
+		if err != nil {
+			logger.Log.Error("Failed to register agent", "error", err)
+			os.Exit(1)
+		}
+		cfg.AgentToken = token
+		logger.Log.Info("Agent registered successfully", "token_snippet", token[:8]+"...")
 	}
-
-	payload := agent // Use struct directly
-
-	jsonData, _ := json.Marshal(payload)
-	resp, err := http.Post(serverURL+"/api/v1/register", "application/json", bytes.NewBuffer(jsonData))
-	if err != nil {
-		return "", err
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		return "", http.ErrNoCookie // Just a generic error
-	}
-
-	var result struct {
-		Status string `json:"status"`
-		Token  string `json:"token"`
-	}
-	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
-		return "", err
-	}
-	return result.Token, nil
-}
 
 	ticker := time.NewTicker(cfg.AgentInterval)
 	defer ticker.Stop()
@@ -86,7 +74,7 @@ func registerAgent(serverURL string, agent storage.Agent) (string, error) {
 	// In production, this should be configurable.
 	criticalServices := []string{
 		"RecordingServer",
-		"MilestoneService", 
+		"MilestoneService",
 		"VideoOS Event Server",
 	}
 

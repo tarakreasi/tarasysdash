@@ -1,51 +1,86 @@
-//go:build linux
-
 package collector
 
 import (
-	"os"
-	"strconv"
-	"strings"
 	"time"
+
+	"github.com/shirou/gopsutil/v3/cpu"
+	"github.com/shirou/gopsutil/v3/disk"
+	"github.com/shirou/gopsutil/v3/mem"
+	"github.com/shirou/gopsutil/v3/net"
 )
 
-func getRootPath() string {
-	return "/"
-}
 
-func collectNetworkStats() (bytesIn, bytesOut uint64, err error) {
-	data, err := os.ReadFile("/proc/net/dev")
+// Structs are defined in collector.go
+
+
+
+func (c *Collector) GetMetrics(serviceNames []string) (*SystemMetrics, error) {
+	// Memory
+	v, err := mem.VirtualMemory()
 	if err != nil {
-		return 0, 0, err
+		return nil, err
 	}
 
-	lines := strings.Split(string(data), "\n")
-	for _, line := range lines {
-		fields := strings.Fields(line)
-		if len(fields) < 10 {
-			continue
-		}
-		// Skip loopback
-		if strings.HasPrefix(fields[0], "lo:") {
-			continue
-		}
-		// First interface with traffic (eth0, ens, etc)
-		if strings.Contains(fields[0], ":") {
-			in, _ := strconv.ParseUint(fields[1], 10, 64)
-			out, _ := strconv.ParseUint(fields[9], 10, 64)
-			bytesIn += in
-			bytesOut += out
-		}
-	}
-	return bytesIn, bytesOut, nil
-}
-
-func measureLatency() float64 {
-	start := time.Now()
-	// Simple self-test: measure time to read /proc/stat
-	_, err := os.ReadFile("/proc/stat")
+	// CPU
+	cStats, err := cpu.Percent(0, false)
 	if err != nil {
-		return 0
+		return nil, err
 	}
-	return float64(time.Since(start).Microseconds()) / 1000.0
+	cpuPercent := 0.0
+	if len(cStats) > 0 {
+		cpuPercent = cStats[0]
+	}
+
+	// Disk (Multi-drive)
+	partitions, err := disk.Partitions(false)
+	if err != nil {
+		return nil, err
+	}
+	
+	var diskStats []DiskStat
+	for _, p := range partitions {
+		// Filter out snap loops or special filesystems if needed, but for now take all "physical"
+		if p.Fstype == "squashfs" {
+			continue 
+		}
+
+		u, err := disk.Usage(p.Mountpoint)
+		if err != nil {
+			continue // Skip permission denied or unready drives
+		}
+		
+		diskStats = append(diskStats, DiskStat{
+			Path:        p.Mountpoint,
+			TotalBytes:  u.Total,
+			UsedBytes:   u.Used,
+			FreePercent: 100.0 - u.UsedPercent,
+		})
+	}
+
+	// Network
+	// We want total bytes across all interfaces for the aggregate "BytesIn/Out"
+	// For MVP, we sum up all interface counters.
+	netStats, err := net.IOCounters(false) // false = params indicate 'perNIC', actually for 'v3' it depends on arg. 
+    // wait, gopsutil/net IOCounters(false) returns 1 aggregate element.
+	if err != nil {
+		return nil, err
+	}
+	
+	bytesIn := uint64(0)
+	bytesOut := uint64(0)
+	if len(netStats) > 0 {
+		bytesIn = netStats[0].BytesRecv
+		bytesOut = netStats[0].BytesSent
+	}
+	
+	return &SystemMetrics{
+		Timestamp:        time.Now().Unix(),
+		CPUUsagePercent:  cpuPercent,
+		MemoryUsedBytes:  v.Used,
+		MemoryTotalBytes: v.Total,
+		DiskUsage:        diskStats,
+		BytesIn:          bytesIn,
+		BytesOut:         bytesOut,
+		Services:         []ServiceStatus{}, // Stub for Linux
+	}, nil
 }

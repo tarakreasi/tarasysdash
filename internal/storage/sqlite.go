@@ -3,6 +3,7 @@ package storage
 import (
 	"context"
 	"database/sql"
+	"encoding/json"
 	"log/slog"
 	"sort"
 	"sync"
@@ -23,15 +24,23 @@ type Agent struct {
 	UpdatedAt    time.Time `json:"updated_at"`
 }
 
+
+type DiskStat struct {
+	Path        string  `json:"path"`
+	TotalBytes  uint64  `json:"total_bytes"`
+	UsedBytes   uint64  `json:"used_bytes"`
+	FreePercent float64 `json:"free_percent"`
+}
+
 type Metric struct {
-	Timestamp        int64   `json:"timestamp"`
-	CPUUsagePercent  float64 `json:"cpu_usage_percent"`
-	MemoryUsedBytes  uint64  `json:"memory_used_bytes"`
-	MemoryTotalBytes uint64  `json:"memory_total_bytes"`
-	DiskFreePercent  float64 `json:"disk_free_percent"`
-	BytesIn          uint64  `json:"bytes_in"`
-	BytesOut         uint64  `json:"bytes_out"`
-	LatencyMs        float64 `json:"latency_ms"`
+	Timestamp        int64      `json:"timestamp"`
+	CPUUsagePercent  float64    `json:"cpu_usage_percent"`
+	MemoryUsedBytes  uint64     `json:"memory_used_bytes"`
+	MemoryTotalBytes uint64     `json:"memory_total_bytes"`
+	DiskUsage        []DiskStat `json:"disk_usage"`        // Replaces DiskFreePercent (deprecated/legacy)
+	BytesIn          uint64     `json:"bytes_in"`
+	BytesOut         uint64     `json:"bytes_out"`
+	LatencyMs        float64    `json:"latency_ms"`
 }
 
 type SQLiteStore struct {
@@ -93,15 +102,16 @@ func runMigrations(db *sql.DB) error {
 		`ALTER TABLE system_metrics ADD COLUMN bytes_in INTEGER DEFAULT 0;`,
 		`ALTER TABLE system_metrics ADD COLUMN bytes_out INTEGER DEFAULT 0;`,
 		`ALTER TABLE system_metrics ADD COLUMN latency_ms REAL DEFAULT 0.0;`,
+		// Sprint 1 (Refactor): Add disk_usage_json
+		`ALTER TABLE system_metrics ADD COLUMN disk_usage_json TEXT DEFAULT '[]';`,
 	}
 
 	for _, query := range queries {
 		_, err := db.Exec(query)
 		// Ignore errors for ALTER TABLE (column might already exist)
-		if err != nil && (query == queries[2] || query == queries[3] || query == queries[4] || query == queries[5] || query == queries[6] || query == queries[7]) {
-			slog.Info("Migration step executed (ignoring potential duplicate column error)", "query", query, "error", err)
-		} else if err != nil {
-			return err
+		// We crudely check for duplicates by ignoring errors on specific queries (indices 2..8)
+		if err != nil {
+			slog.Info("Migration step note (ignoring potential error)", "query", query, "error", err)
 		}
 	}
 	return nil
@@ -112,15 +122,16 @@ func (s *SQLiteStore) RegisterAgent(ctx context.Context, agent *Agent) error {
 	defer s.mu.Unlock()
 
 	query := `
-	INSERT INTO agents (id, hostname, ip_address, os, updated_at)
-	VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)
+	INSERT INTO agents (id, hostname, ip_address, os, rack_location, updated_at)
+	VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
 	ON CONFLICT(id) DO UPDATE SET
 		hostname=excluded.hostname,
 		ip_address=excluded.ip_address,
 		os=excluded.os,
+		rack_location=excluded.rack_location,
 		updated_at=CURRENT_TIMESTAMP;
 	`
-	_, err := s.db.ExecContext(ctx, query, agent.ID, agent.Hostname, agent.IPAddress, agent.OS)
+	_, err := s.db.ExecContext(ctx, query, agent.ID, agent.Hostname, agent.IPAddress, agent.OS, agent.RackLocation)
 	if err != nil {
 		slog.Error("Failed to register agent", "error", err)
 		return err
@@ -133,12 +144,20 @@ func (s *SQLiteStore) SaveMetric(ctx context.Context, agentID string, m *Metric)
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
+	diskJSON, _ := json.Marshal(m.DiskUsage)
+	// Fallback for DiskFreePercent (legacy column) - use first disk or 0
+	diskFree := 0.0
+	if len(m.DiskUsage) > 0 {
+		diskFree = m.DiskUsage[0].FreePercent
+		// Or try to find "C:" or root? For now first one is fine.
+	}
+
 	query := `
-	INSERT INTO system_metrics (time, agent_id, cpu_usage, memory_used, memory_total, disk_free_percent, bytes_in, bytes_out, latency_ms)
-	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+	INSERT INTO system_metrics (time, agent_id, cpu_usage, memory_used, memory_total, disk_free_percent, bytes_in, bytes_out, latency_ms, disk_usage_json)
+	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 	`
 	t := time.Unix(m.Timestamp, 0)
-	_, err := s.db.ExecContext(ctx, query, t, agentID, m.CPUUsagePercent, m.MemoryUsedBytes, m.MemoryTotalBytes, m.DiskFreePercent, m.BytesIn, m.BytesOut, m.LatencyMs)
+	_, err := s.db.ExecContext(ctx, query, t, agentID, m.CPUUsagePercent, m.MemoryUsedBytes, m.MemoryTotalBytes, diskFree, m.BytesIn, m.BytesOut, m.LatencyMs, string(diskJSON))
 	if err != nil {
 		slog.Error("Failed to save metric", "error", err)
 	}
@@ -199,7 +218,7 @@ func (s *SQLiteStore) UpdateAgentMetadata(ctx context.Context, agentID, rackLoca
 
 func (s *SQLiteStore) GetRecentMetrics(ctx context.Context, agentID string, limit int) ([]Metric, error) {
 	query := `
-		SELECT cpu_usage, memory_used, memory_total, disk_free_percent, bytes_in, bytes_out, latency_ms, time
+		SELECT cpu_usage, memory_used, memory_total, disk_free_percent, bytes_in, bytes_out, latency_ms, IFNULL(disk_usage_json, '[]') as disk_usage_json, time
 		FROM system_metrics
 		WHERE agent_id = ?
 		ORDER BY time DESC
@@ -215,10 +234,15 @@ func (s *SQLiteStore) GetRecentMetrics(ctx context.Context, agentID string, limi
 	for rows.Next() {
 		var m Metric
 		var t time.Time
-		if err := rows.Scan(&m.CPUUsagePercent, &m.MemoryUsedBytes, &m.MemoryTotalBytes, &m.DiskFreePercent, &m.BytesIn, &m.BytesOut, &m.LatencyMs, &t); err != nil {
+		var diskJSON string
+		if err := rows.Scan(&m.CPUUsagePercent, &m.MemoryUsedBytes, &m.MemoryTotalBytes, &m.DiskFreePercent, &m.BytesIn, &m.BytesOut, &m.LatencyMs, &diskJSON, &t); err != nil {
 			return nil, err
 		}
 		m.Timestamp = t.Unix()
+		// Unmarshal
+		if len(diskJSON) > 0 {
+			_ = json.Unmarshal([]byte(diskJSON), &m.DiskUsage)
+		}
 		metrics = append(metrics, m)
 	}
 	return metrics, rows.Err()

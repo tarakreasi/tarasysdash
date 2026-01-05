@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"flag"
 	"net/http"
 	"os"
 	"os/signal"
@@ -12,27 +13,61 @@ import (
 	"github.com/tarakreasi/taraSysDash/internal/collector"
 	"github.com/tarakreasi/taraSysDash/internal/config"
 	"github.com/tarakreasi/taraSysDash/internal/logger"
+	"github.com/tarakreasi/taraSysDash/internal/storage"
 )
 
-func main() {
-	cfg := config.Load()
-	logger.Init(cfg.LogLevel)
+	// CLI Flags
+	serverURL := flag.String("server", "http://localhost:8080", "Server URL")
+	rack := flag.String("rack", "", "Rack Location (e.g., 'Rack A')")
+	flag.Parse()
 
-	logger.Log.Info("Starting tara-agent...", "interval", cfg.AgentInterval)
-
+	// 1. Identify Agent
+	hostname, _ := os.Hostname()
+	agent := storage.Agent{
+		ID:           "agent-uuid-1", // TODO: Persist UUID properly
+		Hostname:     hostname,
+		OS:           "linux", // TODO: Detect OS
+		RackLocation: *rack,
+	}
+// ... (omitting irrelevant parts)
 	col := collector.New()
 
 	// Handshake: Register and get Token
 	if cfg.AgentToken == "" {
 		logger.Log.Info("No token found. Attempting to register via Handshake...")
-		token, err := registerAgent(cfg.ServerURL)
-		if err != nil {
-			logger.Log.Error("Failed to register agent. Exiting.", "error", err)
-			os.Exit(1)
-		}
-		cfg.AgentToken = token
-		logger.Log.Info("Handshake successful! Token obtained.")
+		token, err := registerAgent(*serverURL, agent)
+// ...
+}
+
+func registerAgent(serverURL string, agent storage.Agent) (string, error) {
+	// 1. Gather Basic Info
+	agent.Status = "online"
+	if agent.RackLocation == "" {
+		agent.RackLocation = "Unknown" 
 	}
+
+	payload := agent // Use struct directly
+
+	jsonData, _ := json.Marshal(payload)
+	resp, err := http.Post(serverURL+"/api/v1/register", "application/json", bytes.NewBuffer(jsonData))
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return "", http.ErrNoCookie // Just a generic error
+	}
+
+	var result struct {
+		Status string `json:"status"`
+		Token  string `json:"token"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		return "", err
+	}
+	return result.Token, nil
+}
 
 	ticker := time.NewTicker(cfg.AgentInterval)
 	defer ticker.Stop()
@@ -47,8 +82,16 @@ func main() {
 		os.Exit(0)
 	}()
 
+	// Services to monitor (Critical VMS services)
+	// In production, this should be configurable.
+	criticalServices := []string{
+		"RecordingServer",
+		"MilestoneService", 
+		"VideoOS Event Server",
+	}
+
 	for range ticker.C {
-		metrics, err := col.GetMetrics()
+		metrics, err := col.GetMetrics(criticalServices)
 		if err != nil {
 			logger.Log.Error("Failed to collect metrics", "error", err)
 			continue
@@ -61,7 +104,10 @@ func main() {
 			"cpu_usage_percent":  metrics.CPUUsagePercent,
 			"memory_used_bytes":  metrics.MemoryUsedBytes,
 			"memory_total_bytes": metrics.MemoryTotalBytes,
-			"disk_free_percent":  metrics.DiskFreePercent,
+			"disk_usage":         metrics.DiskUsage,
+			"bytes_in":           metrics.BytesIn,
+			"bytes_out":          metrics.BytesOut,
+			"services":           metrics.Services,
 		}
 
 		// Marshal payload
@@ -101,19 +147,14 @@ func main() {
 	}
 }
 
-func registerAgent(serverURL string) (string, error) {
+func registerAgent(serverURL string, agent storage.Agent) (string, error) {
 	// 1. Gather Basic Info
-	hostname, _ := os.Hostname()
-	// Simple OS detection (mock for now, or use runtime.GOOS)
-	agentOS := "linux" // default
-
-	payload := map[string]string{
-		"id":            "agent-uuid-1", // Fixed for MVP. In prod use machine-id or uuid
-		"hostname":      hostname,
-		"os":            agentOS,
-		"status":        "online",
-		"rack_location": "Rack 1", // Default
+	agent.Status = "online"
+	if agent.RackLocation == "" {
+		agent.RackLocation = "Unknown"
 	}
+
+	payload := agent // Use struct directly
 
 	jsonData, _ := json.Marshal(payload)
 	resp, err := http.Post(serverURL+"/api/v1/register", "application/json", bytes.NewBuffer(jsonData))

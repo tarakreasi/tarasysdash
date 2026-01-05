@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/tarakreasi/taraSysDash/internal/alert"
 	"github.com/tarakreasi/taraSysDash/internal/auth"
 	"github.com/tarakreasi/taraSysDash/internal/storage"
 )
@@ -297,13 +298,19 @@ func main() {
 
 		api.POST("/metrics", func(c *gin.Context) {
 			var payload struct {
-				AgentID   string  `json:"agent_id"`
-				Timestamp int64   `json:"timestamp"`
-				CPU       float64 `json:"cpu_usage_percent"`
-				MemUsed   uint64  `json:"memory_used_bytes"`
-				MemTotal  uint64  `json:"memory_total_bytes"`
-				DiskFree  float64 `json:"disk_free_percent"`
+				AgentID   string             `json:"agent_id"`
+				Timestamp int64              `json:"timestamp"`
+				CPU       float64            `json:"cpu_usage_percent"`
+				MemUsed   uint64             `json:"memory_used_bytes"`
+				MemTotal  uint64             `json:"memory_total_bytes"`
+				DiskUsage []storage.DiskStat `json:"disk_usage"` // New List
+				// Fallback/Legacy
+				DiskFree float64 `json:"disk_free_percent"`
+				BytesIn  uint64  `json:"bytes_in"`
+				BytesOut uint64  `json:"bytes_out"`
 			}
+			// Note: Existing agents sending 'disk_free_percent' will still bind to DiskFree.
+			// New agents will send 'disk_usage'.
 
 			if err := c.ShouldBindJSON(&payload); err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -316,13 +323,21 @@ func main() {
 				return
 			}
 
-			// Save Metric
+			// Map to storage Metric
 			metric := &storage.Metric{
 				Timestamp:        payload.Timestamp,
 				CPUUsagePercent:  payload.CPU,
 				MemoryUsedBytes:  payload.MemUsed,
 				MemoryTotalBytes: payload.MemTotal,
-				DiskFreePercent:  payload.DiskFree,
+				DiskUsage:        payload.DiskUsage,
+				BytesIn:          payload.BytesIn,
+				BytesOut:         payload.BytesOut,
+			}
+			// Compatibility for legacy frontend or logic relying on DiskFreePercent
+			if len(metric.DiskUsage) == 0 && payload.DiskFree > 0 {
+				metric.DiskUsage = []storage.DiskStat{
+					{Path: "/", FreePercent: payload.DiskFree},
+				}
 			}
 
 			if err := store.SaveMetric(c.Request.Context(), payload.AgentID, metric); err != nil {
@@ -334,6 +349,50 @@ func main() {
 			c.JSON(http.StatusOK, gin.H{"status": "recorded"})
 		})
 	}
+
+	// Alert Service
+	alertCfg := alert.Config{
+		SMTPHost:       os.Getenv("SMTP_HOST"),
+		SMTPPort:       os.Getenv("SMTP_PORT"),
+		SMTPUser:       os.Getenv("SMTP_USER"),
+		SMTPPass:       os.Getenv("SMTP_PASS"),
+		RecipientEmail: os.Getenv("ALERT_RECIPIENTS"),
+	}
+	// Defaults
+	if alertCfg.SMTPHost == "" {
+		alertCfg.SMTPHost = "smtp.gmail.com"
+	}
+	if alertCfg.SMTPPort == "" {
+		alertCfg.SMTPPort = "587"
+	}
+	
+	alertService := alert.NewService(alertCfg)
+
+	// Watchdog Loop (Background)
+	go func() {
+		ticker := time.NewTicker(60 * time.Second)
+		defer ticker.Stop()
+		for range ticker.C {
+			ctx := context.Background()
+			agents, err := store.ListAgents(ctx)
+			if err != nil {
+				slog.Error("Watchdog: Failed to list agents", "error", err)
+				continue
+			}
+
+			for _, agent := range agents {
+				// 1. Check Offline & Disk Alert
+				// We need the latest metric for disk check
+				metrics, _ := store.GetRecentMetrics(ctx, agent.ID, 1) // Ignore error, might be empty
+				var lastMetric *storage.Metric
+				if len(metrics) > 0 {
+					lastMetric = &metrics[0]
+				}
+				
+				alertService.CheckAndSend(agent, lastMetric)
+			}
+		}
+	}()
 
 	slog.Info("Server executing on :8080")
 	if err := r.Run(":8080"); err != nil {

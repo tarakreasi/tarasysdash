@@ -10,6 +10,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/tarakreasi/taraSysDash/internal/collector"
 	"github.com/tarakreasi/taraSysDash/internal/config"
 	"github.com/tarakreasi/taraSysDash/internal/logger"
@@ -27,12 +28,13 @@ func main() {
 	r := flag.String("r", "", "Rack Location (short)")
 	name := flag.String("name", defaultHostname, "Agent Name")
 	n := flag.String("n", "", "Agent Name (short)")
-	
+	agentID := flag.String("id", "", "Agent ID (e.g. uuid)")
+
 	flag.Parse()
 
 	// Load config
 	cfg := config.Load()
-	
+
 	// Override config with flags (Short flags take precedence over long flags)
 	if *s != "" {
 		cfg.ServerURL = *s
@@ -51,8 +53,16 @@ func main() {
 	}
 
 	// 3. Identification
+	finalID := *agentID
+	if finalID == "" {
+		// Generate one if not provided.
+		// NOTE: In production, this should be persisted to disk so it survives restarts.
+		// For now, if you want persistence, pass -id explicitly.
+		finalID = uuid.New().String()
+	}
+
 	agent := storage.Agent{
-		ID:           "agent-uuid-1", // TODO: Persist UUID properly
+		ID:           finalID,
 		Hostname:     finalName,
 		OS:           "linux",
 		RackLocation: finalRack,
@@ -105,7 +115,7 @@ func main() {
 
 		// Send payload to server
 		payload := map[string]interface{}{
-			"agent_id":           "agent-uuid-1", // Mock ID for Sprint 2
+			"agent_id":           finalID,
 			"timestamp":          metrics.Timestamp,
 			"cpu_usage_percent":  metrics.CPUUsagePercent,
 			"memory_used_bytes":  metrics.MemoryUsedBytes,

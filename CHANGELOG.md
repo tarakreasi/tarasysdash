@@ -4,6 +4,39 @@ All notable changes to taraSysDash will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.1.0] - 2026-01-05
+
+### Added - Sprint 14: Agent Reliability & Visual Gauges
+- **MAC-based Persistent Agent ID**: Agents now use hardware MAC address for consistent identity across restarts
+  - Format: `agent-<mac>` (e.g., `agent-482ae3b630b3`)
+  - Prevents duplicate database entries
+  - No configuration file needed
+  - File: `internal/agent/id.go` with unit tests
+- **Agent Retry Logic**: Exponential backoff for handling server 500 errors
+  - 3 retry attempts with delays: 100ms, 200ms, 400ms
+  - Only retries 5xx server errors (not 4xx client errors)
+  - HTTPError type for better error handling
+  - Reduces metric data loss during SQLite locking
+- **Visual Gauge Dashboard**: Professional gauge-based metrics visualization
+  - CPU: Semicircular gauge (0-100%, color zones: green→cyan→red)
+  - RAM: Semicircular gauge (GB used/total, purple gradient)
+  - Temperature: Semicircular gauge (0-100°C, green→yellow→red zones)
+  - Network: Horizontal bars (Download/Upload MB/s, auto-scaling)
+  - Disk: Donut chart (used vs free space with center labels)
+  - ECharts GaugeChart and PieChart integration
+  - Real-time updates on server selection
+  - Responsive layout with professional cyberpunk aesthetic
+
+### Changed
+- Dashboard top charts swapped: CPU Load (line) and Memory Usage (bar)
+- Removed UUID dependency in favor of MAC-based ID generation
+- Refactored agent metric sending into modular functions
+
+### Fixed
+- Template syntax error in DashboardView.vue (redundant grid wrapper)
+- Agent ID consistency across restarts
+- Metric delivery during temporary server unavailability
+
 ## [1.0.0] - 2026-01-01
 
 ### Added - Sprint 8: Backend Network Metrics

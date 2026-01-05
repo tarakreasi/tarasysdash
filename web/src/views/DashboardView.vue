@@ -159,56 +159,39 @@
             <!-- Server Metrics Content -->
             <div v-if="selectedServer && selectedServerMetrics" class="p-6">
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <!-- CPU Usage -->
-                <div class="bg-background-dark border border-border-color rounded-lg p-4">
-                  <div class="flex items-center justify-between mb-2">
-                    <span class="text-xs text-slate-400 uppercase tracking-wider">CPU Usage</span>
-                    <span class="text-xl">⚡</span>
-                  </div>
-                  <div class="text-2xl font-bold text-white mb-2">{{ selectedServerMetrics.cpu }}%</div>
-                  <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                    <div class="bg-primary h-full transition-all shadow-[0_0_8px_#25d1f4]" :style="`width: ${selectedServerMetrics.cpu}%`"></div>
-                  </div>
-                  <div class="text-xs text-slate-500 mt-2">{{ selectedServerMetrics.cpuCores }} cores</div>
+              <!-- Visual Gauges Grid -->
+              <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                <!-- CPU Gauge -->
+                <div class="bg-background-dark border border-border-color rounded-lg p-6 flex flex-col items-center">
+                  <p class="text-slate-400 text-sm font-medium uppercase tracking-wider mb-2">CPU Load</p>
+                  <div id="cpu-gauge" class="h-[200px] w-full"></div>
                 </div>
 
-                <!-- Memory Usage -->
-                <div class="bg-background-dark border border-border-color rounded-lg p-4">
-                  <div class="flex items-center justify-between mb-2">
-                    <span class="text-xs text-slate-400 uppercase tracking-wider">Memory</span>
-                    <span class="text-xl">💾</span>
-                  </div>
-                  <div class="text-2xl font-bold text-white mb-2">{{ selectedServerMetrics.memoryUsed }} GB</div>
-                  <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                    <div class="bg-purple-500 h-full transition-all shadow-[0_0_8px_#a855f7]" :style="`width: ${selectedServerMetrics.memoryPercent}%`"></div>
-                  </div>
-                  <div class="text-xs text-slate-500 mt-2">{{ selectedServerMetrics.memoryTotal }} GB total</div>
+                <!-- RAM Gauge -->
+                <div class="bg-background-dark border border-border-color rounded-lg p-6 flex flex-col items-center">
+                  <p class="text-slate-400 text-sm font-medium uppercase tracking-wider mb-2">Memory</p>
+                  <div id="ram-gauge" class="h-[200px] w-full"></div>
                 </div>
 
-                <!-- Disk Usage -->
-                <div class="bg-background-dark border border-border-color rounded-lg p-4">
-                  <div class="flex items-center justify-between mb-2">
-                    <span class="text-xs text-slate-400 uppercase tracking-wider">Disk</span>
-                    <span class="text-xl">💿</span>
-                  </div>
-                  <div class="text-2xl font-bold text-white mb-2">{{ selectedServerMetrics.diskUsed }} GB</div>
-                  <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                    <div class="bg-orange-500 h-full transition-all shadow-[0_0_8px_#f97316]" :style="`width: ${selectedServerMetrics.diskPercent}%`"></div>
-                  </div>
-                  <div class="text-xs text-slate-500 mt-2">{{ selectedServerMetrics.diskTotal }} GB total</div>
+                <!-- Temperature Thermometer -->
+                <div class="bg-background-dark border border-border-color rounded-lg p-6 flex flex-col items-center">
+                  <p class="text-slate-400 text-sm font-medium uppercase tracking-wider mb-2">Temperature</p>
+                  <div id="temp-gauge" class="h-[200px] w-full"></div>
+                </div>
+              </div>
+
+              <!-- Network and Disk in second row -->
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Network Gauge -->
+                <div class="bg-background-dark border border-border-color rounded-lg p-6">
+                  <p class="text-slate-400 text-sm font-medium uppercase tracking-wider mb-4">Network I/O</p>
+                  <div id="network-gauge" class="h-[180px] w-full"></div>
                 </div>
 
-                <!-- Temperature -->
-                <div class="bg-background-dark border border-border-color rounded-lg p-4">
-                  <div class="flex items-center justify-between mb-2">
-                    <span class="text-xs text-slate-400 uppercase tracking-wider">Temperature</span>
-                    <span class="text-xl">🌡️</span>
-                  </div>
-                  <div class="text-2xl font-bold text-white mb-2">{{ selectedServerMetrics.temp }}°C</div>
-                  <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                    <div :class="getTempBarClass(selectedServerMetrics.temp)" class="h-full transition-all" :style="`width: ${Math.min(selectedServerMetrics.temp * 2, 100)}%`"></div>
-                  </div>
-                  <div class="text-xs text-slate-500 mt-2">{{ getTempStatus(selectedServerMetrics.temp) }}</div>
+                <!-- Disk Donut -->
+                <div class="bg-background-dark border border-border-color rounded-lg p-6 flex flex-col items-center">
+                  <p class="text-slate-400 text-sm font-medium uppercase tracking-wider mb-2">Disk Usage</p>
+                  <div id="disk-gauge" class="h-[180px] w-full"></div>
                 </div>
               </div>
 
@@ -376,7 +359,7 @@
 import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import axios from 'axios'
 import * as echarts from 'echarts/core'
-import { LineChart, BarChart } from 'echarts/charts'
+import { LineChart, BarChart, GaugeChart, PieChart } from 'echarts/charts'
 import { GridComponent, TooltipComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
 import EditServerModal from '../components/EditServerModal.vue'
@@ -394,7 +377,7 @@ interface Server {
   logRetention?: number
 }
 
-echarts.use([LineChart, BarChart, GridComponent, TooltipComponent, CanvasRenderer])
+echarts.use([LineChart, BarChart, GaugeChart, PieChart, GridComponent, TooltipComponent, CanvasRenderer])
 
 const API_BASE = 'http://localhost:8080/api/v1'
 
@@ -417,6 +400,11 @@ const editingServer = ref<Server | null>(null)
 // --- Charts ---
 let cpuChart: echarts.ECharts | null = null
 let memoryChart: echarts.ECharts | null = null
+let cpuGauge: echarts.ECharts | null = null
+let ramGauge: echarts.ECharts | null = null
+let tempGauge: echarts.ECharts | null = null
+let networkGauge: echarts.ECharts | null = null
+let diskGauge: echarts.ECharts | null = null
 let updateInterval: number | null = null
 
 // --- Computed ---
@@ -488,6 +476,9 @@ async function fetchAgentMetrics(agentId: string) {
     const response = await axios.get(`${API_BASE}/metrics/${agentId}?limit=2`) // Fetch 2 for rate calc
     if (response.data && response.data.length > 0) {
        selectedServerRawMetrics.value = response.data // Store list
+       // Render gauges after metrics are loaded
+       await nextTick()
+       renderServerGauges()
     } else {
        selectedServerRawMetrics.value = null 
     }
@@ -691,9 +682,271 @@ function renderMemoryChart() {
   memoryChart.setOption(option)
 }
 
+// --- Gauge Rendering Functions ---
+function renderServerGauges() {
+  if (!selectedServerMetrics.value) return
+  
+  renderCPUGauge(parseFloat(selectedServerMetrics.value.cpu))
+  renderRAMGauge(parseFloat(selectedServerMetrics.value.memoryUsed), parseFloat(selectedServerMetrics.value.memoryTotal))
+  renderTempGauge(selectedServerMetrics.value.temp)
+  renderNetworkGauge(selectedServerMetrics.value.netIn, selectedServerMetrics.value.netOut)
+  renderDiskGauge(parseFloat(selectedServerMetrics.value.diskUsed), parseFloat(selectedServerMetrics.value.diskTotal))
+}
+
+function renderCPUGauge(value: number) {
+  const dom = document.getElementById('cpu-gauge')
+  if (!dom) return
+  if (!cpuGauge) cpuGauge = echarts.init(dom)
+  
+  const option = {
+    series: [{
+      type: 'gauge',
+      startAngle: 180,
+      endAngle: 0,
+      min: 0,
+      max: 100,
+      radius: '90%',
+      center: ['50%', '70%'],
+      axisLine: {
+        lineStyle: {
+          width: 15,
+          color: [[0.3, '#22c55e'], [0.7, '#25d1f4'], [1, '#ef4444']]
+        }
+      },
+      pointer: {
+        icon: 'path://M2090.36389,615.30999 L2090.36389,615.30999 C2091.48372,615.30999 2092.40383,616.194028 2092.44859,617.312956 L2096.90698,728.755929 C2097.05155,732.369577 2094.2393,735.416212 2090.62566,735.56078 C2090.53845,735.564269 2090.45117,735.566014 2090.36389,735.566014 L2090.36389,735.566014 C2086.74736,735.566014 2083.81557,732.63423 2083.81557,729.017692 C2083.81557,728.930412 2083.81732,728.84314 2083.82081,728.755929 L2088.2792,617.312956 C2088.32396,616.194028 2089.24407,615.30999 2090.36389,615.30999 Z',
+        length: '75%',
+        width: 8,
+        offsetCenter: [0, '5%'],
+        itemStyle: { color: '#25d1f4' }
+      },
+      axisTick: { show: false },
+      splitLine: { show: false },
+      axisLabel: {
+        color: '#64748b',
+        fontSize: 10,
+        distance: -30,
+        formatter: (val:number) => val % 25 === 0 ? val : ''
+      },
+      detail: {
+        valueAnimation: true,
+        formatter: '{value}%',
+        color: '#fff',
+        fontSize: 24,
+        fontWeight: 'bold',
+        offsetCenter: [0, '20%']
+      },
+      data: [{ value, name: '' }]
+    }]
+  }
+  cpuGauge.setOption(option)
+}
+
+function renderRAMGauge(used: number, total: number) {
+  const dom = document.getElementById('ram-gauge')
+  if (!dom) return
+  if (!ramGauge) ramGauge = echarts.init(dom)
+  
+  const percent = (used / total) * 100
+  
+  const option = {
+    series: [{
+      type: 'gauge',
+      startAngle: 180,
+      endAngle: 0,
+      min: 0,
+      max: 100,
+      radius: '90%',
+      center: ['50%', '70%'],
+      axisLine: {
+        lineStyle: {
+          width: 15,
+          color: [[0.3, '#8b5cf6'], [0.7, '#a855f7'], [1, '#ef4444']]
+        }
+      },
+      pointer: {
+        icon: 'path://M2090.36389,615.30999 L2090.36389,615.30999 C2091.48372,615.30999 2092.40383,616.194028 2092.44859,617.312956 L2096.90698,728.755929 C2097.05155,732.369577 2094.2393,735.416212 2090.62566,735.56078 C2090.53845,735.564269 2090.45117,735.566014 2090.36389,735.566014 L2090.36389,735.566014 C2086.74736,735.566014 2083.81557,732.63423 2083.81557,729.017692 C2083.81557,728.930412 2083.81732,728.84314 2083.82081,728.755929 L2088.2792,617.312956 C2088.32396,616.194028 2089.24407,615.30999 2090.36389,615.30999 Z',
+        length: '75%',
+        width: 8,
+        offsetCenter: [0, '5%'],
+        itemStyle: { color: '#a855f7' }
+      },
+      axisTick: { show: false },
+      splitLine: { show: false },
+      axisLabel: {
+        color: '#64748b',
+        fontSize: 10,
+        distance: -30,
+        formatter: (val:number) => val % 25 === 0 ? val : ''
+      },
+      detail: {
+        valueAnimation: true,
+        formatter: `${used.toFixed(1)}GB\\n${total.toFixed(0)}GB`,
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+        offsetCenter: [0, '20%'],
+        lineHeight: 20
+      },
+      data: [{ value: percent, name: '' }]
+    }]
+  }
+  ramGauge.setOption(option)
+}
+
+function renderTempGauge(temp: number) {
+  const dom = document.getElementById('temp-gauge')
+  if (!dom) return
+  if (!tempGauge) tempGauge = echarts.init(dom)
+  
+  const option = {
+    series: [{
+      type: 'gauge',
+      startAngle: 180,
+      endAngle: 0,
+      min: 0,
+      max: 100,
+      radius: '90%',
+      center: ['50%', '70%'],
+      axisLine: {
+        lineStyle: {
+          width: 15,
+          color: [[0.4, '#22c55e'], [0.6, '#eab308'], [1, '#ef4444']]
+        }
+      },
+      pointer: {
+        icon: 'path://M2090.36389,615.30999 L2090.36389,615.30999 C2091.48372,615.30999 2092.40383,616.194028 2092.44859,617.312956 L2096.90698,728.755929 C2097.05155,732.369577 2094.2393,735.416212 2090.62566,735.56078 C2090.53845,735.564269 2090.45117,735.566014 2090.36389,735.566014 L2090.36389,735.566014 C2086.74736,735.566014 2083.81557,732.63423 2083.81557,729.017692 C2083.81557,728.930412 2083.81732,728.84314 2083.82081,728.755929 L2088.2792,617.312956 C2088.32396,616.194028 2089.24407,615.30999 2090.36389,615.30999 Z',
+        length: '75%',
+        width: 8,
+        offsetCenter: [0, '5%'],
+        itemStyle: { color: temp > 60 ? '#ef4444' : temp > 40 ? '#eab308' : '#22c55e' }
+      },
+      axisTick: { show: false },
+      splitLine: { show: false },
+      axisLabel: {
+        color: '#64748b',
+        fontSize: 10,
+        distance: -30,
+        formatter: (val:number) => val % 25 === 0 ? val + '°' : ''
+      },
+      detail: {
+        valueAnimation: true,
+        formatter: '{value}°C',
+        color: '#fff',
+        fontSize: 24,
+        fontWeight: 'bold',
+        offsetCenter: [0, '20%']
+      },
+      data: [{ value: temp, name: '' }]
+    }]
+  }
+  tempGauge.setOption(option)
+}
+
+function renderNetworkGauge(netIn: number, netOut: number) {
+  const dom = document.getElementById('network-gauge')
+  if (!dom) return
+  if (!networkGauge) networkGauge = echarts.init(dom)
+  
+  const option = {
+    grid: { left: 60, right: 20, top: 30, bottom: 10 },
+    xAxis: { type: 'value', show: false, max: Math.max(netIn, netOut, 10) * 1.2 },
+    yAxis: {
+      type: 'category',
+      data: ['Upload', 'Download'],
+      axisLabel: { color: '#94a3b8', fontSize: 12 },
+      axisLine: { show: false },
+      axisTick: { show: false }
+    },
+    series: [{
+      type: 'bar',
+      data: [
+        { value: netOut, itemStyle: { color: '#3b82f6' } },
+        { value: netIn, itemStyle: { color: '#22c55e' } }
+      ],
+      barWidth: 20,
+      label: {
+        show: true,
+        position: 'right',
+        formatter: (params: any) => `${params.value.toFixed(2)} MB/s`,
+        color: '#fff',
+        fontSize: 12
+      }
+    }]
+  }
+  networkGauge.setOption(option)
+}
+
+function renderDiskGauge(used: number, total: number) {
+  const dom = document.getElementById('disk-gauge')
+  if (!dom) return
+  if (!diskGauge) diskGauge = echarts.init(dom)
+  
+  const free = total - used
+  const percent = (used / total) * 100
+  
+  const option = {
+    series: [{
+      type: 'pie',
+      radius: ['50%', '70%'],
+      center: ['50%', '55%'],
+      avoidLabelOverlap: false,
+      itemStyle: {
+        borderRadius: 8,
+        borderColor: '#0f172a',
+        borderWidth: 3
+      },
+      label: {
+        show: false
+      },
+      emphasis: {
+        label: {
+          show: true,
+          fontSize: 14,
+          fontWeight: 'bold',
+          color: '#fff'
+        }
+      },
+      labelLine: { show: false },
+      data: [
+        { value: used, name: 'Used', itemStyle: { color: '#3b82f6' } },
+        { value: free, name: 'Free', itemStyle: { color: '#1e293b' } }
+      ]
+    }],
+    graphic: [{
+      type: 'text',
+      left: 'center',
+      top: '45%',
+      style: {
+        text: `${used.toFixed(0)}GB`,
+        fontSize: 20,
+        fontWeight: 'bold',
+        fill: '#fff',
+        textAlign: 'center'
+      }
+    }, {
+      type: 'text',
+      left: 'center',
+      top: '58%',
+      style: {
+        text: `${percent.toFixed(0)}% Used`,
+        fontSize: 12,
+        fill: '#94a3b8',
+        textAlign: 'center'
+      }
+    }]
+  }
+  diskGauge.setOption(option)
+}
+
 function handleResize() {
   cpuChart?.resize()
   memoryChart?.resize()
+  cpuGauge?.resize()
+  ramGauge?.resize()
+  tempGauge?.resize()
+  networkGauge?.resize()
+  diskGauge?.resize()
 }
 
 // --- Lifecycle ---
@@ -726,6 +979,11 @@ onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
   cpuChart?.dispose()
   memoryChart?.dispose()
+  cpuGauge?.dispose()
+  ramGauge?.dispose()
+  tempGauge?.dispose()
+  networkGauge?.dispose()
+  diskGauge?.dispose()
 })
 </script>
 

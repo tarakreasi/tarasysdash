@@ -17,27 +17,45 @@ import (
 )
 
 func main() {
-	// CLI Flags
-	serverURL := flag.String("server", "http://localhost:8080", "Server URL")
+	// 1. Identify Agent defaults
+	defaultHostname, _ := os.Hostname()
+
+	// 2. CLI Flags
+	serverURL := flag.String("server", "http://localhost:8080", "Server URL (e.g. http://10.200.150.85:8080)")
+	s := flag.String("s", "", "Server URL (short)")
 	rack := flag.String("rack", "", "Rack Location (e.g., 'Rack A')")
+	r := flag.String("r", "", "Rack Location (short)")
+	name := flag.String("name", defaultHostname, "Agent Name")
+	n := flag.String("n", "", "Agent Name (short)")
+	
 	flag.Parse()
 
 	// Load config
 	cfg := config.Load()
-	// Override if flag is set, though cfg loads from env. Flags usually take precedence or specific flow.
-	// In this code, cfg seems to already load SERVER_URL from env.
-	// But let's respect the CLI flag if it's different/default?
-	// The original code used `*serverURL` in registerAgent, but `cfg.ServerURL` in metrics loop.
-	// Let's ensure consistent usage. Ideally update cfg.ServerURL with flag if flag is not default.
-	cfg.ServerURL = *serverURL
+	
+	// Override config with flags (Short flags take precedence over long flags)
+	if *s != "" {
+		cfg.ServerURL = *s
+	} else if *serverURL != "http://localhost:8080" || cfg.ServerURL == "" {
+		cfg.ServerURL = *serverURL
+	}
 
-	// 1. Identify Agent
-	hostname, _ := os.Hostname()
+	finalRack := *rack
+	if *r != "" {
+		finalRack = *r
+	}
+
+	finalName := *name
+	if *n != "" {
+		finalName = *n
+	}
+
+	// 3. Identification
 	agent := storage.Agent{
 		ID:           "agent-uuid-1", // TODO: Persist UUID properly
-		Hostname:     hostname,
-		OS:           "linux", // TODO: Detect OS
-		RackLocation: *rack,
+		Hostname:     finalName,
+		OS:           "linux",
+		RackLocation: finalRack,
 	}
 
 	logger.Init(cfg.LogLevel)

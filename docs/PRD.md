@@ -4,14 +4,14 @@
 **TaraSysDash** is a lightweight system monitoring solution designed for critical video surveillance environments. It provides real-time visibility into the health of Windows-based Video Management System (VMS) servers across multiple racks.
 
 ## 2. Problem Statement
-Field Engineers overseeing large VMS deployments (3+ racks, ~30 servers) struggle to monitor system health manually. RDP-ing into servers is inefficient. Existing tools are either too expensive, too heavy, or require cloud connectivity (which is often restricted).
+Field Engineers overseeing large VMS deployments (3 Racks, ~52 servers) struggle to monitor system health manually. RDP-ing into servers is inefficient. Existing tools are either too expensive, too heavy, or require cloud connectivity (which is often restricted).
 
 ## 3. Operations & User Persona
 -   **Primary User:** Field Engineer ([See User Persona](./user_persona.md))
 -   **Environment:** 
     -   OS: Windows Server 2019/2022, Windows 10/11.
     -   Network: High throughput (>1Gbps constant traffic), Air-gapped/Private LAN.
-    -   Scale: 3 Racks, mixed roles (Recorder, Management, Storage).
+    -   Scale: 3 Racks, ~52 Servers.
 
 ## 4. Functional Requirements
 
@@ -28,7 +28,7 @@ Field Engineers overseeing large VMS deployments (3+ racks, ~30 servers) struggl
 -   **[P2] Service Monitoring:** Check if specific VMS services (e.g., "Milestone Recording Server", "Genetec Server") are running.
 
 ### 4.2. Server & API
--   **[P0] Ingestion:** Handle metrics push from 50+ agents every 1-5 seconds.
+-   **[P0] Ingestion:** Handle metrics push from 52+ agents every 1-5 seconds.
 -   **[P0] Persistence:** Store metrics locally (SQLite WAL mode) with retention policy (e.g., 7 days).
 -   **[P1] API:** Expose JSON endpoints for:
     -   Current Snapshot (Live Dashboard).

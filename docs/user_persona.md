@@ -9,7 +9,7 @@
 ## Responsibilities
 Budi is responsible for the uptime and performance of a critical **Video Management System (VMS)** deployment.
 -   **Scope:** 3 Physical Server Racks.
--   **Assets:** Total ~15-30 Windows Servers (Recording Servers, Management Servers, Failover Servers).
+-   **Assets:** Total ~52 Windows Servers (Recording Servers, Management Servers, Failover Servers).
 -   **OS Breakdown:** Mixed environment of Windows Server 2019, Windows Server 2022, and some legacy Windows 10/11 IoT Enterprise units.
 
 ## Goals

@@ -328,7 +328,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
+import { onMounted, onUnmounted, nextTick } from 'vue'
 import * as echarts from 'echarts/core'
 import { LineChart, BarChart, GaugeChart, PieChart } from 'echarts/charts'
 import { GridComponent, TooltipComponent } from 'echarts/components'
@@ -336,277 +336,45 @@ import { CanvasRenderer } from 'echarts/renderers'
 import EditServerModal from '../components/EditServerModal.vue'
 import MetricCard from '../components/MetricCard.vue'
 import ServerGauge from '../components/ServerGauge.vue'
-import { api } from '../services/api'
-import type { Agent, Metric } from '../types'
+import { useDashboard } from '../composables/useDashboard'
+import { 
+  getStatusBadgeClass, 
+  getStatusIcon, 
+  getStatusIconClass, 
+  getServerCardClass 
+} from '../utils/formatters'
 
 echarts.use([LineChart, BarChart, GaugeChart, PieChart, GridComponent, TooltipComponent, CanvasRenderer])
 
-// --- State ---
-const cpuLoad = ref(0)
-const cpuTrend = ref(0)
-const memoryGB = ref(0)
-const netInMbps = ref(0)
-const netOutMbps = ref(0)
-const lastUpdate = ref('--:--:--')
-const servers = ref<Agent[]>([])
-const selectedServer = ref<Agent | null>(null)
-const selectedServerRawMetrics = ref<Metric[] | null>(null) // Real metrics data (List of recent)
-// removed duplicate selectedServerMetrics ref
-const isEditModalOpen = ref(false)
-const editingServer = ref<Agent | null>(null)
+// --- Composable ---
+const {
+  // State
+  cpuLoad,
+  cpuTrend,
+  memoryGB,
+  netInMbps,
+  netOutMbps,
+  lastUpdate,
+  selectedServer,
+  isEditModalOpen,
+  editingServer,
+  selectedServerMetrics,
+  sidebarServers,
+  totalCapacity,
+  
+  // Actions
+  fetchServers,
+  fetchMetrics,
+  fetchAgentMetrics,
+  selectServer,
+  handleEditServer,
+  handleSaveServer
+} = useDashboard()
 
 // --- Charts ---
 let cpuChart: echarts.ECharts | null = null
 let memoryChart: echarts.ECharts | null = null
 let updateInterval: number | null = null
-
-// --- Computed ---
-// Removed old rack grouping and search functionality since servers are now in sidebar
-
-// Selected server metrics (mock data for now, will be replaced with real API data)
-const selectedServerMetrics = computed(() => {
-  if (!selectedServerRawMetrics.value || selectedServerRawMetrics.value.length === 0) return null
-  
-  const m = selectedServerRawMetrics.value[0]!
-  if (!m) return null
-
-  const prevM = selectedServerRawMetrics.value.length > 1 ? selectedServerRawMetrics.value[1] : null
-
-  // Calculate disk percent
-  const diskUsed = m.disk_usage && m.disk_usage.length > 0 ? (m.disk_usage[0]!.used_bytes / 1073741824) : 0
-  const diskTotal = m.disk_usage && m.disk_usage.length > 0 ? (m.disk_usage[0]!.total_bytes / 1073741824) : 1
-  const diskPercent = (diskUsed / diskTotal) * 100
-
-  // Calculate Network Rate (MB/s)
-  let netInRate = 0
-  let netOutRate = 0
-  if (prevM) {
-    const timeDiff = m.timestamp - prevM.timestamp
-    if (timeDiff > 0) {
-      netInRate = (m.bytes_in - prevM.bytes_in) / timeDiff / 1024 / 1024
-      netOutRate = (m.bytes_out - prevM.bytes_out) / timeDiff / 1024 / 1024
-    }
-  }
-
-  return {
-    cpu: m.cpu_usage_percent.toFixed(1),
-    cpuCores: 0, 
-    memoryUsed: (m.memory_used_bytes / 1073741824).toFixed(1),
-    memoryTotal: (m.memory_total_bytes / 1073741824).toFixed(1),
-    memoryPercent: Math.round((m.memory_used_bytes / m.memory_total_bytes) * 100),
-    diskUsed: diskUsed.toFixed(1),
-    diskTotal: diskTotal.toFixed(1),
-    diskPercent: Math.round(diskPercent),
-    netIn: netInRate,
-    netOut: netOutRate,
-    netInDisplay: netInRate.toFixed(2),
-    netOutDisplay: netOutRate.toFixed(2),
-    uptime: formatUptime(m.uptime_seconds),
-    processes: m.process_count,
-    services: m.services || [],
-    temp: m.temperature || 0
-  }
-})
-
-// Uptime formatter
-function formatUptime(seconds: number): string {
-  if (!seconds) return '0s'
-  const d = Math.floor(seconds / (3600*24))
-  const h = Math.floor((seconds % (3600*24)) / 3600)
-  const m = Math.floor((seconds % 3600) / 60)
-  if (d > 0) return `${d}d ${h}h ${m}m`
-  if (h > 0) return `${h}h ${m}m`
-  return `${m}m`
-}
-
-// Click handler for selecting server
-function selectServer(server: Agent) {
-  selectedServer.value = server
-  fetchAgentMetrics(server.id)
-}
-
-// Fetch detailed metrics for selected server
-// Fetch detailed metrics for selected server
-async function fetchAgentMetrics(agentId: string) {
-  try {
-    const metrics = await api.getMetrics(agentId, 2) // Fetch 2 for rate calc
-    if (metrics && metrics.length > 0) {
-       selectedServerRawMetrics.value = metrics
-    } else {
-       selectedServerRawMetrics.value = null 
-    }
-  } catch (e) {
-    console.error("Failed to fetch agent metrics", e)
-    selectedServerRawMetrics.value = null
-  }
-}
-
-// Status badge styling
-function getStatusBadgeClass(status: string): string {
-  if (status === 'online') return 'bg-green-500/20 text-green-400 border border-green-500/30'
-  if (status === 'warning') return 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
-  return 'bg-red-500/20 text-red-400 border border-red-500/30'
-}
-
-// --- Edit Server Logic ---
-function handleEditServer(server: Agent) {
-  editingServer.value = server
-  isEditModalOpen.value = true
-}
-
-async function handleSaveServer(updatedServer: any) {
-  try {
-    if (!editingServer.value) return;
-
-    // 1. Update Hostname
-    if (updatedServer.hostname !== editingServer.value.hostname) {
-      await api.updateHostname(updatedServer.id, updatedServer.hostname)
-    }
-
-    // 2. Update Metadata (Rack & Retention)
-    // Note: temp is not editable in UI but passed for consistency if needed, 
-    // though backend treats it as sensor data usually. 
-    // Assuming api.updateMetadata expects { rack_location, temperature, log_retention_days }
-    await api.updateMetadata(updatedServer.id, {
-      rack_location: updatedServer.rack,
-      temperature: editingServer.value.temp || 0,
-      log_retention_days: updatedServer.logRetention
-    })
-
-    // 3. Refresh List
-    isEditModalOpen.value = false
-    await fetchServers()
-    
-    // Update selected server if it was the one edited
-    if (selectedServer.value?.id === updatedServer.id) {
-        // Re-find the updated server from the list to ensure consistency
-        const fresh = servers.value.find(s => s.id === updatedServer.id)
-        if (fresh) selectedServer.value = fresh
-    }
-
-  } catch (e) {
-    console.error("Failed to update server", e)
-    alert("Failed to update server settings")
-  }
-}
-
-// Sidebar-specific computed and helpers
-const sidebarServers = computed(() => {
-  return servers.value.slice(0, 12) // Show max 12 servers in sidebar
-})
-
-const totalCapacity = computed(() => {
-  if (servers.value.length === 0) return 0
-  const total = servers.value.length
-  const online = servers.value.filter(s => s.status === 'online').length
-  return Math.round((online / total) * 100)
-})
-
-function getStatusIcon(status: string): string {
-  if (status === 'online') return '●'
-  if (status === 'warning') return '⚠'
-  return '●' // offline/error
-}
-
-function getStatusIconClass(status: string): string {
-  if (status === 'online') return 'text-green-500 group-hover:drop-shadow-[0_0_5px_#22c55e]'
-  if (status === 'warning') return 'text-yellow-500 animate-pulse'
-  return 'text-red-500 animate-pulse' // offline/error
-}
-
-function getServerCardClass(status: string): string {
-  if (status === 'online') {
-    return 'border border-border-color bg-background-dark hover:border-primary/30'
-  }
-  if (status === 'warning') {
-    return 'border border-yellow-500/30 bg-yellow-500/5 hover:border-yellow-500/50'
-  }
-  return 'border border-red-500/30 bg-red-500/5 hover:border-red-500/50' // offline/error
-}
-
-// --- Actions ---
-async function fetchServers() {
-  try {
-    const agents = await api.getAgents()
-    if (agents) {
-      servers.value = agents.map((agent) => ({
-        ...agent,
-        // Map UI-friendly aliases
-        name: agent.hostname,
-        rack: agent.rack_location || 'Unassigned',
-        temp: agent.temperature || 0,
-        logRetention: agent.log_retention_days
-      }))
-    }
-  } catch (err) {
-    console.error('Failed to fetch servers:', err)
-  }
-}
-
-async function fetchMetrics() {
-  // Aggregate metrics from ALL active servers
-  try {
-      if (servers.value.length === 0) return
-
-      let totalCpu = 0
-      let totalMem = 0
-      let totalNetIn = 0
-      let totalNetOut = 0
-      let activeCount = 0
-
-      // Filter for online servers only
-      const activeServers = servers.value.filter(s => s.status === 'online')
-      
-      if (activeServers.length === 0) {
-        cpuLoad.value = 0
-        memoryGB.value = 0
-        netInMbps.value = 0
-        netOutMbps.value = 0
-        return
-      }
-
-      // Parallel fetch for all active servers
-      const promises = activeServers.map(s => api.getMetrics(s.id, 2))
-      const results = await Promise.allSettled(promises)
-
-      for (const result of results) {
-        if (result.status === 'fulfilled' && result.value && result.value.length > 0) {
-          const m = result.value[0]! // Latest
-          const prevM = result.value.length > 1 ? result.value[1] : null
-
-          totalCpu += m.cpu_usage_percent
-          totalMem += m.memory_used_bytes
-          
-          // Network Rate Calc
-          if (prevM) {
-             const timeDiff = m.timestamp - prevM.timestamp
-             if (timeDiff > 0) {
-               totalNetIn += (m.bytes_in - prevM.bytes_in) / timeDiff 
-               totalNetOut += (m.bytes_out - prevM.bytes_out) / timeDiff
-             }
-          }
-          activeCount++
-        }
-      }
-
-      if (activeCount > 0) {
-        // Average CPU
-        cpuLoad.value = parseFloat((totalCpu / activeCount).toFixed(1))
-        // Total Memory (GB)
-        memoryGB.value = parseFloat((totalMem / 1073741824).toFixed(1))
-        
-        // Total Network (MB/s) - Sum of all agents
-        netInMbps.value = parseFloat((totalNetIn / 1024 / 1024).toFixed(2))
-        netOutMbps.value = parseFloat((totalNetOut / 1024 / 1024).toFixed(2))
-        
-        // Update Trend (Mock for now, or calc previous agg)
-        cpuTrend.value = Math.floor(Math.random() * 10) - 5
-      }
-
-      renderCpuChart()
-  } catch (e) { console.error(e) }
-}
-
 
 // --- Chart Rendering ---
 function renderCpuChart() {

@@ -1,0 +1,57 @@
+{
+    "models": [
+        {
+            "title": "Qwen2.5-Coder 7B (Logic/Smart)",
+            "provider": "ollama",
+            "model": "qwen2.5-coder:7b",
+            "apiBase": "http://localhost:11434"
+        },
+        {
+            "title": "Qwen2.5-Coder 1.5B (Speed)",
+            "provider": "ollama",
+            "model": "qwen2.5-coder:1.5b",
+            "apiBase": "http://localhost:11434"
+        }
+    ],
+    "tabAutocompleteModel": {
+        "title": "Autocompletion",
+        "provider": "ollama",
+        "model": "qwen2.5-coder:1.5b",
+        "apiBase": "http://localhost:11434"
+    },
+    "embeddingsProvider": {
+        "provider": "ollama",
+        "model": "nomic-embed-text",
+        "apiBase": "http://localhost:11434"
+    },
+    "customCommands": [
+        {
+            "name": "check",
+            "prompt": "Check my code for errors, logical issues, and potential optimizations. Be concise.",
+            "description": "Review selected code"
+        },
+        {
+            "name": "doc",
+            "prompt": "Write Python Docstrings for this code following Google Style Guide.",
+            "description": "Generate Documentation"
+        }
+    ],
+    "contextProviders": [
+        {
+            "name": "codebase",
+            "params": {}
+        },
+        {
+            "name": "docs",
+            "params": {}
+        },
+        {
+            "name": "open",
+            "params": {}
+        },
+        {
+            "name": "folder",
+            "params": {}
+        }
+    ]
+}

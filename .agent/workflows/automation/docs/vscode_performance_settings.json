@@ -1,0 +1,32 @@
+{
+    "//": "PERFORMANCE SETTINGS - Copy these into your settings.json",
+    "//_Visuals": "Disable heavy visual effects to save CPU/GPU resource",
+    "editor.minimap.enabled": false,
+    "editor.smoothScrolling": false,
+    "workbench.list.smoothScrolling": false,
+    "editor.cursorBlinking": "solid",
+    "editor.renderControlCharacters": false,
+    "window.autoDetectColorScheme": false,
+    "//_File_Watching": "Reduce file watcher CPU usage",
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/node_modules/*/**": true,
+        "**/.venv/**": true,
+        "**/target/**": true,
+        "**/dist/**": true
+    },
+    "//_Search": "Speed up search by ignoring generated files",
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/*.code-search": true,
+        "**/.venv": true,
+        "**/dist": true
+    },
+    "//_Extensions": "Disable auto-checking to save network/startup time",
+    "extensions.ignoreRecommendations": true,
+    "extensions.autoUpdate": false,
+    "//_Terminal": "Use GPU acceleration if available, otherwise 'off'",
+    "terminal.integrated.gpuAcceleration": "auto"
+}

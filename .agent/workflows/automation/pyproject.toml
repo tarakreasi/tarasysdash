@@ -1,0 +1,24 @@
+[project]
+name = "automation"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "langchain",
+    "langchain-community",
+    "langchain-text-splitters>=1.1.0",
+    "langgraph",
+    "numpy>=2.4.1",
+    "pymupdf4llm>=0.2.9",
+    "sentence-transformers>=2.2.0",
+    "sqlite-utils>=3.39",
+    "sqlite-vec>=0.1.6",
+    "termcolor>=3.3.0",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.1.0",
+    "pytest>=9.0.2",
+]

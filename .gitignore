@@ -2,4 +2,22 @@
 *.log
 *.pid
 *.db
+*.db-shm
+*.db-wal
 
+# Binaries
+bin/
+server
+agent
+agent-cli
+
+# Documentation (Internal/Sprints)
+docs/dev/sprints/
+docs/planning/
+docs/specs/
+
+# Frontend
+web/node_modules/
+web/dist/
+web/.env
+web/vite_debug.log

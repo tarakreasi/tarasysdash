@@ -1,0 +1,28 @@
+{
+    "__comment": "Konfigurasi Koneksi Ollama Local (Copy ke ~/.continue/config.json)",
+    "models": [
+        {
+            "title": "Antigravity Local (Smart - 7B)",
+            "provider": "ollama",
+            "model": "qwen2.5-coder:7b",
+            "apiBase": "http://localhost:11434"
+        },
+        {
+            "title": "Antigravity Local (Fast - 1.5B)",
+            "provider": "ollama",
+            "model": "qwen2.5-coder:1.5b",
+            "apiBase": "http://localhost:11434"
+        }
+    ],
+    "tabAutocompleteModel": {
+        "title": "Local Autocomplete (1.5B)",
+        "provider": "ollama",
+        "model": "qwen2.5-coder:1.5b",
+        "apiBase": "http://localhost:11434"
+    },
+    "embeddingsProvider": {
+        "provider": "ollama",
+        "model": "nomic-embed-text",
+        "apiBase": "http://localhost:11434"
+    }
+}

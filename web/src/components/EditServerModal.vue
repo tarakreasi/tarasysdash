@@ -67,15 +67,11 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import type { Agent } from '../types'
 
 const props = defineProps<{
   isOpen: boolean
-  server: {
-    id: string
-    hostname: string
-    rack: string
-    logRetention?: number
-  } | null
+  server: Agent | null
 }>()
 
 const emit = defineEmits(['close', 'save'])
@@ -92,7 +88,7 @@ watch(() => props.server, (newVal) => {
   if (newVal) {
     form.value = {
       hostname: newVal.hostname,
-      rack: newVal.rack,
+      rack: newVal.rack || '',
       logRetention: newVal.logRetention || 30
     }
   }
@@ -104,13 +100,16 @@ function close() {
 
 async function save() {
   isSaving.value = true
-  // Emit save event with form data
-  emit('save', {
-    ...props.server,
-    hostname: form.value.hostname,
-    rack: form.value.rack,
-    logRetention: form.value.logRetention
-  })
+  if (props.server) {
+      // Emit save event with form data merged into base server object
+      // Note: We emit a merged object that looks like Agent but with updated values
+      emit('save', {
+        ...props.server,
+        hostname: form.value.hostname,
+        rack: form.value.rack,
+        logRetention: form.value.logRetention
+      })
+  }
   isSaving.value = false
 }
 </script>

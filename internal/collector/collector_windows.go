@@ -50,13 +50,19 @@ func (c *Collector) GetMetrics(serviceNames []string) (*SystemMetrics, error) {
 		}
 	}
 
-	// Network
-	netStats, err := net.IOCounters(false)
+	// Network: Aggregating all NICs for Multi-NIC support (e.g. REC 7)
+	netStats, err := net.IOCounters(true) // true = per NIC
 	bytesIn := uint64(0)
 	bytesOut := uint64(0)
-	if err == nil && len(netStats) > 0 {
-		bytesIn = netStats[0].BytesRecv
-		bytesOut = netStats[0].BytesSent
+	if err == nil {
+		for _, ns := range netStats {
+			// Skip loopback and interfaces with no traffic
+			if ns.Name == "lo" || strings.Contains(strings.ToLower(ns.Name), "loopback") {
+				continue
+			}
+			bytesIn += ns.BytesRecv
+			bytesOut += ns.BytesSent
+		}
 	}
 
 	// Host Info (Uptime)

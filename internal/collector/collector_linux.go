@@ -56,20 +56,18 @@ func (c *Collector) GetMetrics(serviceNames []string) (*SystemMetrics, error) {
 		})
 	}
 
-	// Network
-	// We want total bytes across all interfaces for the aggregate "BytesIn/Out"
-	// For MVP, we sum up all interface counters.
-	netStats, err := net.IOCounters(false) // false = params indicate 'perNIC', actually for 'v3' it depends on arg.
-	// wait, gopsutil/net IOCounters(false) returns 1 aggregate element.
-	if err != nil {
-		return nil, err
-	}
-
+	// Network: Aggregating all NICs for consistency
+	netStats, err := net.IOCounters(true) // true = per NIC
 	bytesIn := uint64(0)
 	bytesOut := uint64(0)
-	if len(netStats) > 0 {
-		bytesIn = netStats[0].BytesRecv
-		bytesOut = netStats[0].BytesSent
+	if err == nil {
+		for _, ns := range netStats {
+			if ns.Name == "lo" {
+				continue
+			}
+			bytesIn += ns.BytesRecv
+			bytesOut += ns.BytesSent
+		}
 	}
 
 	// Host Info (Uptime)

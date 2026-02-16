@@ -5,8 +5,10 @@
 *.db-shm
 *.db-wal
 
+# AI Agent
+.agent/
+
 # Binaries
-bin/
 /server
 /agent
 /agent-cli

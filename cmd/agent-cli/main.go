@@ -17,7 +17,7 @@ func main() {
 
 	serverURL := flag.String("server", "http://localhost:8080", "Server URL")
 	rack := flag.String("rack", "Lab-CLI", "Rack Location")
-	name := flag.String("name", "cli-agent-"+defaultHostname, "Agent Name")
+	name := flag.String("name", defaultHostname, "Agent Name")
 	agentID := flag.String("id", "", "Agent ID (defaults to hostname if empty)")
 	interval := flag.Int("interval", 1, "Reporting Interval (seconds)")
 

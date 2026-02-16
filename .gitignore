@@ -12,9 +12,8 @@ bin/
 /agent-cli
 
 # Documentation (Internal/Sprints)
-docs/dev/sprints/
+docs/dev/
 docs/planning/
-docs/specs/
 
 # Frontend
 web/node_modules/

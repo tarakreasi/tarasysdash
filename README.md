@@ -52,15 +52,26 @@ go build -o bin/tara-server cmd/server/main.go
 # Server starts on :8080
 ```
 
-### Agent
+### Local Development (Recommended)
+Use the helper script to run everything (Server, Agent, Frontend):
 ```bash
-# Build agent
-go build -o bin/tara-agent cmd/agent/main.go
+./run_local.sh
+```
 
-# Run agent
-export AGENT_TOKEN=your-secure-token
-export SERVER_URL=http://localhost:8080
-./bin/tara-agent
+### Manual Run
+
+#### Backend Server
+```bash
+go build -o bin/server ./cmd/server
+./bin/server
+# Server starts on :8080
+```
+
+#### Agent (CLI Mode)
+Note: Use CLI mode to avoid heavy GUI dependencies during dev.
+```bash
+go build -o bin/agent-cli ./cmd/agent-cli
+./bin/agent-cli -server http://localhost:8080 -name "local-dev"
 ```
 
 ### Frontend

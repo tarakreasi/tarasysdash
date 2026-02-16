@@ -74,7 +74,7 @@ func (c *Collector) GetMetrics(serviceNames []string) (*SystemMetrics, error) {
 			bytesOut += ns.BytesSent
 
 			// Detailed logging to help user identify which NICs are seen
-			slog.Info("Detected Active NIC", "interface", ns.Name, "recv", ns.BytesRecv, "sent", ns.BytesSent)
+			slog.Info("NIC Detected", "interface", ns.Name, "rx_bytes", ns.BytesRecv, "tx_bytes", ns.BytesSent)
 		}
 	}
 

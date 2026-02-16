@@ -459,7 +459,7 @@ type GlobalMetric struct {
 func (s *SQLiteStore) GetGlobalMetrics(ctx context.Context, limit int) ([]GlobalMetric, error) {
 	query := `
 		SELECT 
-			strftime('%s', time) / 5 * 5 as timestamp_bucket,
+			strftime('%s', substr(time, 1, 19)) / 5 * 5 as timestamp_bucket,
 			AVG(cpu_usage) as avg_cpu,
 			AVG(memory_used) as avg_mem
 		FROM system_metrics

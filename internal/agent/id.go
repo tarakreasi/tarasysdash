@@ -3,18 +3,33 @@ package agent
 import (
 	"fmt"
 	"net"
+	"os"
 	"strings"
 )
 
 // GetOrGenerateAgentID returns the provided ID if non-empty,
-// otherwise generates a deterministic ID based on MAC address.
+// otherwise generates a deterministic ID based on hostname or MAC address.
 func GetOrGenerateAgentID(providedID string) (string, error) {
 	if providedID != "" {
 		return providedID, nil
 	}
 
-	// Generate ID from MAC address
+	// Try hostname first
+	if id, err := GetHostnameID(); err == nil {
+		return id, nil
+	}
+
+	// Fallback to MAC address
 	return GetMACAddressID()
+}
+
+// GetHostnameID returns the system hostname as the agent ID.
+func GetHostnameID() (string, error) {
+	hostname, err := os.Hostname()
+	if err != nil || hostname == "" {
+		return "", fmt.Errorf("failed to get hostname: %w", err)
+	}
+	return hostname, nil
 }
 
 // GetMACAddressID generates an agent ID based on the first non-loopback network interface MAC address.

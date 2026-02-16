@@ -14,6 +14,7 @@ export function useDashboard() {
     const servers = ref<Agent[]>([])
     const selectedServer = ref<Agent | null>(null)
     const selectedServerRawMetrics = ref<Metric[] | null>(null)
+    const globalMetricsHistory = ref<{ timestamp: number, avg_cpu: number, avg_memory: number }[]>([])
 
     const isEditModalOpen = ref(false)
     const editingServer = ref<Agent | null>(null)
@@ -28,9 +29,13 @@ export function useDashboard() {
         const prevM = selectedServerRawMetrics.value.length > 1 ? selectedServerRawMetrics.value[1] : null
 
         // Calculate disk percent
-        const diskUsed = m.disk_usage && m.disk_usage.length > 0 ? (m.disk_usage[0]!.used_bytes / 1073741824) : 0
-        const diskTotal = m.disk_usage && m.disk_usage.length > 0 ? (m.disk_usage[0]!.total_bytes / 1073741824) : 1
-        const diskPercent = (diskUsed / diskTotal) * 100
+        const disks = (m.disk_usage || []).map(d => ({
+            path: d.mount_point,
+            used: (d.used_bytes / 1073741824).toFixed(1),
+            total: (d.total_bytes / 1073741824).toFixed(1),
+            percent: Math.round((d.used_bytes / d.total_bytes) * 100)
+        }))
+        const mainDisk = disks.length > 0 ? disks[0] : { used: '0', total: '1', percent: 0 }
 
         // Calculate Network Rate (MB/s)
         let netInRate = 0
@@ -49,9 +54,10 @@ export function useDashboard() {
             memoryUsed: (m.memory_used_bytes / 1073741824).toFixed(1),
             memoryTotal: (m.memory_total_bytes / 1073741824).toFixed(1),
             memoryPercent: Math.round((m.memory_used_bytes / m.memory_total_bytes) * 100),
-            diskUsed: diskUsed.toFixed(1),
-            diskTotal: diskTotal.toFixed(1),
-            diskPercent: Math.round(diskPercent),
+            diskUsed: mainDisk!.used,
+            diskTotal: mainDisk!.total,
+            diskPercent: mainDisk!.percent,
+            disks: disks,
             netIn: netInRate,
             netOut: netOutRate,
             netInDisplay: netInRate.toFixed(2),
@@ -77,7 +83,7 @@ export function useDashboard() {
     // --- Actions ---
     async function fetchAgentMetrics(agentId: string) {
         try {
-            const metrics = await api.getMetrics(agentId, 2) // Fetch 2 for rate calc
+            const metrics = await api.getMetrics(agentId, 120) // Fetch 120 points for history
             if (metrics && metrics.length > 0) {
                 selectedServerRawMetrics.value = metrics
             } else {
@@ -154,14 +160,27 @@ export function useDashboard() {
             }
 
             if (activeCount > 0) {
-                cpuLoad.value = parseFloat((totalCpu / activeCount).toFixed(1))
+                const newCpuLoad = parseFloat((totalCpu / activeCount).toFixed(1))
+                cpuTrend.value = parseFloat((newCpuLoad - cpuLoad.value).toFixed(1))
+                cpuLoad.value = newCpuLoad
+
                 memoryGB.value = parseFloat((totalMem / 1073741824).toFixed(1))
                 netInMbps.value = parseFloat((totalNetIn / 1024 / 1024).toFixed(2))
                 netOutMbps.value = parseFloat((totalNetOut / 1024 / 1024).toFixed(2))
-                cpuTrend.value = Math.floor(Math.random() * 10) - 5
             }
 
         } catch (e) { console.error(e) }
+    }
+
+    async function fetchGlobalHistory() {
+        try {
+            const history = await api.getGlobalHistory(120)
+            if (history) {
+                globalMetricsHistory.value = history
+            }
+        } catch (e) {
+            console.error("Failed to fetch global history", e)
+        }
     }
 
     function handleEditServer(server: Agent) {
@@ -210,8 +229,10 @@ export function useDashboard() {
         isEditModalOpen,
         editingServer,
         selectedServerMetrics,
+        serverMetricsHistory: selectedServerRawMetrics,
         sidebarServers,
         totalCapacity,
+        globalMetricsHistory: computed(() => globalMetricsHistory.value),
 
         // Actions
         fetchServers,
@@ -219,6 +240,7 @@ export function useDashboard() {
         fetchAgentMetrics,
         selectServer,
         handleEditServer,
-        handleSaveServer
+        handleSaveServer,
+        fetchGlobalHistory
     }
 }

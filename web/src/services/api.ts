@@ -41,6 +41,13 @@ class ApiService {
         });
         return response.data;
     }
+
+    async getGlobalHistory(limit: number = 60): Promise<{ timestamp: number, avg_cpu: number, avg_memory: number }[]> {
+        const response = await this.client.get<{ timestamp: number, avg_cpu: number, avg_memory: number }[]>('/metrics/global/history', {
+            params: { limit }
+        });
+        return response.data;
+    }
 }
 
 export const api = new ApiService();

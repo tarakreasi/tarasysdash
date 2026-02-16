@@ -13,9 +13,11 @@
 /agent
 /agent-cli
 
-# Documentation (Internal/Sprints)
+# Documentation (Internal/Development)
 docs/dev/
 docs/planning/
+docs/sprint/
+docs/specs/
 
 # Frontend
 web/node_modules/

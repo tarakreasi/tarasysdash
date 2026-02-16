@@ -4,6 +4,35 @@ All notable changes to taraSysDash will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.2.0] - 2026-02-16
+
+### Added - Sprint 15: Real-Time Multi-Platform Monitoring
+- **Multi-Disk Visualization**: Dynamic partition detection and display in the server detail panel.
+  - Supports multiple mount points (e.g., `/`, `/home`, `/boot`).
+  - Color-coded progress bars (green/orange/red) based on usage percentage.
+- **Global Metrics Aggregation**: Backend-level CPU and Memory averaging across all online agents.
+  - New API Endpoint: `GET /api/v1/metrics/global/history`.
+  - SQLite aggregation logic for cluster-wide performance tracking.
+- **Cross-Platform Release Binaries**: Pre-compiled binaries for Linux and Windows x64.
+  - `server.exe` and `agent-cli.exe` for easy Windows deployment.
+  - Single-binary architecture with embedded frontend assets.
+- **Automation & Setup**: Added `run_local.sh` and `docs/field/install.sh` for streamlined operations.
+
+### Changed
+- **Frontend Architecture Refactor**: Decomposed the monolithic `DashboardView.vue` into focused components for improved maintainability.
+  - `GlobalOverviewCharts.vue`: Top-level cluster charts.
+  - `RackSidebar.vue`: Organized server list.
+  - `ServerDetailPanel.vue`: Deep-dive per-server metrics and gauges.
+- **State Management**: Migrated dashboard logic from components to `useDashboard.ts` (Vue 3 Composable pattern).
+- **Embedded Asset Synchronization**: Fixed build pipeline to ensure `npm run build` outputs are correctly synced into the Go server embedding directory.
+- **Repository Optimization**: Removed redundant sprint documentation and ignored `.agent/` directory from git tracking.
+
+### Fixed
+- **Stale Browser Cache Issue**: Resolved "gimmick" data display by removing hardcoded mock strings and enforcing fresh build embedding.
+- **Agent Count Logic**: Real-time header update now accurately reflects the number of online agents.
+- **Git Binary Tracking**: Ensured release binaries in `bin/` are correctly tracked by git for direct deployment.
+
+
 ## [1.1.0] - 2026-01-05
 
 ### Added - Sprint 14: Agent Reliability & Visual Gauges

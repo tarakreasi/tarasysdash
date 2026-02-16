@@ -5,12 +5,13 @@ Real-time infrastructure monitoring dashboard for data centers with production-g
 ## Features
 
 ### Dashboard
-- **6 Metric Cards** - CPU (with Temp), Memory, Disk, Network I/O (Rate), Uptime, Processes
-- **Service Monitoring** - Track status of critical services
-- **Performance Charts** - Latency multi-line chart, HTTP/gRPC throughput visualization
-- **Live System Logs** - Terminal-style log display with color-coded levels
-- **Server Management** - 41+ server support with automatic rack grouping
-- **Auto-Refresh** - 5-second update interval for real-time monitoring
+- **Real-Time Gauges** - CPU, Memory (GB), Temperature (°C), Network I/O, and Disk Usage.
+- **Multi-Disk Support** - Dynamic visualization for all system partitions and mount points.
+- **Global Overview** - Cluster-wide CPU and Memory aggregation trends.
+- **Single Binary Deploy** - Embedded frontend assets inside a single Go executable for Linux/Windows.
+- **Service Monitoring** - Track status of critical system services.
+- **Rack Management** - Automatic server grouping by physical location.
+- **Dynamic Stats** - Live agent count and uptime tracking.
 
 ### Backend APIs
 - **Network Metrics** - BytesIn/Out collection from `/proc/net/dev`
@@ -40,17 +41,23 @@ Real-time infrastructure monitoring dashboard for data centers with production-g
 ### Prerequisites
 - Go 1.21 or higher
 - Node.js 18+ and npm
-- Linux system (for agent)
+- Linux or Windows (for server and agent)
 
-### Backend Server
+### Multi-Platform Build
 ```bash
-# Build server
-go build -o bin/tara-server cmd/server/main.go
+# Build for Linux
+go build -o bin/server cmd/server/main.go
+go build -o bin/agent-cli cmd/agent-cli/main.go
 
-# Run server
-./bin/tara-server
-# Server starts on :8080
+# Build for Windows (Cross-compile from Linux)
+GOOS=windows GOARCH=amd64 go build -o bin/server.exe cmd/server/main.go
+GOOS=windows GOARCH=amd64 go build -o bin/agent-cli.exe cmd/agent-cli/main.go
 ```
+
+### Running the System
+1. **Start Server**: `./bin/server` (Linux) or `.\bin\server.exe` (Windows)
+2. **Setup Agent**: `./bin/agent-cli --server=http://localhost:8080 --id=my-server --interval=1`
+3. **Dashboard**: Open `http://localhost:8080` in your browser.
 
 ### Local Development (Recommended)
 Use the helper script to run everything (Server, Agent, Frontend):

@@ -16,6 +16,12 @@ import (
 	"github.com/tarakreasi/taraSysDash/internal/storage"
 )
 
+var (
+	lastBytesIn  uint64
+	lastBytesOut uint64
+	lastTime     time.Time
+)
+
 // Run starts the agent with the given configuration and agent metadata.
 func Run(cfg *config.Config, agent storage.Agent) {
 	logger.Init(cfg.LogLevel)
@@ -71,7 +77,33 @@ func Run(cfg *config.Config, agent storage.Agent) {
 		if err != nil {
 			logger.Log.Error("Failed to send metrics after retries", "error", err)
 		}
+
+		// Print live stats to console
+		printLiveStats(metrics)
 	}
+}
+
+func printLiveStats(m *collector.SystemMetrics) {
+	now := time.Now()
+	if !lastTime.IsZero() {
+		duration := now.Sub(lastTime).Seconds()
+		if duration > 0 {
+			diffIn := float64(m.BytesIn-lastBytesIn) / duration / 1024 / 1024 * 8    // Mbps
+			diffOut := float64(m.BytesOut-lastBytesOut) / duration / 1024 / 1024 * 8 // Mbps
+			fmt.Printf("\r[%s] CPU: %.1f%% | RAM: %.1fGB | NET: ↓%.2f Mbps ↑%.2f Mbps          ",
+				now.Format("15:04:05"),
+				m.CPUUsagePercent,
+				float64(m.MemoryUsedBytes)/1073741824,
+				diffIn,
+				diffOut,
+			)
+		}
+	} else {
+		fmt.Printf("[%s] Agent Running... Waiting for first delta metrics.\n", now.Format("15:04:05"))
+	}
+	lastBytesIn = m.BytesIn
+	lastBytesOut = m.BytesOut
+	lastTime = now
 }
 
 // HTTPError represents an HTTP error response

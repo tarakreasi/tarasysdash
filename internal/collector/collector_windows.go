@@ -3,6 +3,7 @@
 package collector
 
 import (
+	"log/slog"
 	"os/exec"
 	"strings"
 	"time"
@@ -56,12 +57,21 @@ func (c *Collector) GetMetrics(serviceNames []string) (*SystemMetrics, error) {
 	bytesOut := uint64(0)
 	if err == nil {
 		for _, ns := range netStats {
-			// Skip loopback and interfaces with no traffic
-			if ns.Name == "lo" || strings.Contains(strings.ToLower(ns.Name), "loopback") {
+			lowName := strings.ToLower(ns.Name)
+			// Skip loopback, tunneling (teredo/isatap), and specific virtual adapters
+			if strings.Contains(lowName, "loopback") ||
+				strings.Contains(lowName, "isatap") ||
+				strings.Contains(lowName, "teredo") ||
+				strings.Contains(lowName, "pseudo") ||
+				ns.Name == "lo" {
 				continue
 			}
+
+			// For Windows, skip interfaces that are obviously not physical or have zero activity if we are worried about duplicates,
+			// but summing all physical-like ones is safest.
 			bytesIn += ns.BytesRecv
 			bytesOut += ns.BytesSent
+			slog.Debug("NIC Stat", "name", ns.Name, "rx", ns.BytesRecv, "tx", ns.BytesSent)
 		}
 	}
 

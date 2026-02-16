@@ -2,11 +2,16 @@ package main
 
 import (
 	"context"
+	"embed"
 	"flag"
 	"fmt"
+	"io"
+	"io/fs"
 	"log/slog"
+	"mime"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -15,6 +20,9 @@ import (
 	"github.com/tarakreasi/taraSysDash/internal/auth"
 	"github.com/tarakreasi/taraSysDash/internal/storage"
 )
+
+//go:embed all:web_dist
+var staticFiles embed.FS
 
 func main() {
 	// Setup Structured Logging (JSON)
@@ -104,6 +112,83 @@ func main() {
 
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"status": "ok"})
+	})
+
+	// Serve Static Files (Embedded)
+	// We need to strip the "web_dist" prefix from the embedded FS
+	distFS, err := fs.Sub(staticFiles, "web_dist")
+	if err != nil {
+		slog.Error("Failed to sub embed fs", "error", err)
+		os.Exit(1)
+	}
+
+	// 1. Force register MIME types (just in case)
+	mime.AddExtensionType(".js", "application/javascript")
+	mime.AddExtensionType(".css", "text/css")
+
+	r.GET("/assets/*filepath", func(c *gin.Context) {
+		// c.Param("filepath") includes the leading slash, e.g. "/index.js"
+		path := c.Param("filepath")
+		// Trim leading slash for fs.ReadFile
+		path = strings.TrimPrefix(path, "/")
+
+		if path == "" || path == "/" {
+			c.Status(http.StatusNotFound)
+			return
+		}
+
+		// Try to read the file from distFS (prepend "assets/")
+		fullPath := "assets/" + path
+		data, err := fs.ReadFile(distFS, fullPath)
+		if err != nil {
+			slog.Warn("Asset not found", "path", fullPath, "error", err)
+			c.Status(http.StatusNotFound)
+			return
+		}
+
+		contentType := "application/octet-stream"
+		if strings.HasSuffix(path, ".js") {
+			contentType = "application/javascript"
+		} else if strings.HasSuffix(path, ".css") {
+			contentType = "text/css"
+		} else if strings.HasSuffix(path, ".svg") {
+			contentType = "image/svg+xml"
+		} else {
+			contentType = mime.TypeByExtension(strings.ToLower(path[strings.LastIndex(path, "."):]))
+		}
+
+		c.Data(http.StatusOK, contentType, data)
+	})
+
+	// 3. Read index.html into memory for robust serving
+	indexFile, err := distFS.Open("index.html")
+	if err != nil {
+		slog.Error("Failed to open index.html", "error", err)
+		os.Exit(1)
+	}
+	indexBytes, err := io.ReadAll(indexFile)
+	if err != nil {
+		slog.Error("Failed to read index.html", "error", err)
+		os.Exit(1)
+	}
+	indexFile.Close()
+
+	// Serve Index Handler
+	serveIndex := func(c *gin.Context) {
+		c.Data(http.StatusOK, "text/html; charset=utf-8", indexBytes)
+	}
+
+	r.GET("/", serveIndex)
+
+	// Serve Index.html for root and unknown routes (SPA fallback)
+	r.NoRoute(func(c *gin.Context) {
+		// If it's an API route, return 404 JSON
+		if strings.HasPrefix(c.Request.URL.Path, "/api/") {
+			c.JSON(http.StatusNotFound, gin.H{"error": "API route not found"})
+			return
+		}
+		// Otherwise serve index.html
+		serveIndex(c)
 	})
 
 	// Public READ endpoints (no auth)
@@ -204,7 +289,12 @@ func main() {
 
 	r.GET("/api/v1/metrics/:agent_id", func(c *gin.Context) {
 		agentID := c.Param("agent_id")
-		limit := 60 // Default: last 60 data points
+		limit := 60 // Default
+		if l := c.Query("limit"); l != "" {
+			if val, err := strconv.Atoi(l); err == nil && val > 0 {
+				limit = val
+			}
+		}
 		metrics, err := store.GetRecentMetrics(c.Request.Context(), agentID, limit)
 		if err != nil {
 			slog.Error("Failed to get metrics", "error", err)
@@ -214,9 +304,30 @@ func main() {
 		c.JSON(http.StatusOK, metrics)
 	})
 
+	r.GET("/api/v1/metrics/global/history", func(c *gin.Context) {
+		limit := 60
+		if l := c.Query("limit"); l != "" {
+			if val, err := strconv.Atoi(l); err == nil && val > 0 {
+				limit = val
+			}
+		}
+		metrics, err := store.GetGlobalMetrics(c.Request.Context(), limit)
+		if err != nil {
+			slog.Error("Failed to get global metrics", "error", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get global metrics"})
+			return
+		}
+		c.JSON(http.StatusOK, metrics)
+	})
+
 	r.GET("/api/v1/metrics/:agent_id/network", func(c *gin.Context) {
 		agentID := c.Param("agent_id")
 		limit := 60
+		if l := c.Query("limit"); l != "" {
+			if val, err := strconv.Atoi(l); err == nil && val > 0 {
+				limit = val
+			}
+		}
 		metrics, err := store.GetRecentMetrics(c.Request.Context(), agentID, limit)
 		if err != nil {
 			slog.Error("Failed to get network metrics", "error", err)

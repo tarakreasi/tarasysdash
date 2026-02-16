@@ -448,6 +448,42 @@ LIMIT ?
 	return &stats, rows.Err()
 }
 
+type GlobalMetric struct {
+	Timestamp int64   `json:"timestamp"`
+	AvgCPU    float64 `json:"avg_cpu"`
+	AvgMemory float64 `json:"avg_memory"`
+}
+
+func (s *SQLiteStore) GetGlobalMetrics(ctx context.Context, limit int) ([]GlobalMetric, error) {
+	query := `
+		SELECT 
+			(CAST(strftime('%s', substr(time, 1, 19)) AS INTEGER) / 5) * 5 as timestamp_bucket,
+			AVG(cpu_usage) as avg_cpu,
+			AVG(memory_used) as avg_mem
+		FROM system_metrics
+		WHERE time IS NOT NULL
+		GROUP BY timestamp_bucket
+		HAVING timestamp_bucket IS NOT NULL
+		ORDER BY timestamp_bucket DESC
+		LIMIT ?
+	`
+	rows, err := s.db.QueryContext(ctx, query, limit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var metrics []GlobalMetric
+	for rows.Next() {
+		var m GlobalMetric
+		if err := rows.Scan(&m.Timestamp, &m.AvgCPU, &m.AvgMemory); err != nil {
+			return nil, err
+		}
+		metrics = append(metrics, m)
+	}
+	return metrics, rows.Err()
+}
+
 func (s *SQLiteStore) ListAgentsByRack(ctx context.Context, rackLocation string) ([]Agent, error) {
 	query := `SELECT id, hostname, ip_address, os, rack_location, temperature, log_retention_days, created_at, updated_at 
           FROM agents 

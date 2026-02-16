@@ -7,9 +7,9 @@
 
 # Binaries
 bin/
-server
-agent
-agent-cli
+/server
+/agent
+/agent-cli
 
 # Documentation (Internal/Sprints)
 docs/dev/sprints/

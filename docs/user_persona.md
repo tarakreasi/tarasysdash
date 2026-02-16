@@ -9,25 +9,23 @@
 ## Responsibilities
 Budi is responsible for the uptime and performance of a critical **Video Management System (VMS)** deployment.
 -   **Scope:** 3 Physical Server Racks.
--   **Assets:** Total ~52 Windows Servers (Recording Servers, Management Servers, Failover Servers).
--   **OS Breakdown:** Mixed environment of Windows Server 2019, Windows Server 2022, and some legacy Windows 10/11 IoT Enterprise units.
+-   **Assets:** Total ~52 mixed servers (Recording Servers, NVRs, Management Servers).
+-   **OS Breakdown:** Mixed environment of Windows Server 2019/2022 and Ubuntu Linux NVRs.
 
 ## Goals
 1.  **Zero Downtime Recording:** Ensure video is *always* being written to disk. Gaps in recording are unacceptable.
 2.  **Proactive Maintenance:** Identify "hot" disks or memory leaks *before* the server crashes.
-3.  **Quick Troubleshooting:** When a camera goes black or a server lags, instantly know if it's Network, CPU, or Disk I/O.
+3.  **Quick Troubleshooting:** Instantly know if it's Network, CPU, or Disk I/O across mixed OS environments.
 
 ## Pain Points
--   **"Blind" Spots:** Cannot physically check 30 servers continuously. RDP-ing into each one to check Task Manager is slow and disruptive.
--   **Disk Full Surprises:** VMS generates massive logs and video files. If the OS drive fills up, the VMS crashes.
--   **Resource Contention:** Windows Updates or Anti-Virus scans sometimes spike CPU/Disk, causing frame drops.
--   **Network Bottlenecks:** High megapixel cameras flood the NIC cards. Saturation leads to video artifacts.
+-   **"Blind" Spots:** Cannot physically check 50+ servers continuously. 
+-   **Mixed OS Management:** Monitoring Linux NVRs and Windows Recording servers simultaneously is a headache.
+-   **Disk Full Surprises:** If any recording partition (C:\ or /) fills up, the system crashes.
 
 ## Needs from TaraSysDash
--   **Single Pane of Glass:** See status of ALL 3 racks in one screen.
--   **Immediate Red Flags:** Visual indicators (Red/Green) for Offline agents, High CPU (>90%), or Low Disk (<10%).
--   **Windows Native Metrics:** Accurate reporting of Windows-specific counters (e.g., Disk Queue Length is vital for VMS).
--   **No-Touch Deployment:** Simple "download and run" agent installation on Windows machines.
+-   **Single Pane of Glass:** See status of ALL 3 racks (Windows & Linux) in one screen.
+-   **Cross-Platform Agent:** Lightweight native performance on both Linux and Windows.
+-   **Immediate Red Flags:** Visual indicators (Red/Green) for Offline agents or Low Disk (<10%).
 
 ## Technical Environment
 -   **Network:** Private Isolated Network (LAN/VLAN), no Internet access for servers.

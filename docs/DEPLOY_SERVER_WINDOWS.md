@@ -3,8 +3,8 @@
 This guide details how to host the **TaraSysDash Server** natively on Windows Server 2019/2022 without Docker or VirtualBox.
 
 ## Prerequisites
-1.  **Binary**: `server-windows-amd64.exe` (Built via `make build-server-windows`).
-2.  **Frontend Files**: The `web/dist` folder (if serving frontend from the same binary, though current dev setup uses separate Vite. **For Production**, we usually serve static files or use a reverse proxy. *For this MVP guide, we assume running the backend exe directly*).
+1.  **Binary**: `server.exe` (Found in `bin/` directory).
+2.  **Self-Contained**: The frontend assets are **embedded** into the binary. You do NOT need extra HTML/JS files for production.
 
 > **Note**: SQLite is embedded. You do not need to install a database server.
 

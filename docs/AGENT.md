@@ -18,20 +18,26 @@ The agent is configured entirely via Environment Variables.
 ## Running the Agent
 
 ### 1. Prerequisites
-- `tara-agent` binary (compiled via `go build -o bin/tara-agent cmd/agent/main.go`)
-- A valid token generated from the server.
+- `agent-cli` binary (compiled via `go build -o bin/agent-cli cmd/agent-cli/main.go`)
+- Server URL (e.g., `http://localhost:8080`)
 
-### 2. Execution
+### 2. Execution (Flags)
+
+The modern agent uses command-line flags for easy configuration:
 
 ```bash
-# Set environment variables
-export SERVER_URL="http://your-server-ip:8080"
-export AGENT_TOKEN="your_secure_token_here"
-export AGENT_INTERVAL="5s"
+# Run with manual ID
+./bin/agent-cli --server="http://10.0.0.5:8080" --id="rack-A-server-1" --interval=1
 
-# Run
-./bin/tara-agent
+# Run with automatic ID (uses MAC address)
+./bin/agent-cli --server="http://10.0.0.5:8080"
 ```
+
+| Flag | Description | Default |
+| :--- | :--- | :--- |
+| `--server` | taraSysDash server endpoint | `http://localhost:8080` |
+| `--id` | Unique identifier (MAC used if empty) | *Auto-generated* |
+| `--interval` | Collection interval in seconds | `1` |
 
 ### 3. Systemd Service (Example)
 

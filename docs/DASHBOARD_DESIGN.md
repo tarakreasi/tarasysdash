@@ -259,17 +259,20 @@ function getAgentStatus(updated_at) {
 
 ---
 
-## Future Enhancements (Not Yet Implemented)
+## Implemented Features (Sprint 15)
 
-These features are planned but not available yet:
+- **Alerts/Notifications:** Threshold-based visual warnings (Red/Yellow/Green) for disk and CPU.
+- **Historical Data:** Real-time query support for last 24h trends (cluster-wide and per-server).
+- **Aggregations:** Global avg/min/max for CPU and Memory implemented.
+- **Agent Grouping:** Organized by rack location in the sidebar.
+- **Multi-Disk:** Support for viewing multiple partitions dynamically.
 
-- **Alerts/Notifications:** Threshold-based alerts
-- **WebSocket Streaming:** Real-time push updates
-- **Historical Data:** Query by date range
-- **Aggregations:** Min/max/avg calculations
-- **User Authentication:** Dashboard login
-- **Agent Grouping:** Organize by environment/role
-- **Custom Metrics:** Beyond CPU/Memory/Disk
+## Future Enhancements (Roadmap)
+
+- **SMTP Alerts:** Integration with Gmail/SMTP for offline/critical notifications.
+- **WebSocket Streaming:** Real-time push updates for lower latency.
+- **User Authentication:** Dashboard login for multi-user access.
+- **Enhanced Log Search:** Full-text search for system logs.
 
 ---
 

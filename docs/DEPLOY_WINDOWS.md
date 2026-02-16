@@ -15,7 +15,7 @@ Save the following as `install.ps1` in the same folder as your `agent-windows-am
 # Run as Administrator
 
 $AgentName = "TaraAgent"
-$BinName = "agent-windows-amd64.exe"
+$BinName = "agent-cli.exe"
 $InstallDir = "C:\Program Files\TaraAgent"
 $ServerURL = "http://YOUR_SERVER_IP:8080" # CHANGE THIS
 
@@ -35,14 +35,6 @@ if (!(Test-Path -Path $InstallDir)) {
 Write-Host "Copying binary..."
 Copy-Item -Path ".\$BinName" -Destination "$InstallDir\tara-agent.exe" -Force
 
-# 4. Create Config
-$ConfigContent = @"
-server_url=$ServerURL
-agent_id=$(New-Guid)
-interval=5
-"@
-Set-Content -Path "$InstallDir\config.env" -Value $ConfigContent
-
 # 5. Create Service
 Write-Host "Creating Windows Service..."
 sc.exe stop $AgentName 2>$null
@@ -51,7 +43,7 @@ Start-Sleep -Seconds 2
 
 # Note: We use sc.exe because it is reliable. 
 # Ensure spaces in path are quoted.
-$BinPath = "`"$InstallDir\tara-agent.exe`" -config `"$InstallDir\config.env`""
+$BinPath = "`"$InstallDir\tara-agent.exe`" --server=$ServerURL --interval=1"
 sc.exe create $AgentName binPath= $BinPath start= auto DisplayName= "Tara Infrastructure Agent"
 
 # 6. Set Recovery (Restart on failure)

@@ -126,12 +126,6 @@ curl -X PUT http://localhost:8080/api/v1/agents/agent-uuid-1/metadata \
 POST /api/v1/metrics
 ```
 
-**Headers:**
-```
-Authorization: Bearer <AGENT_TOKEN>
-Content-Type: application/json
-```
-
 **Request Body:**
 ```json
 {
@@ -139,17 +133,18 @@ Content-Type: application/json
   "cpu_usage_percent": 45.2,
   "memory_used_bytes": 13298769920,
   "memory_total_bytes": 16777216000,
-  "disk_free_percent": 65.4,
+  "disk_usage": [
+    { "mount_point": "/", "used_bytes": 70000000000, "total_bytes": 100000000000 },
+    { "mount_point": "/data", "used_bytes": 250000000000, "total_bytes": 500000000000 }
+  ],
   "bytes_in": 450000000,
   "bytes_out": 120000000,
-  "latency_ms": 0.05
-}
-```
-
-**Response:**
-```json
-{
-  "status": "ok"
+  "uptime_seconds": 3600,
+  "process_count": 245,
+  "temperature": 48.0,
+  "services": [
+    { "name": "recording-svc", "running": true }
+  ]
 }
 ```
 
@@ -162,26 +157,26 @@ GET /api/v1/metrics/:agent_id
 ```
 
 **Parameters:**
-- `agent_id` (path) - Agent ID
-- `limit` (query, optional) - Number of records (default: 60)
+- `agent_id` (path) - Agent identifier (e.g., `agent-482ae3b630b3`)
+- `limit` (query, optional) - Records to return (default: 60)
 
-**Example:**
-```bash
-curl http://localhost:8080/api/v1/metrics/agent-uuid-1?limit=100
+---
+
+### Get Global History (Aggregated)
+
+```http
+GET /api/v1/metrics/global/history
 ```
 
-**Response:**
+**Purpose:** Get averaged cluster-wide CPU and Memory trends.
+
+**Response Body:**
 ```json
 [
   {
     "timestamp": 1735714800,
-    "cpu_usage_percent": 45.2,
-    "memory_used_bytes": 13298769920,
-    "memory_total_bytes": 16777216000,
-    "disk_free_percent": 65.4,
-    "bytes_in": 450000000,
-    "bytes_out": 120000000,
-    "latency_ms": 0.05
+    "avg_cpu": 24.5,
+    "avg_memory": 45032014848
   }
 ]
 ```

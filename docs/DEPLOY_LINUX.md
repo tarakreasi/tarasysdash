@@ -14,7 +14,7 @@ set -e
 
 APP_NAME="tara-agent"
 INSTALL_DIR="/opt/tara-agent"
-BIN_NAME="agent-linux-amd64"
+BIN_NAME="agent-cli"
 SERVER_URL="http://YOUR_SERVER_IP:8080" # CHANGE THIS
 
 # 1. Prepare Directory
@@ -22,14 +22,6 @@ echo "Installing to $INSTALL_DIR..."
 sudo mkdir -p $INSTALL_DIR
 sudo cp ./$BIN_NAME $INSTALL_DIR/$APP_NAME
 sudo chmod +x $INSTALL_DIR/$APP_NAME
-
-# 2. Create Config
-echo "Creating config..."
-cat <<EOF | sudo tee $INSTALL_DIR/config.env
-SERVER_URL=$SERVER_URL
-AGENT_ID=$(cat /proc/sys/kernel/random/uuid)
-INTERVAL=5
-EOF
 
 # 3. Create Systemd Service
 echo "Creating systemd service..."
@@ -42,7 +34,7 @@ After=network.target
 Type=simple
 User=root
 WorkingDirectory=$INSTALL_DIR
-ExecStart=$INSTALL_DIR/$APP_NAME -config $INSTALL_DIR/config.env
+ExecStart=$INSTALL_DIR/$APP_NAME --server=$SERVER_URL --interval=1
 Restart=always
 RestartSec=10
 

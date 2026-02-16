@@ -182,7 +182,7 @@ func (s *SQLiteStore) SaveMetric(ctx context.Context, agentID string, m *Metric)
 	)
 	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 	`
-	t := time.Unix(m.Timestamp, 0)
+	t := time.Unix(m.Timestamp, 0).UTC()
 	_, err := s.db.ExecContext(ctx, query,
 		t, agentID, m.CPUUsagePercent, m.MemoryUsedBytes, m.MemoryTotalBytes, diskFree,
 		m.BytesIn, m.BytesOut, m.LatencyMs, string(diskJSON),
@@ -459,7 +459,7 @@ type GlobalMetric struct {
 func (s *SQLiteStore) GetGlobalMetrics(ctx context.Context, limit int) ([]GlobalMetric, error) {
 	query := `
 		SELECT 
-			(CAST(strftime('%s', substr(time, 1, 19)) AS INTEGER) / 5) * 5 as timestamp_bucket,
+			strftime('%s', time) / 5 * 5 as timestamp_bucket,
 			AVG(cpu_usage) as avg_cpu,
 			AVG(memory_used) as avg_mem
 		FROM system_metrics

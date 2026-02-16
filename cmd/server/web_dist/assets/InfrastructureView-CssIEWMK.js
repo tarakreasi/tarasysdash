@@ -1,1 +1,0 @@
-import{_ as r}from"./_plugin-vue_export-helper-DlAUqK2U.js";import{c as s,b as e,o}from"./index-Cjzi_VRC.js";const c={},n={class:"p-6"};function a(f,t){return o(),s("div",n,[...t[0]||(t[0]=[e("h1",{class:"text-2xl font-bold"},"Infrastructure",-1),e("p",{class:"text-slate-400 mt-4"},"Infrastructure overview coming soon",-1)])])}const u=r(c,[["render",a]]);export{u as default};

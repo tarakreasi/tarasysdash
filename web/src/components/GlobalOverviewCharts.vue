@@ -57,10 +57,36 @@ function renderCpuChart() {
   if (!cpuChart) cpuChart = echarts.init(dom)
   
   const option = {
-    grid: { left: 0, right: 0, top: 10, bottom: 0 },
-    xAxis: { type: 'category', show: false },
+    grid: { left: 40, right: 10, top: 10, bottom: 20 },
+    xAxis: { 
+        type: 'category', 
+        show: true,
+        axisLabel: { 
+            color: '#64748b', 
+            fontSize: 10,
+            interval: 'auto',
+            rotate: 0
+        },
+        axisLine: { show: false },
+        axisTick: { show: false }
+    },
     yAxis: { type: 'value', show: false, min: 0, max: 100 },
-    tooltip: { trigger: 'axis', formatter: '{b}<br />{c}%' },
+    tooltip: { 
+        trigger: 'axis', 
+        backgroundColor: 'rgba(15, 23, 42, 0.9)',
+        borderColor: '#1e293b',
+        textStyle: { color: '#f8fafc' },
+        formatter: (params: any) => {
+            const p = params[0]
+            return `<div class="font-sans">
+                      <div class="text-slate-400 text-[10px] uppercase mb-1">${p.name}</div>
+                      <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-primary"></span>
+                        <span class="font-bold">${p.value}%</span>
+                      </div>
+                    </div>`
+        }
+    },
     series: [{
       data: [],
       type: 'line',
@@ -81,7 +107,10 @@ function renderCpuChart() {
 function updateCpuChart(metrics: any[]) {
     if (!cpuChart) return
     const data = metrics.map(m => m.avg_cpu.toFixed(1))
-    const labels = metrics.map(m => new Date(m.timestamp * 1000).toLocaleTimeString())
+    const labels = metrics.map(m => {
+        const d = new Date(m.timestamp * 1000)
+        return d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0') + ':' + d.getSeconds().toString().padStart(2, '0')
+    })
     
     cpuChart.setOption({
         xAxis: { data: labels },
@@ -95,10 +124,35 @@ function renderMemoryChart() {
    if (!memoryChart) memoryChart = echarts.init(dom)
 
    const option = {
-    grid: { left: 0, right: 0, top: 10, bottom: 0 },
-    xAxis: { type: 'category', show: false },
+    grid: { left: 40, right: 10, top: 10, bottom: 20 },
+    xAxis: { 
+        type: 'category', 
+        show: true,
+        axisLabel: { 
+            color: '#64748b', 
+            fontSize: 10,
+            interval: 'auto'
+        },
+        axisLine: { show: false },
+        axisTick: { show: false }
+    },
     yAxis: { type: 'value', show: false, min: 0 },
-    tooltip: { trigger: 'axis', formatter: '{b}<br />{c} GB' },
+    tooltip: { 
+        trigger: 'axis', 
+        backgroundColor: 'rgba(15, 23, 42, 0.9)',
+        borderColor: '#1e293b',
+        textStyle: { color: '#f8fafc' },
+        formatter: (params: any) => {
+            const p = params[0]
+            return `<div class="font-sans">
+                      <div class="text-slate-400 text-[10px] uppercase mb-1">${p.name}</div>
+                      <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+                        <span class="font-bold">${p.value} GB</span>
+                      </div>
+                    </div>`
+        }
+    },
     series: [{
       data: [],
       type: 'line',
@@ -119,7 +173,10 @@ function renderMemoryChart() {
 function updateMemoryChart(metrics: any[]) {
     if (!memoryChart) return
     const data = metrics.map(m => (m.avg_memory / 1073741824).toFixed(2))
-    const labels = metrics.map(m => new Date(m.timestamp * 1000).toLocaleTimeString())
+    const labels = metrics.map(m => {
+        const d = new Date(m.timestamp * 1000)
+        return d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0') + ':' + d.getSeconds().toString().padStart(2, '0')
+    })
 
     memoryChart.setOption({
         xAxis: { data: labels },

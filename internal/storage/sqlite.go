@@ -116,7 +116,9 @@ func runMigrations(db *sql.DB) error {
 		// Sprint 1 (Refactor): Add disk_usage_json
 		`ALTER TABLE system_metrics ADD COLUMN disk_usage_json TEXT DEFAULT '[]';`,
 		// Sprint 6: Add log_retention_days
-		`ALTER TABLE agents ADD COLUMN log_retention_days INTEGER DEFAULT 30;`,
+		`ALTER TABLE agents ADD COLUMN log_retention_days INTEGER DEFAULT 2;`,
+		// Migration Fix: Ensure all agents (new/existing) follow 2-day rule by default
+		`UPDATE agents SET log_retention_days = 2 WHERE log_retention_days > 2;`,
 		// Sprint 7: Add detailed metrics (services, uptime, procs)
 		`ALTER TABLE system_metrics ADD COLUMN services_json TEXT DEFAULT '[]';`,
 		`ALTER TABLE system_metrics ADD COLUMN uptime_seconds INTEGER DEFAULT 0;`,

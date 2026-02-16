@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"runtime"
 	"time"
 
 	"github.com/tarakreasi/taraSysDash/internal/agent"
@@ -37,7 +38,7 @@ func main() {
 	agentMeta := storage.Agent{
 		ID:           finalID,
 		Hostname:     *name,
-		OS:           "linux",
+		OS:           runtime.GOOS,
 		RackLocation: *rack,
 	}
 

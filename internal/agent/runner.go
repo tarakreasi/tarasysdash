@@ -54,9 +54,9 @@ func Run(cfg *config.Config, agent storage.Agent) {
 	// Services to monitor (Critical VMS services)
 	// In production, this should be configurable.
 	criticalServices := []string{
-		"RecordingServer",
-		"MilestoneService",
-		"VideoOS Event Server",
+		"Milestone XProtect Recording Server",
+		"Milestone XProtect Management Server",
+		"Milestone XProtect Event Server",
 	}
 
 	for range ticker.C {

@@ -78,7 +78,7 @@
                 title="Net Out" 
                 icon="⬆️" 
                 :value="netOutMbps" 
-                unit="GB/s" 
+                unit="MB/s" 
                 :trend="0" 
                 :percent="0" 
                 variant="orange" 

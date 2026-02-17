@@ -1,6 +1,6 @@
 
 import axios, { type AxiosInstance } from 'axios';
-import type { Agent, Metric, AgentMetadataUpdate, AgentHostnameUpdate } from '../types';
+import type { Agent, Metric, AgentMetadataUpdate, AgentHostnameUpdate, GlobalMetric } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api/v1';
 
@@ -42,8 +42,8 @@ class ApiService {
         return response.data;
     }
 
-    async getGlobalHistory(limit: number = 60): Promise<{ timestamp: number, avg_cpu: number, avg_memory: number }[]> {
-        const response = await this.client.get<{ timestamp: number, avg_cpu: number, avg_memory: number }[]>('/metrics/global/history', {
+    async getGlobalHistory(limit: number = 60): Promise<GlobalMetric[]> {
+        const response = await this.client.get<GlobalMetric[]>('/metrics/global/history', {
             params: { limit }
         });
         return response.data;

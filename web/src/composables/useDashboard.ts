@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
 import { api } from '../services/api'
-import type { Agent, Metric } from '../types'
+import type { Agent, Metric, GlobalMetric } from '../types'
 import { formatUptime } from '../utils/formatters'
 
 export function useDashboard() {
@@ -14,7 +14,7 @@ export function useDashboard() {
     const servers = ref<Agent[]>([])
     const selectedServer = ref<Agent | null>(null)
     const selectedServerRawMetrics = ref<Metric[] | null>(null)
-    const globalMetricsHistory = ref<{ timestamp: number, avg_cpu: number, avg_memory: number }[]>([])
+    const globalMetricsHistory = ref<GlobalMetric[]>([])
 
     const isEditModalOpen = ref(false)
     const editingServer = ref<Agent | null>(null)

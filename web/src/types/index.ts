@@ -62,3 +62,11 @@ export interface AgentMetadataUpdate {
 export interface AgentHostnameUpdate {
     hostname: string;
 }
+
+export interface GlobalMetric {
+    timestamp: number;
+    avg_cpu: number;
+    avg_memory: number;
+    avg_net_in: number;
+    avg_net_out: number;
+}

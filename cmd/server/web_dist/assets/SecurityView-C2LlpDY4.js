@@ -1,0 +1,1 @@
+import{_ as o}from"./_plugin-vue_export-helper-DlAUqK2U.js";import{c as s,b as e,o as c}from"./index-Bq3bIZoy.js";const r={},a={class:"p-6"};function n(i,t){return c(),s("div",a,[...t[0]||(t[0]=[e("h1",{class:"text-2xl font-bold"},"Security",-1),e("p",{class:"text-slate-400 mt-4"},"Security dashboard coming soon",-1)])])}const _=o(r,[["render",n]]);export{_ as default};

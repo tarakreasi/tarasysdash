@@ -454,6 +454,8 @@ type GlobalMetric struct {
 	Timestamp int64   `json:"timestamp"`
 	AvgCPU    float64 `json:"avg_cpu"`
 	AvgMemory float64 `json:"avg_memory"`
+	AvgNetIn  float64 `json:"avg_net_in"`
+	AvgNetOut float64 `json:"avg_net_out"`
 }
 
 func (s *SQLiteStore) GetGlobalMetrics(ctx context.Context, limit int) ([]GlobalMetric, error) {
@@ -461,7 +463,9 @@ func (s *SQLiteStore) GetGlobalMetrics(ctx context.Context, limit int) ([]Global
 		SELECT 
 			strftime('%s', substr(time, 1, 19)) / 5 * 5 as timestamp_bucket,
 			AVG(cpu_usage) as avg_cpu,
-			AVG(memory_used) as avg_mem
+			SUM(memory_used) as total_mem,
+			SUM(bytes_in) as total_in,
+			SUM(bytes_out) as total_out
 		FROM system_metrics
 		WHERE time IS NOT NULL
 		GROUP BY timestamp_bucket
@@ -476,13 +480,54 @@ func (s *SQLiteStore) GetGlobalMetrics(ctx context.Context, limit int) ([]Global
 	defer rows.Close()
 
 	var metrics []GlobalMetric
+	var first = true
+
 	for rows.Next() {
 		var m GlobalMetric
-		if err := rows.Scan(&m.Timestamp, &m.AvgCPU, &m.AvgMemory); err != nil {
+		var totalIn, totalOut float64
+		if err := rows.Scan(&m.Timestamp, &m.AvgCPU, &m.AvgMemory, &totalIn, &totalOut); err != nil {
 			return nil, err
 		}
+
+		// Calculate global Mbps if we have history
+		// Since we ordered by DESC, we calculate diff with the *next* row in the loop (which is older in time)
+		if !first {
+			// This is tricky because we iterate DESC. The 'prev' in loop is actually 'newer' in time.
+			// Let's just store the raw totals for now and calculate diffs on the frontend to keep SQL simpler.
+			m.AvgNetIn = totalIn // Temporary storage
+			m.AvgNetOut = totalOut
+		}
+		first = false
+
 		metrics = append(metrics, m)
 	}
+
+	// Post-process to calculate Mbps (since we have DESC order: [T3, T2, T1])
+	for i := 0; i < len(metrics)-1; i++ {
+		cur := &metrics[i]
+		old := &metrics[i+1]
+		timeDiff := float64(cur.Timestamp - old.Timestamp)
+		if timeDiff > 0 {
+			cur.AvgNetIn = (float64(cur.AvgNetIn) - float64(old.AvgNetIn)) / timeDiff / (1024 * 1024) * 8
+			cur.AvgNetOut = (float64(cur.AvgNetOut) - float64(old.AvgNetOut)) / timeDiff / (1024 * 1024) * 8
+			// Ensure no negative spikes on agent restart
+			if cur.AvgNetIn < 0 {
+				cur.AvgNetIn = 0
+			}
+			if cur.AvgNetOut < 0 {
+				cur.AvgNetOut = 0
+			}
+		} else {
+			cur.AvgNetIn = 0
+			cur.AvgNetOut = 0
+		}
+	}
+	// Last one has no reference
+	if len(metrics) > 0 {
+		metrics[len(metrics)-1].AvgNetIn = 0
+		metrics[len(metrics)-1].AvgNetOut = 0
+	}
+
 	return metrics, rows.Err()
 }
 

@@ -43,8 +43,8 @@ export function useDashboard() {
         if (prevM) {
             const timeDiff = m.timestamp - prevM.timestamp
             if (timeDiff > 0) {
-                netInRate = (m.bytes_in - prevM.bytes_in) / timeDiff / 1024 / 1024
-                netOutRate = (m.bytes_out - prevM.bytes_out) / timeDiff / 1024 / 1024
+                netInRate = (m.bytes_in - prevM.bytes_in) / timeDiff / 1024 / 1024 * 8
+                netOutRate = (m.bytes_out - prevM.bytes_out) / timeDiff / 1024 / 1024 * 8
             }
         }
 
@@ -165,8 +165,8 @@ export function useDashboard() {
                 cpuLoad.value = newCpuLoad
 
                 memoryGB.value = parseFloat((totalMem / 1073741824).toFixed(1))
-                netInMbps.value = parseFloat((totalNetIn / 1024 / 1024).toFixed(2))
-                netOutMbps.value = parseFloat((totalNetOut / 1024 / 1024).toFixed(2))
+                netInMbps.value = parseFloat((totalNetIn / 1024 / 1024 * 8).toFixed(2))
+                netOutMbps.value = parseFloat((totalNetOut / 1024 / 1024 * 8).toFixed(2))
             }
 
         } catch (e) { console.error(e) }

@@ -80,7 +80,7 @@
             <div>
               <div class="flex justify-between text-xs mb-1">
                 <span class="text-slate-500">Inbound</span>
-                <span class="text-green-400 font-mono">{{ metrics.netInDisplay }} MB/s</span>
+                <span class="text-green-400 font-mono">{{ metrics.netInDisplay }} Mbps</span>
               </div>
               <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
                 <div class="bg-green-400 h-full" :style="`width: ${Math.min(metrics.netIn * 10, 100)}%`"></div>
@@ -89,7 +89,7 @@
             <div>
               <div class="flex justify-between text-xs mb-1">
                 <span class="text-slate-500">Outbound</span>
-                <span class="text-blue-400 font-mono">{{ metrics.netOutDisplay }} MB/s</span>
+                <span class="text-blue-400 font-mono">{{ metrics.netOutDisplay }} Mbps</span>
               </div>
               <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
                 <div class="bg-blue-400 h-full" :style="`width: ${Math.min(metrics.netOut * 10, 100)}%`"></div>

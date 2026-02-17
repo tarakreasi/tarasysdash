@@ -365,8 +365,8 @@ LIMIT ?
 	for i := 1; i < len(measurements); i++ {
 		bytesDiffIn := float64(measurements[i-1].bytesIn - measurements[i].bytesIn)
 		bytesDiffOut := float64(measurements[i-1].bytesOut - measurements[i].bytesOut)
-		mbpsIn := (bytesDiffIn * 8) / 1000000
-		mbpsOut := (bytesDiffOut * 8) / 1000000
+		mbpsIn := (bytesDiffIn * 8) / (1024 * 1024)
+		mbpsOut := (bytesDiffOut * 8) / (1024 * 1024)
 		mbpsInValues = append(mbpsInValues, mbpsIn)
 		mbpsOutValues = append(mbpsOutValues, mbpsOut)
 	}

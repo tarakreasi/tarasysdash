@@ -1,1 +1,0 @@
-import{_ as o}from"./_plugin-vue_export-helper-DlAUqK2U.js";import{c as s,b as t,o as n}from"./index-C8Z4fr7t.js";const a={},c={class:"p-6"};function r(l,e){return n(),s("div",c,[...e[0]||(e[0]=[t("h1",{class:"text-2xl font-bold"},"Deployments",-1),t("p",{class:"text-slate-400 mt-4"},"Deployment management coming soon",-1)])])}const _=o(a,[["render",r]]);export{_ as default};

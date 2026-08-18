@@ -450,6 +450,8 @@ func main() {
 				UptimeSeconds uint64                  `json:"uptime_seconds"`
 				ProcessCount  int                     `json:"process_count"`
 				Temperature   float64                 `json:"temperature"`
+				OS            string                  `json:"os"`
+				Hostname      string                  `json:"hostname"`
 			}
 			// Note: Existing agents sending 'disk_free_percent' will still bind to DiskFree.
 			// New agents will send 'disk_usage'.
@@ -463,6 +465,11 @@ func main() {
 			if authenticatedAgentID != payload.AgentID {
 				c.JSON(http.StatusForbidden, gin.H{"error": "Agent ID mismatch"})
 				return
+			}
+
+			// Automatically update OS and Hostname if provided
+			if payload.OS != "" || payload.Hostname != "" {
+				_ = store.UpdateAgentSystemInfo(c.Request.Context(), payload.AgentID, payload.OS, payload.Hostname)
 			}
 
 			// Map to storage Metric

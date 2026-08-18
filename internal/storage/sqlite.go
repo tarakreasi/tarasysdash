@@ -565,3 +565,16 @@ func (s *SQLiteStore) UpdateAgentHostname(ctx context.Context, agentID, hostname
 	_, err := s.db.ExecContext(ctx, query, hostname, agentID)
 	return err
 }
+
+func (s *SQLiteStore) UpdateAgentSystemInfo(ctx context.Context, agentID, osName, hostname string) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	query := `UPDATE agents SET 
+		os = CASE WHEN os = 'unknown' OR os = '' THEN ? ELSE os END,
+		hostname = CASE WHEN hostname = 'provisioned' OR hostname = '' THEN ? ELSE hostname END,
+		updated_at = CURRENT_TIMESTAMP 
+		WHERE id = ?`
+	_, err := s.db.ExecContext(ctx, query, osName, hostname, agentID)
+	return err
+}
+

@@ -176,6 +176,8 @@ func sendMetrics(cfg *config.Config, agent storage.Agent, metrics *collector.Sys
 		"uptime_seconds":     metrics.UptimeSeconds,
 		"process_count":      metrics.ProcessCount,
 		"temperature":        metrics.Temperature,
+		"os":                 agent.OS,
+		"hostname":           agent.Hostname,
 	}
 
 	// Marshal payload

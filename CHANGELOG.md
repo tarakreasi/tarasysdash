@@ -4,7 +4,44 @@ All notable changes to taraSysDash will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [1.2.0] - 2026-02-16
+## [1.2.0] - 2026-08-18
+
+### Added
+- **Multi-Channel Alerting System (`internal/alert`)**:
+  - Direct **Telegram Bot** alert notifications via Telegram Bot API with HTML formatting.
+  - **Discord Webhook** alert notifications with Markdown formatting.
+  - Granular alerting on server offline events and critical disk thresholds (<5% free).
+  - Configurable via `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `DISCORD_WEBHOOK_URL`, and SMTP env vars.
+- **One-Line Linux Agent Installer (`scripts/install-agent.sh`)**:
+  - Automated CPU architecture detection (`amd64`, `arm64`).
+  - Automatic download and extraction from GitHub Releases.
+  - Automated `/etc/systemd/system/tara-agent.service` generation, activation, and launch.
+- **CI/CD & Automated Distribution Pipeline**:
+  - `.goreleaser.yaml` configuration for cross-compilation (Linux AMD64/ARM64, Windows AMD64).
+  - `.github/workflows/release.yml` GitHub Actions workflow for automatic multi-architecture release generation on `git tag v*`.
+  - Multi-stage `Dockerfile` (Node.js frontend build + Go backend compilation → Alpine final minimal container).
+  - `docker-compose.yml` for zero-configuration containerized server deployment with persistent SQLite volume.
+- **Enhanced `/health` Endpoint**:
+  - Returns `version`, `agents_total`, `agents_online`, and server `uptime`.
+- **Configurable `PORT` Environment Variable**:
+  - Allows overriding default port 8080 via standard `PORT` environment variable.
+- **Automated Test Suite (100% Pass Rate)**:
+  - `internal/storage/sqlite_test.go`: Agent CRUD, metrics time-series, log retention cleanup, and a **30-Agent Concurrent Stress Test (300 parallel writes in 223ms)**.
+  - `internal/alert/alert_test.go`: Mock HTTP server test for Telegram and Discord dispatchers and debounce timing.
+  - `internal/auth/auth_test.go`: 32-byte cryptographically secure token generation and deterministic SHA-256 validation.
+
+### Changed
+- **Documentation Overhaul (`README.md`)**:
+  - Added modern badges (Go, Vue 3, License, Releases).
+  - Added competitive comparison matrix vs Beszel, Netdata, and Prometheus/Grafana.
+  - Documented One-Line Installer and modern notification channel configuration.
+- **Repository Cleanliness**:
+  - Expanded `.gitignore` to prevent OS artifacts, IDE caches, and debug files from contaminating Git history.
+  - Cleaned up physical debug scripts and legacy log files.
+
+---
+
+## [1.1.5] - 2026-02-16
 
 ### Added - Sprint 15: Real-Time Multi-Platform Monitoring
 - **Multi-Disk Visualization**: Dynamic partition detection and display in the server detail panel.

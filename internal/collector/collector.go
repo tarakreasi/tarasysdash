@@ -1,7 +1,10 @@
 package collector
 
 import (
+	"sync"
 	"time"
+
+	"github.com/shirou/gopsutil/v3/cpu"
 )
 
 type DiskStat struct {
@@ -33,9 +36,12 @@ type SystemMetrics struct {
 }
 
 type Collector struct {
+	mu           sync.Mutex
 	prevNetTime  time.Time
 	prevBytesIn  uint64
 	prevBytesOut uint64
+	prevCPUTimes cpu.TimesStat
+	hasPrevCPU   bool
 }
 
 func New() *Collector {

@@ -498,18 +498,23 @@ func main() {
 
 	// Alert Service
 	alertCfg := alert.Config{
-		SMTPHost:       os.Getenv("SMTP_HOST"),
-		SMTPPort:       os.Getenv("SMTP_PORT"),
-		SMTPUser:       os.Getenv("SMTP_USER"),
-		SMTPPass:       os.Getenv("SMTP_PASS"),
-		RecipientEmail: os.Getenv("ALERT_RECIPIENTS"),
+		SMTPHost:          os.Getenv("SMTP_HOST"),
+		SMTPPort:          os.Getenv("SMTP_PORT"),
+		SMTPUser:          os.Getenv("SMTP_USER"),
+		SMTPPass:          os.Getenv("SMTP_PASS"),
+		RecipientEmail:    os.Getenv("ALERT_RECIPIENTS"),
+		TelegramBotToken:  os.Getenv("TELEGRAM_BOT_TOKEN"),
+		TelegramChatID:    os.Getenv("TELEGRAM_CHAT_ID"),
+		DiscordWebhookURL: os.Getenv("DISCORD_WEBHOOK_URL"),
 	}
-	// Defaults
-	if alertCfg.SMTPHost == "" {
-		alertCfg.SMTPHost = "smtp.gmail.com"
-	}
-	if alertCfg.SMTPPort == "" {
-		alertCfg.SMTPPort = "587"
+	// Defaults for SMTP if user configured
+	if alertCfg.SMTPUser != "" {
+		if alertCfg.SMTPHost == "" {
+			alertCfg.SMTPHost = "smtp.gmail.com"
+		}
+		if alertCfg.SMTPPort == "" {
+			alertCfg.SMTPPort = "587"
+		}
 	}
 
 	alertService := alert.NewService(alertCfg)

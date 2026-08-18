@@ -1,6 +1,7 @@
 package agent
 
 import (
+	"os"
 	"testing"
 )
 
@@ -43,7 +44,7 @@ func TestGetOrGenerateAgentID(t *testing.T) {
 		t.Errorf("Expected %s, got %s", providedID, result)
 	}
 
-	// Test with empty ID (should generate from MAC)
+	// Test with empty ID (should return hostname if available)
 	result, err = GetOrGenerateAgentID("")
 	if err != nil {
 		t.Fatalf("Failed to generate ID: %v", err)
@@ -51,8 +52,10 @@ func TestGetOrGenerateAgentID(t *testing.T) {
 	if result == "" {
 		t.Error("Expected non-empty generated ID")
 	}
-	if len(result) < 7 || result[:6] != "agent-" {
-		t.Errorf("Expected generated ID to start with 'agent-', got: %s", result)
+
+	hostname, _ := os.Hostname()
+	if hostname != "" && result != hostname {
+		t.Errorf("Expected generated ID to match hostname %s, got: %s", hostname, result)
 	}
 
 	t.Logf("Generated ID from empty string: %s", result)

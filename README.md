@@ -129,18 +129,48 @@ npm run build    # Production build → web/dist/
 
 ---
 
+## 🚀 Quick Install (Agent)
+
+### One-Line Automated Installer (Linux)
+
+Install the monitoring agent as a `systemd` service in seconds:
+
+```bash
+curl -sSL https://raw.githubusercontent.com/tarakreasi/tarasysdash/main/scripts/install-agent.sh | sudo bash -s -- \
+  --server http://YOUR_SERVER_IP:8080 \
+  --token YOUR_AGENT_TOKEN
+```
+
+The script automatically detects your CPU architecture (AMD64 / ARM64), downloads the binary from GitHub Releases, creates `/etc/systemd/system/tara-agent.service`, and starts the agent.
+
+---
+
 ## ⚙️ Configuration
 
 ### Environment Variables
 
 ```bash
-# Server
+# ─── Server ──────────────────────────────────────────────────────────────────
 PORT=8080                             # Server port (default: 8080)
 
-# Agent
+# ─── Alerting: Telegram Bot (Optional) ───────────────────────────────────────
+TELEGRAM_BOT_TOKEN=123456789:ABC...   # Telegram Bot Token from @BotFather
+TELEGRAM_CHAT_ID=-100123456789        # Target Chat ID or Group ID
+
+# ─── Alerting: Discord Webhook (Optional) ────────────────────────────────────
+DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/...
+
+# ─── Alerting: SMTP / Email (Optional) ───────────────────────────────────────
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-app-password
+ALERT_RECIPIENTS=sysadmin@example.com
+
+# ─── Agent ───────────────────────────────────────────────────────────────────
 AGENT_TOKEN=<your-token>             # Required: Agent authentication token
 SERVER_URL=http://localhost:8080     # Required: Backend server URL
-POLL_INTERVAL=5                      # Optional: Metrics interval in seconds
+POLL_INTERVAL=5                      # Optional: Metrics interval in seconds (default: 5)
 ```
 
 ### Generating an Agent Token
@@ -155,7 +185,7 @@ POLL_INTERVAL=5                      # Optional: Metrics interval in seconds
 # ⚠️  Keep this token safe! It is stored as a hash and cannot be retrieved.
 ```
 
-### Setting Rack Location
+### Setting Rack Location & Hostname
 
 ```bash
 curl -X PUT http://localhost:8080/api/v1/agents/my-server/metadata \

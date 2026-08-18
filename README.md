@@ -293,15 +293,43 @@ make clean          # Clean build artifacts
 
 ## 📦 Production Deployment
 
+### Option 1: Binary (Recommended)
+
 ```bash
 # 1. Build for target platform
 make build
 
-# 2. Copy binaries to servers
-scp bin/server user@monitor-server:/opt/tarasysdash/
-scp bin/agent-cli user@target-machine:/usr/local/bin/
+# 2. Copy to server
+scp bin/tara-server user@monitor-server:/opt/tarasysdash/
+scp bin/tara-agent user@target-machine:/usr/local/bin/
 
 # 3. Run with systemd (see docs/field/install.sh)
+```
+
+### Option 2: Docker
+
+```bash
+# Quick start
+docker compose up -d
+
+# Or manually
+docker run -d \
+  --name tarasysdash \
+  --restart unless-stopped \
+  -p 8080:8080 \
+  -v ./data:/app/data \
+  tarakreasi/tarasysdash:latest
+```
+
+### Option 3: Download Pre-built Binary
+
+Download from [GitHub Releases](https://github.com/tarakreasi/tarasysdash/releases):
+
+```bash
+# Linux amd64
+wget https://github.com/tarakreasi/tarasysdash/releases/latest/download/tara-server_linux_amd64.tar.gz
+tar -xzf tara-server_linux_amd64.tar.gz
+./tara-server
 ```
 
 ---

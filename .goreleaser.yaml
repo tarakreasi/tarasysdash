@@ -1,0 +1,91 @@
+version: 2
+
+project_name: tarasysdash
+
+before:
+  hooks:
+    - go mod tidy
+    - sh -c "cd web && npm ci && npm run build"
+
+builds:
+  - id: server
+    binary: tara-server
+    main: ./cmd/server
+    goos: [linux, windows]
+    goarch: [amd64, arm64]
+    ignore:
+      - goos: windows
+        goarch: arm64
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w -X main.version={{.Version}}
+
+  - id: agent
+    binary: tara-agent
+    main: ./cmd/agent-cli
+    goos: [linux, windows]
+    goarch: [amd64, arm64]
+    ignore:
+      - goos: windows
+        goarch: arm64
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w
+
+archives:
+  - id: server
+    ids: [server]
+    name_template: "tara-server_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    files:
+      - README.md
+      - CHANGELOG.md
+      - LICENSE
+
+  - id: agent
+    ids: [agent]
+    name_template: "tara-agent_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    files:
+      - README.md
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+      - Merge pull request
+      - Merge branch
+
+release:
+  github:
+    owner: tarakreasi
+    name: tarasysdash
+  name_template: "v{{.Version}}"
+  draft: false
+  prerelease: auto
+  header: |
+    ## taraSysDash v{{.Version}}
+
+    Rack-aware infrastructure monitoring dashboard.
+    Single binary — no Docker, no Prometheus stack needed.
+
+    ### Quick Start
+    ```bash
+    # Server
+    ./tara-server
+
+    # Agent (deploy to each machine)
+    AGENT_TOKEN=<token> ./tara-agent --server=http://YOUR_SERVER:8080 --id=hostname
+    ```

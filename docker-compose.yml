@@ -1,0 +1,11 @@
+services:
+  tarasysdash:
+    image: tarakreasi/tarasysdash:latest
+    container_name: tarasysdash
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - PORT=8080

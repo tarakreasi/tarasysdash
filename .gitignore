@@ -1,26 +1,54 @@
 
+# === Logs ===
 *.log
 *.pid
+
+# === Database ===
 *.db
 *.db-shm
 *.db-wal
 
-# AI Agent
+# === Debug / Scratch Files ===
+debug_*.go
+scratch_*.go
+test_*.go
+
+# === AI Agent ===
 .agent/
 
-# Binaries
+# === Compiled Binaries ===
 /server
+/server.exe
 /agent
 /agent-cli
+/agent-cli.exe
+/main
+bin/
 
-# Documentation (Internal/Development)
+# === Documentation (Internal/Development) ===
 docs/dev/
 docs/planning/
 docs/sprint/
 docs/specs/
 
-# Frontend
+# === Frontend ===
 web/node_modules/
 web/dist/
 web/.env
 web/vite_debug.log
+
+# === OS Files ===
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# === IDE ===
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# === Environment ===
+.env
+.env.local
+config/config.json

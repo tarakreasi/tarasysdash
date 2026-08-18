@@ -24,10 +24,14 @@ import (
 //go:embed all:web_dist
 var staticFiles embed.FS
 
+const version = "1.2.0"
+
 func main() {
 	// Setup Structured Logging (JSON)
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 	slog.SetDefault(logger)
+
+	startTime := time.Now()
 
 	// CLI Flags
 	genToken := flag.Bool("gen-token", false, "Generate a new token for an agent")
@@ -111,7 +115,22 @@ func main() {
 	})
 
 	r.GET("/health", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"status": "ok"})
+		agents, err := store.ListAgents(c.Request.Context())
+		agentsOnline := 0
+		if err == nil {
+			for _, a := range agents {
+				if a.Status == "online" {
+					agentsOnline++
+				}
+			}
+		}
+		c.JSON(http.StatusOK, gin.H{
+			"status":        "ok",
+			"version":       version,
+			"agents_total":  len(agents),
+			"agents_online": agentsOnline,
+			"uptime":        time.Since(startTime).Round(time.Second).String(),
+		})
 	})
 
 	// Serve Static Files (Embedded)
@@ -534,8 +553,12 @@ func main() {
 		}
 	}()
 
-	slog.Info("Server executing on :8080")
-	if err := r.Run(":8080"); err != nil {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	slog.Info("Server starting", "port", port, "version", version)
+	if err := r.Run(":" + port); err != nil {
 		slog.Error("Server failed", "error", err)
 		os.Exit(1)
 	}

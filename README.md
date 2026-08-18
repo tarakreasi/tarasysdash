@@ -47,7 +47,7 @@ AGENT_TOKEN=<your-token> ./bin/agent-cli --server=http://YOUR_SERVER:8080 --id=h
 
 ---
 
-## ✨ Features
+## Features
 
 ### Dashboard
 - **Real-Time Gauges** — CPU, Memory (GB), Temperature (°C), Network I/O, Disk Usage via ECharts
@@ -67,7 +67,7 @@ AGENT_TOKEN=<your-token> ./bin/agent-cli --server=http://YOUR_SERVER:8080 --id=h
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Go 1.21 or higher
@@ -143,6 +143,18 @@ SERVER_URL=http://localhost:8080     # Required: Backend server URL
 POLL_INTERVAL=5                      # Optional: Metrics interval in seconds
 ```
 
+### Generating an Agent Token
+
+```bash
+# Generate a new token for an agent and register it in the database
+./bin/server --gen-token --agent-id=web-server-01
+
+# Output:
+# Token generated for Agent web-server-01:
+# a3f8c2d1e4b7...  ← copy this as AGENT_TOKEN
+# ⚠️  Keep this token safe! It is stored as a hash and cannot be retrieved.
+```
+
 ### Setting Rack Location
 
 ```bash
@@ -165,6 +177,17 @@ GET  /api/v1/metrics/global/history      - Cluster-wide aggregated metrics
 GET  /api/v1/stats/:agent_id/network     - Network aggregation (avg/peak)
 GET  /api/v1/stats/:agent_id/latency     - Latency stats (P95/avg/min/max)
 GET  /health                             - Server health check
+```
+
+**`/health` response example:**
+```json
+{
+  "status": "ok",
+  "version": "1.2.0",
+  "agents_total": 12,
+  "agents_online": 10,
+  "uptime": "3h24m15s"
+}
 ```
 
 ### Authenticated Endpoints
